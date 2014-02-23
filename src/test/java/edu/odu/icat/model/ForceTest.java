@@ -38,4 +38,28 @@ public class ForceTest {
         } catch (Exception expected) {}
     }
 
+    @Test
+    public void ensureOriginAndDestinationCannotBeTheSame() {
+        final Entity o = new Entity("n1", "c1");
+        final Entity d = new Entity("n2", "c2");
+        try {
+            new Force(o, o, 4);
+            fail("origin and destination cannot be the same");
+        } catch (Exception expected) {}
+
+        Force f = new Force(o, d, 3);
+
+        try {
+            f.setOrigin(d);
+            fail("cannot set origin to the destination");
+        } catch (Exception expected) {}
+
+        try {
+            f.setDestination(o);
+            fail("cannot set destination to the origin");
+        } catch (Exception expected) {}
+
+    }
+
+
 }

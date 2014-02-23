@@ -1,5 +1,6 @@
 package edu.odu.icat.model;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import static com.google.common.base.Preconditions.*;
@@ -15,8 +16,8 @@ public class Project extends Base {
     private String author;
     private Date lastModifiedDate;
     private String lastModifiedUser;
-    private List<Entity> entities;
-    private List<Force> forces;
+    private List<Entity> entities = new ArrayList<Entity>();
+    private List<Force> forces = new ArrayList<Force>();
     private String notes;
 
     /** DO NOT USE: This is only for serialization purposes **/

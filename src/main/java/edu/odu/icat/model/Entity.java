@@ -56,4 +56,5 @@ public class Entity extends Base {
     public void setNotes(String notes) {
         this.notes = notes;
     }
+
 }

@@ -7,7 +7,7 @@ import static com.google.common.base.Strings.*;
 /**
  *
  */
-public class Force {
+public class Force extends Base {
 
     private Entity origin;
     private Entity destination;
@@ -31,6 +31,9 @@ public class Force {
 
     public void setOrigin(Entity origin) {
         checkArgument(origin!=null, "The origin may not be null");
+        if (destination!=null) {
+            checkArgument(origin!=destination, "The origin may not be the same as the destination");
+        }
         this.origin = origin;
     }
 
@@ -40,6 +43,9 @@ public class Force {
 
     public void setDestination(Entity destination) {
         checkArgument(destination!=null, "The destination may not be null");
+        if (origin!=null) {
+            checkArgument(origin!=destination, "The destination may not be the same as the origin");
+        }
         this.destination = destination;
     }
 

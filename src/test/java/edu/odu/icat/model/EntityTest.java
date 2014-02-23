@@ -34,7 +34,8 @@ public class EntityTest {
             fail("set classification to null");
         } catch (Exception expected) {}
 
-
     }
+
+
 
 }

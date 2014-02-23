@@ -1,24 +1,16 @@
 apply plugin: 'java'
 apply plugin:'application'
-apply plugin: 'eclipse'
 
-sourceCompatibility = 1.5
-version = '1.0'
 mainClassName = "edu.odu.icat.Main"
 
-jar {
-    manifest {
-        attributes 'Implementation-Title': 'ICAT', 'Implementation-Version': version
-    }
-}
+sourceCompatibility = 1.6
+version = '1.0'
 
 repositories {
     mavenCentral()
 }
 
 dependencies {
-    compile group: 'commons-collections', name: 'commons-collections', version: '3.2'
-    testCompile group: 'junit', name: 'junit', version: '4.+'
+    compile group: 'com.google.guava', name: 'guava', version: '16.0.1'
+    testCompile group: 'junit', name: 'junit', version: '4.11'
 }
-
-

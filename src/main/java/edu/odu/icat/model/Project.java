@@ -1,6 +1,7 @@
 package edu.odu.icat.model;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import static com.google.common.base.Preconditions.*;
@@ -8,7 +9,10 @@ import static com.google.common.base.Strings.*;
 
 /**
  * Represents a problem domain.  It is basically a directed graph where each edge is an Entity and each
- * vertex is a Force.
+ * vertex is a Force.  The list of forces and entities return unmodifiable lists in an effort to enforce
+ * rules in the addition and removal of these elements.  For instance, you can't remove an entity without
+ * removing the forces that act on it first and you can't add a force to an entity that does not exist
+ * in this project.
  */
 public class Project extends Base {
 
@@ -19,7 +23,9 @@ public class Project extends Base {
     private Date lastModifiedDate;
     private String lastModifiedUser;
     private List<Entity> entities = new ArrayList<Entity>();
+    private transient List<Entity> entitiesView = null;
     private List<Force> forces = new ArrayList<Force>();
+    private transient List<Force> forcesView = null;
     private String notes;
 
     /** DO NOT USE: This is only for serialization purposes **/
@@ -87,20 +93,55 @@ public class Project extends Base {
         this.lastModifiedUser = lastModifiedUser;
     }
 
+    /**
+     * @return an immutable list of entities, use addEntity, removeEntity to modify this list
+     */
     public List<Entity> getEntities() {
-        return entities;
+        if (entitiesView==null) {
+            entitiesView = Collections.unmodifiableList(entities);
+        }
+        return entitiesView;
     }
 
-    public void setEntities(List<Entity> entities) {
-        this.entities = entities;
+    public void addEntity(Entity entity) {
+        checkArgument(entity!=null, "The entity may not be null");
+        entities.add(entity);
     }
 
+    public void remoteEntity(Entity entity) {
+        checkArgument(findAllForcesInvolvingEntity(entity).size()==0, "An entity may not be removed from the project if forces are currently acting on it");
+        entities.remove(entity);
+    }
+
+    public List<Force> findAllForcesInvolvingEntity(Entity entity) {
+        final ArrayList<Force> results = new ArrayList<Force>();
+        for (Force force : forces) {
+            if (force.getOrigin()==entity || force.getDestination()==entity) {
+                results.add(force);
+            }
+        }
+        return results;
+    }
+
+    /**
+     * @return an immutable list of entities, use addForce, removeForce to modify ths list
+     */
     public List<Force> getForces() {
-        return forces;
+        if (forcesView==null) {
+            forcesView = Collections.unmodifiableList(forces);
+        }
+        return forcesView;
     }
 
-    public void setForces(List<Force> forces) {
-        this.forces = forces;
+    public void addForce(Force force) {
+        checkArgument(force!=null, "The force may not be null");
+        checkArgument(entities.contains(force.getOrigin()), "The origin entity is not part of this project");
+        checkArgument(entities.contains(force.getDestination()), "The destination entity is not part of this project");
+        forces.add(force);
+    }
+
+    public void removeForce(Force force) {
+        forces.remove(force);
     }
 
     public String getNotes() {

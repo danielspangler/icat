@@ -24,11 +24,11 @@ public class ProjectSerializerTest {
         Entity e4 = new Entity("e4", "c4");
         Entity e5 = new Entity("e5", "c5");
 
-        p.getEntities().add(e1);
-        p.getEntities().add(e2);
-        p.getEntities().add(e3);
-        p.getEntities().add(e4);
-        p.getEntities().add(e5);
+        p.addEntity(e1);
+        p.addEntity(e2);
+        p.addEntity(e3);
+        p.addEntity(e4);
+        p.addEntity(e5);
 
         Force f1 = new Force(e1, e2, 1);
         Force f2 = new Force(e1, e3, 1);
@@ -36,11 +36,11 @@ public class ProjectSerializerTest {
         Force f4 = new Force(e2, e1, 1);
         Force f5 = new Force(e3, e1, 1);
 
-        p.getForces().add(f1);
-        p.getForces().add(f2);
-        p.getForces().add(f3);
-        p.getForces().add(f4);
-        p.getForces().add(f5);
+        p.addForce(f1);
+        p.addForce(f2);
+        p.addForce(f3);
+        p.addForce(f4);
+        p.addForce(f5);
 
 
         ProjectSerializer serializer = new ProjectSerializer();

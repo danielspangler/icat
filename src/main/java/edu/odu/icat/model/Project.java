@@ -7,6 +7,8 @@ import static com.google.common.base.Preconditions.*;
 import static com.google.common.base.Strings.*;
 
 /**
+ * Represents a problem domain.  It is basically a directed graph where each edge is an Entity and each
+ * vertex is a Force.
  */
 public class Project extends Base {
 

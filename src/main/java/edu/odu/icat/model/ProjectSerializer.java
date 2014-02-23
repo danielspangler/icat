@@ -6,6 +6,10 @@ import com.thoughtworks.xstream.io.xml.StaxDriver;
 import java.io.Reader;
 import java.io.Writer;
 
+
+/**
+ * Converts a Project into and from XML.
+ */
 public class ProjectSerializer {
 
     public void serializeToXML(final Project project, final Writer writer) {

@@ -6,7 +6,7 @@ import static com.google.common.base.Preconditions.*;
 import static com.google.common.base.Strings.*;
 
 /**
- *
+ * Represents an Entity in a problem domain.
  */
 public class Entity extends Base {
 

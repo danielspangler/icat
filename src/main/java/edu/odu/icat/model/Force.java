@@ -5,7 +5,7 @@ import static com.google.common.base.Preconditions.*;
 import static com.google.common.base.Strings.*;
 
 /**
- *
+ * Represents a Force in a problem domain.
  */
 public class Force extends Base {
 

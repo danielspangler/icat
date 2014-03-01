@@ -7,3 +7,5 @@
 
 #Build artifacts
 .gradle/
+.idea/
+ICAT.iml

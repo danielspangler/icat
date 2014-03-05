@@ -7,3 +7,9 @@
 
 #Build artifacts
 .gradle/
+build/
+
+# Project Files#
+.idea/
+*.iml
+

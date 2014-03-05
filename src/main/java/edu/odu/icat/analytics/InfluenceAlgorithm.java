@@ -1,4 +1,4 @@
-package edu.odu.icat;
+package edu.odu.icat.analytics;
 
 public class InfluenceAlgorithm implements edu.odu.icat.AnalyticsAlgorithm
 {

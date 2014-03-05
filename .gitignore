@@ -7,5 +7,14 @@
 
 #Build artifacts
 .gradle/
+<<<<<<< HEAD
 .idea/
 ICAT.iml
+=======
+build/
+
+# Project Files#
+.idea/
+*.iml
+
+>>>>>>> master

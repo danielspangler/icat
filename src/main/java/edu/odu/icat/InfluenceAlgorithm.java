@@ -1,6 +1,6 @@
 package edu.odu.icat;
 
-public class InfluenceAlgorithm implements AnalyticsAlgorithm
+public class InfluenceAlgorithm implements edu.odu.icat.AnalyticsAlgorithm
 {
 	public void run(/* Icat Data Model*/)
 	{

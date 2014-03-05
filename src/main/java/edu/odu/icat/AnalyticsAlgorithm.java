@@ -1,6 +1,6 @@
 package edu.odu.icat;
 
-interface AnalyticsAlgorithm
+public interface AnalyticsAlgorithm
 {
 	public void run(/* Icat Data Model */);
 }

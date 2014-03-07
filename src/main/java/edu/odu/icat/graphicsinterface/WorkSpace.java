@@ -143,7 +143,7 @@ public class WorkSpace extends JFrame {
     //--------Action listener for exit button
     class QuitAction implements ActionListener {
         public void actionPerformed(ActionEvent e) {
-            System.exit(0);
+            WorkSpace.this.dispose();
         }
     }
 }

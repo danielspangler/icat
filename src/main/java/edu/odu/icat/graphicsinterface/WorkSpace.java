@@ -129,7 +129,7 @@ public class WorkSpace extends JFrame {
         setJMenuBar(menubar);
 
         setTitle("WorkSpace");
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setLocationRelativeTo(null);  // Center window
     }
     

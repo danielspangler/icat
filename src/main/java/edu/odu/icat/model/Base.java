@@ -4,7 +4,7 @@ import java.util.UUID;
 
 /**
  * Base class for all of the model objects to ensure that an id is always present
- * and that all models can do a basic ID based equality check.
+ * and that all models can do a basic id based equality check.
  */
 public abstract class Base {
 

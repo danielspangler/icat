@@ -1,10 +1,16 @@
 apply plugin: 'java'
 apply plugin:'application'
 
-mainClassName = "edu.odu.icat.Main"
-
 sourceCompatibility = 1.6
 version = '1.0'
+mainClassName = "edu.odu.icat.Main"
+
+jar {
+    manifest {
+        attributes 'Implementation-Title': 'ICAT', 'Implementation-Version': version
+    }
+}
+
 
 repositories {
     mavenCentral()

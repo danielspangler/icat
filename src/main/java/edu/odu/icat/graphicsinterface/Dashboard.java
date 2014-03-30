@@ -26,6 +26,7 @@ public class Dashboard extends JFrame {
 
 	private JPanel contentPane;
 	private JPanel Workspace;
+    private ImagePanel logo;
 
 	/**
 	 * Create the frame.
@@ -39,7 +40,14 @@ public class Dashboard extends JFrame {
 		setContentPane(contentPane);
 		SpringLayout sl_contentPane = new SpringLayout();
 		contentPane.setLayout(sl_contentPane);
-		
+
+        logo = new ImagePanel("Hello");
+        sl_contentPane.putConstraint(SpringLayout.NORTH, logo, 40, SpringLayout.NORTH, contentPane);
+        sl_contentPane.putConstraint(SpringLayout.SOUTH, logo, 40+ logo.getHeight(), SpringLayout.NORTH, contentPane);
+        sl_contentPane.putConstraint(SpringLayout.WEST, logo, 10, SpringLayout.WEST, contentPane);
+        sl_contentPane.putConstraint(SpringLayout.EAST, logo, 10 + logo.getWidth(), SpringLayout.EAST, contentPane);
+        contentPane.add(logo);
+
 		JButton btnNewButton = new JButton("New Project");
 		sl_contentPane.putConstraint(SpringLayout.NORTH, btnNewButton, -99, SpringLayout.SOUTH, contentPane);
 		sl_contentPane.putConstraint(SpringLayout.SOUTH, btnNewButton, -40, SpringLayout.SOUTH, contentPane);

@@ -101,6 +101,24 @@ public class EditorActions
 		return null;
 	}
 
+    public static class NewVertexAction extends AbstractAction
+    {
+        /**
+         *
+         */
+        public void actionPerformed(ActionEvent e)
+        {
+            mxGraph graph = getEditor(e).getGraphComponent().getGraph();
+
+            if (graph != null)
+            {
+                graph.insertVertex(graph.getDefaultParent(), null, "", 20, 20, 80,
+                        30);
+            }
+        }
+
+    }
+
 	/**
 	 *
 	 */

@@ -19,7 +19,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.JTextPane;
 import javax.swing.JLabel;
-import java.awt.Button;
+import java.io.IOException;
 
 
 public class Dashboard extends JFrame {
@@ -33,6 +33,8 @@ public class Dashboard extends JFrame {
 	 */
 	public Dashboard() {
 		setTitle("Dashboard");
+
+
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 507, 415);
 		contentPane = new JPanel();
@@ -41,12 +43,15 @@ public class Dashboard extends JFrame {
 		SpringLayout sl_contentPane = new SpringLayout();
 		contentPane.setLayout(sl_contentPane);
 
+        try{
         logo = new ImagePanel("logo.png");
         sl_contentPane.putConstraint(SpringLayout.NORTH, logo, 40, SpringLayout.NORTH, contentPane);
-        sl_contentPane.putConstraint(SpringLayout.SOUTH, logo, 40+ logo.getHeight(), SpringLayout.NORTH, contentPane);
+        //sl_contentPane.putConstraint(SpringLayout.SOUTH, logo, 40, SpringLayout.NORTH, contentPane);
         sl_contentPane.putConstraint(SpringLayout.WEST, logo, 10, SpringLayout.WEST, contentPane);
-        sl_contentPane.putConstraint(SpringLayout.EAST, logo, 10 + logo.getWidth(), SpringLayout.EAST, contentPane);
+        //sl_contentPane.putConstraint(SpringLayout.EAST, logo, 10, SpringLayout.EAST, contentPane);
         contentPane.add(logo);
+        }
+        catch(IOException e){System.out.println("File not found: logo.png");}
 
 		JButton btnNewButton = new JButton("New Project");
 		sl_contentPane.putConstraint(SpringLayout.NORTH, btnNewButton, -99, SpringLayout.SOUTH, contentPane);

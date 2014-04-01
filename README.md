@@ -11,9 +11,13 @@ Team
 Brandon Ripley
 
 Daniel Spangler
+
 Kirby Weeks
+
 Aaron Dutton
+
 Stephen Dailey
+
 Chris Dashiel
 
 

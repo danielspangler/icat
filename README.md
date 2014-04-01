@@ -3,7 +3,7 @@
 icat
 ====
 
-A rapidly done, hacked together, prototype of a context analysis tool for systems engineers.
+A rapidly done, hacked together, prototype of a context analysis tool for systems engineers. Built at Old Dominion University for CS 411W
 
 
 Build

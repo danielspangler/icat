@@ -11,8 +11,8 @@ public class BaseTest {
     @Test
     public void testEqualsMethod() {
 
-        TestClass a = new TestClass();
-        TestClass b = new TestClass();
+        TestClass a = new TestClass(); //Firest Test Case
+        TestClass b = new TestClass(); // Second Test Case
         assertNotEquals(a, b);
         assertEquals(a, a);
     }

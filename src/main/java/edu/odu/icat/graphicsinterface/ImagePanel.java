@@ -12,15 +12,19 @@ import javax.imageio.ImageIO;
 public class ImagePanel extends javax.swing.JPanel{
 
     private BufferedImage image;
+    private int height;
+    private int width;
 
     /*
      * Create a new image panel to be placed within a swing component
      * @param imageName the name of the image file including file extension.  Case sensitive.
      */
-    public ImagePanel(String imageName) throws IOException{
+    public ImagePanel(String imageName, int width, int height) throws IOException{
         File imagePath = new File("src/main/resources/" + imageName);       //Get path to resources folder + image name
         try {
             image = ImageIO.read(imagePath);
+            this.width = width;
+            this.height = height;
         } catch (IOException ex) {
             throw new IOException();
         }
@@ -39,6 +43,6 @@ public class ImagePanel extends javax.swing.JPanel{
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
-        g.drawImage(image, 0, 0, null);
+        g.drawImage(image, 0, 0, width, height, null);
     }
 }

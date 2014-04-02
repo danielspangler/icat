@@ -44,7 +44,7 @@ public class Dashboard extends JFrame {
 		contentPane.setLayout(sl_contentPane);
 
         try{
-        logo = new ImagePanel("logo.png");
+        logo = new ImagePanel("logo.png", 150, 75);
         sl_contentPane.putConstraint(SpringLayout.NORTH, logo, 40, SpringLayout.NORTH, contentPane);
         //sl_contentPane.putConstraint(SpringLayout.SOUTH, logo, 40, SpringLayout.NORTH, contentPane);
         sl_contentPane.putConstraint(SpringLayout.WEST, logo, 10, SpringLayout.WEST, contentPane);

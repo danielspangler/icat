@@ -4,6 +4,7 @@
  */
 package edu.odu.icat.graphicsinterface;
 
+import edu.odu.icat.analytics.AnalyticsAlgorithm;
 import edu.odu.icat.analytics.AnalyticsEngine;
 
 import java.awt.BorderLayout;
@@ -63,9 +64,6 @@ public class WorkSpace extends JFrame {
 		scrollPane.setRowHeaderView(scrollBar);
                 MenuButtons();
 	}
-        
-    private JMenuItem inDegree;
-    private JMenuItem outDegree;
 
     private JPopupMenu m_popup = new JPopupMenu();
     
@@ -73,7 +71,7 @@ public class WorkSpace extends JFrame {
 
 
         JMenu reportsMenu = new JMenu("Reports");
-        List<String> list = AnalyticsEngine.getInstance().getAlgorithms();
+        List<String> list = AnalyticsEngine.getInstance().getAlgorithms();  //get list of loaded algorithms
         for(String s: list)
         {
             final String name = s;
@@ -84,7 +82,7 @@ public class WorkSpace extends JFrame {
             reportsMenu.add(temp);
             temp.addActionListener(new ActionListener() {
                 public void actionPerformed(ActionEvent e) {
-                    JOptionPane.showMessageDialog(WorkSpace.this, "Running: " + name);
+                    AnalyticsEngine.getInstance().runAlgorithm(name);       //run selected algorithm
                 }
             });
         }

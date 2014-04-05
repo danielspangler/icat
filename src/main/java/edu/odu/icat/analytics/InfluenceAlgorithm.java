@@ -1,5 +1,7 @@
 package edu.odu.icat.analytics;
 
+import javax.swing.*;
+
 public class InfluenceAlgorithm extends AnalyticsAlgorithm
 {
 	public String getName()
@@ -9,6 +11,11 @@ public class InfluenceAlgorithm extends AnalyticsAlgorithm
 
     public void run()
 	{
+
+        AlgorithmDialogBox adb = new AlgorithmDialogBox();
+
+        System.out.println(adb.getVisibility());
+        System.out.println(adb.getControllability());
 		// Influence Algorithm in n^2 time
 		//
 		// Algorithm:  Influence Algorithm

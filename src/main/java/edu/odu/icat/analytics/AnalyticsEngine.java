@@ -11,10 +11,6 @@ import java.util.HashMap;
 public class AnalyticsEngine
 {
     private static AnalyticsEngine ourInstance = new AnalyticsEngine();
-
-    private boolean ControllabilityFilter;
-    private boolean VisibilityFilter;
-
     private Map<String, AnalyticsAlgorithm> CurrentAlgorithms = new HashMap<String, AnalyticsAlgorithm>();
 
     private AnalyticsEngine()
@@ -62,11 +58,14 @@ public class AnalyticsEngine
 
 	}
 
+    /*
+	 *	run the selected algorithm
+	 *
+	 * @param algorithm the name of the algorithm to run.
+     */
 	public void runAlgorithm(String algorithm)
 	{
-		/*
-		 *	run the selected algorithm
-		 */
+
          CurrentAlgorithms.get(algorithm).run();
 	}
 

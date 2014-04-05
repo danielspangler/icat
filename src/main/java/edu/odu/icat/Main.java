@@ -8,7 +8,7 @@ import java.awt.*;
 public class Main {
 
 	public static void main(String[] args) {
-		System.out.println("Hello World");
+		System.out.println("This is your Dashboard");
 
         EventQueue.invokeLater(new Runnable() {
             public void run() {
@@ -20,6 +20,7 @@ public class Main {
                 }
             }
         });
+
 
         new AnalyticsEngine();
 	}

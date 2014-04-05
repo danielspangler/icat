@@ -1,6 +1,8 @@
 package edu.odu.icat.analytics;
 
-public interface AnalyticsAlgorithm
+public abstract class AnalyticsAlgorithm implements  Runnable
 {
-	public void run(/* Icat Data Model */);
+	public abstract String getName();
+
+    public abstract void run();
 }

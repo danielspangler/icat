@@ -1,38 +1,56 @@
 package edu.odu.icat.analytics;
 
-import java.util.ArrayList;
+import java.util.*;
 
 import java.io.File;
 
 import java.net.URL;
 import java.net.URLClassLoader;
+import java.util.HashMap;
 
 public class AnalyticsEngine
 {
-	public AnalyticsEngine()
+    private static AnalyticsEngine ourInstance = new AnalyticsEngine();
+
+    private boolean ControllabilityFilter;
+    private boolean VisibilityFilter;
+
+    private Map<String, AnalyticsAlgorithm> CurrentAlgorithms = new HashMap<String, AnalyticsAlgorithm>();
+
+    private AnalyticsEngine()
 	{
 		loadAlgorithms();
 	}
+
+    public static AnalyticsEngine getInstance() {
+        return ourInstance;
+    }
 
 	private void loadAlgorithms()
 	{
 		/*
 		 *	Load algorithms found in Algorithms directory
+		 *  Does not work yet
 		 */
 
-		File dir = new File("Algorithms");
-		System.out.println(dir.getAbsolutePath());
-		
-		try
-		{
-			URL loadPath = dir.toURI().toURL();
-			URL[] classUrl = new URL[]{loadPath};
-			ClassLoader cl = new URLClassLoader(classUrl);
+//		File dir = new File("Algorithms");
+//		System.out.println(dir.getAbsolutePath());
+//
+//		try
+//		{
+//			URL loadPath = dir.toURI().toURL();
+//			URL[] classUrl = new URL[]{loadPath};
+//			ClassLoader cl = new URLClassLoader(classUrl);
+//
+//			try{Class loadedClass = cl.loadClass("classname");}
+//			catch(java.lang.ClassNotFoundException e){System.out.println("Class does not exist");}
+//		}
+//		catch(java.net.MalformedURLException e){}
 
-			try{Class loadedClass = cl.loadClass("classname");}
-			catch(java.lang.ClassNotFoundException e){System.out.println("Class does not exist");}
-		}
-		catch(java.net.MalformedURLException e){}		
+        AnalyticsAlgorithm a1 = new InfluenceAlgorithm();
+        CurrentAlgorithms.put(a1.getName(), a1);
+        a1 = new ProminenceAlgorithm();
+        CurrentAlgorithms.put(a1.getName(), a1);
 
 	}
 
@@ -44,16 +62,16 @@ public class AnalyticsEngine
 
 	}
 
-	public void runCurrentAlgorithm()
+	public void runAlgorithm(String algorithm)
 	{
 		/*
 		 *	run the selected algorithm
 		 */
-
+         CurrentAlgorithms.get(algorithm).run();
 	}
 
-	public ArrayList<String> getAlgorithms()
+	public List<String> getAlgorithms()
 	{
-		return new ArrayList<String>();
+        return new ArrayList<String>(CurrentAlgorithms.keySet());
 	}
 }

@@ -32,6 +32,7 @@ public class InfluenceAlgorithm extends AnalyticsAlgorithm
 
         for(Entity e: OutputData)
         adb.addEntityToReport(e);
+        JOptionPane.showMessageDialog(new JFrame(), "Algorithm finished");
 
         System.out.println(adb.getVisibility());
         System.out.println(adb.getControllability());

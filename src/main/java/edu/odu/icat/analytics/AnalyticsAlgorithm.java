@@ -13,9 +13,6 @@ import java.util.logging.Filter;
 
 public abstract class AnalyticsAlgorithm implements  Runnable
 {
-    protected boolean VisibilityFilter;
-    protected boolean ControllabilityFilter;
-
 	public abstract String getName();
 
     public abstract void run();
@@ -28,10 +25,12 @@ public abstract class AnalyticsAlgorithm implements  Runnable
         protected JScrollPane AlgorithmOutputArea;
         protected JList DataList;
         protected DefaultListModel Data;
+        protected JButton ExportButton;
+        protected JButton PrintButton;
 
         public AlgorithmDialogBox()
         {
-            //setModal(true);         //Will not continue until this box is closed
+            setModal(true);         //Will not continue until this box is closed
             setSize(400, 300);
             FilterContainer = new JPanel();
             FilterContainer.setLayout(new BoxLayout(FilterContainer, BoxLayout.PAGE_AXIS));
@@ -58,13 +57,26 @@ public abstract class AnalyticsAlgorithm implements  Runnable
             ButtonsArea.setLayout(new BoxLayout(ButtonsArea, BoxLayout.LINE_AXIS));
             ButtonsArea.setBorder(BorderFactory.createEmptyBorder(0, 10, 10, 10));
             ButtonsArea.add(Box.createHorizontalGlue());
-            ButtonsArea.add(new JButton("Print"));
+
+            PrintButton = new JButton("Print");
+            PrintButton.setEnabled(false);
+            ButtonsArea.add(PrintButton);
             ButtonsArea.add(Box.createRigidArea(new Dimension(5, 0)));
-            ButtonsArea.add(new JButton("Export"));
+
+
+            ExportButton = new JButton("Export");
+            ExportButton.setEnabled(false);
+            ButtonsArea.add(ExportButton);
             ButtonsArea.add(Box.createRigidArea(new Dimension(5, 0)));
-            ButtonsArea.add(new JButton("Run"));
+
+            JButton RunButton = new JButton("Run");
+            ButtonsArea.add(RunButton);
+            RunButton.addActionListener(new RunAction());
             ButtonsArea.add(Box.createRigidArea(new Dimension(5, 0)));
-            ButtonsArea.add(new JButton("Cancel"));
+
+            JButton CancelButton = new JButton("Cancel");
+            CancelButton.addActionListener(new QuitAction());
+            ButtonsArea.add(CancelButton);
 
             getContentPane().add(FilterContainer, BorderLayout.NORTH);
             getContentPane().add(new JPanel(), BorderLayout.WEST);
@@ -90,5 +102,22 @@ public abstract class AnalyticsAlgorithm implements  Runnable
             Data.addElement(entity);
             AlgorithmOutputArea.repaint();
         }
+
+        //-------Action listener for load button
+        class RunAction implements ActionListener {
+            public void actionPerformed(ActionEvent e) {
+                PrintButton.setEnabled(true);
+                ExportButton.setEnabled(true);
+                setModal(false);
+            }
+        }
+
+        //--------Action listener for exit button
+        class QuitAction implements ActionListener {
+            public void actionPerformed(ActionEvent e) {
+                AlgorithmDialogBox.this.dispose();
+            }
+        }
+
     }
 }

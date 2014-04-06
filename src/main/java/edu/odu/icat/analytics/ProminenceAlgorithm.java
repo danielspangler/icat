@@ -23,7 +23,7 @@ public class ProminenceAlgorithm extends AnalyticsAlgorithm
         {
             super();
             SomeotherCriteria = new JCheckBox("Hello");
-            add(SomeotherCriteria, BorderLayout.CENTER);
+            FilterContainer.add(SomeotherCriteria, BorderLayout.CENTER);
             setVisible(true);
         }
     }

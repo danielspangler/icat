@@ -1,5 +1,8 @@
 package edu.odu.icat.analytics;
 
+import edu.odu.icat.model.Entity;
+
+import java.util.*;
 import javax.swing.*;
 
 public class InfluenceAlgorithm extends AnalyticsAlgorithm
@@ -13,6 +16,22 @@ public class InfluenceAlgorithm extends AnalyticsAlgorithm
 	{
 
         AlgorithmDialogBox adb = new AlgorithmDialogBox();
+
+        List<Entity> OutputData = new ArrayList<Entity>();
+        OutputData.add(new Entity("Brandon", "Problem"));  //Lol
+        OutputData.add(new Entity("Stephen", "Resource"));
+        OutputData.add(new Entity("Kirby", "Stakeholder"));
+        OutputData.add(new Entity("Abdul", "Objective"));
+        OutputData.add(new Entity("Chris", "Resource"));
+        OutputData.add(new Entity("Daniel", "Stakeholder"));
+        OutputData.add(new Entity("Daniel", "Stakeholder"));
+        OutputData.add(new Entity("Daniel", "Stakeholder"));
+        OutputData.add(new Entity("Daniel", "Stakeholder"));
+        OutputData.add(new Entity("Daniel", "Stakeholder"));
+
+
+        for(Entity e: OutputData)
+        adb.addEntityToReport(e);
 
         System.out.println(adb.getVisibility());
         System.out.println(adb.getControllability());

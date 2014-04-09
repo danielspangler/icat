@@ -47,6 +47,8 @@ public class AnalyticsEngine
         CurrentAlgorithms.put(a1.getName(), a1);
         a1 = new ProminenceAlgorithm();
         CurrentAlgorithms.put(a1.getName(), a1);
+        a1 = new TestAlgorithm();
+        CurrentAlgorithms.put(a1.getName(), a1);
 
 	}
 

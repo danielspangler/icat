@@ -224,7 +224,7 @@ public class BasicGraphEditor extends JPanel
 		setLayout(new BorderLayout());
 		add(outer, BorderLayout.CENTER);
 		add(statusBar, BorderLayout.SOUTH);
-		installToolBar();
+		//installToolBar();
 
 		// Installs rubberband selection and handling for some special
 		// keystrokes such as F2, Control-C, -V, X, A etc.

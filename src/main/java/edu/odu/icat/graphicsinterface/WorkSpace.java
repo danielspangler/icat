@@ -4,6 +4,7 @@
  */
 package edu.odu.icat.graphicsinterface;
 
+import com.mxgraph.examples.swing.GraphEditor;
 import edu.odu.icat.analytics.AnalyticsAlgorithm;
 import edu.odu.icat.analytics.AnalyticsEngine;
 
@@ -51,18 +52,9 @@ public class WorkSpace extends JFrame {
 		setTitle("Workspace");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 564, 600);
-		contentPane = new JPanel();
-		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+        contentPane = new GraphEditor();
 		setContentPane(contentPane);
-		contentPane.setLayout(null);
-
-		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(158, 47, 380, 479);
-		contentPane.add(scrollPane);
-		
-		JScrollBar scrollBar = new JScrollBar();
-		scrollPane.setRowHeaderView(scrollBar);
-                MenuButtons();
+        MenuButtons();
 	}
 
     private JPopupMenu m_popup = new JPopupMenu();

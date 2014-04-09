@@ -61,7 +61,7 @@ public class Dashboard extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 			WorkSpace Ws = new WorkSpace();	
 			Ws.setVisible(true);
-			}
+        }
 		});
 		sl_contentPane.putConstraint(SpringLayout.WEST, btnNewButton, 10, SpringLayout.WEST, contentPane);
 		contentPane.add(btnNewButton);

@@ -4,6 +4,9 @@
  */
 package edu.odu.icat.graphicsinterface;
 
+import edu.odu.icat.analytics.AnalyticsAlgorithm;
+import edu.odu.icat.analytics.AnalyticsEngine;
+
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
 
@@ -17,6 +20,8 @@ import javax.swing.JScrollBar;
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
+
+import java.util.List;
 
 
 public class WorkSpace extends JFrame {
@@ -59,20 +64,29 @@ public class WorkSpace extends JFrame {
 		scrollPane.setRowHeaderView(scrollBar);
                 MenuButtons();
 	}
-        
-    private JMenuItem inDegree;
-    private JMenuItem outDegree;
 
     private JPopupMenu m_popup = new JPopupMenu();
     
     public void MenuButtons() {
-            
-        inDegree = new JMenuItem("In-Degree");
-            inDegree.setEnabled(false);
-            inDegree.setAccelerator(KeyStroke.getKeyStroke("control I"));
-        outDegree = new JMenuItem("Out-Degree");
-            outDegree.setEnabled(false);
-            outDegree.setAccelerator(KeyStroke.getKeyStroke("control O"));
+
+
+        JMenu reportsMenu = new JMenu("Reports");
+        List<String> list = AnalyticsEngine.getInstance().getAlgorithms();  //get list of loaded algorithms
+        for(String s: list)
+        {
+            final String name = s;
+            JMenuItem temp = new JMenuItem(s);
+            temp.setEnabled(true);
+            //temp.setAccelerator(KeyStroke.getKeyStroke("control I"));
+
+            reportsMenu.add(temp);
+            temp.addActionListener(new ActionListener() {
+                public void actionPerformed(ActionEvent e) {
+                    AnalyticsEngine.getInstance().runAlgorithm(name);       //run selected algorithm
+                }
+            });
+        }
+
         JMenuItem saveItem = new JMenuItem("Save");
             saveItem.setMnemonic('S');
             saveItem.setAccelerator(KeyStroke.getKeyStroke("control S"));
@@ -104,11 +118,9 @@ public class WorkSpace extends JFrame {
                 fileMenu.add(printItem);
                 fileMenu.addSeparator();    // Add separator line to menu
                 fileMenu.add(quitItem);
-            JMenu reportsMenu = new JMenu("Reports");
+
                 fileMenu.setMnemonic('R');
                 menubar.add(reportsMenu);
-                reportsMenu.add(inDegree);
-                reportsMenu.add(outDegree);
 
         //Add listeners to menu items
         loadItem.addActionListener(new LoadAction());

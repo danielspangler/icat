@@ -1,9 +1,41 @@
 package edu.odu.icat.analytics;
 
-public class InfluenceAlgorithm implements AnalyticsAlgorithm
+import edu.odu.icat.model.Entity;
+
+import java.util.*;
+import javax.swing.*;
+
+public class InfluenceAlgorithm extends AnalyticsAlgorithm
 {
-	public void run(/* Icat Data Model*/)
+	public String getName()
+    {
+        return "Influence Algorithm";
+    }
+
+    public void run()
 	{
+
+        AlgorithmDialogBox adb = new AlgorithmDialogBox();
+
+        List<Entity> OutputData = new ArrayList<Entity>();
+        OutputData.add(new Entity("Brandon", "Problem"));  //Lol
+        OutputData.add(new Entity("Stephen", "Resource"));
+        OutputData.add(new Entity("Kirby", "Stakeholder"));
+        OutputData.add(new Entity("Abdul", "Objective"));
+        OutputData.add(new Entity("Chris", "Resource"));
+        OutputData.add(new Entity("Daniel", "Stakeholder"));
+        OutputData.add(new Entity("Daniel", "Stakeholder"));
+        OutputData.add(new Entity("Daniel", "Stakeholder"));
+        OutputData.add(new Entity("Daniel", "Stakeholder"));
+        OutputData.add(new Entity("Daniel", "Stakeholder"));
+
+
+        for(Entity e: OutputData)
+        adb.addEntityToReport(e);
+        JOptionPane.showMessageDialog(new JFrame(), "Algorithm finished");
+
+        System.out.println(adb.getVisibility());
+        System.out.println(adb.getControllability());
 		// Influence Algorithm in n^2 time
 		//
 		// Algorithm:  Influence Algorithm

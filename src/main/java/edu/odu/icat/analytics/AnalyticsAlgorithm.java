@@ -30,7 +30,7 @@ public abstract class AnalyticsAlgorithm implements  Runnable
 
         public AlgorithmDialogBox()
         {
-            setModal(true);         //Will not continue until this box is closed
+            //setModal(true);         //Will not continue until this box is closed
             setSize(400, 300);
             FilterContainer = new JPanel();
             FilterContainer.setLayout(new BoxLayout(FilterContainer, BoxLayout.PAGE_AXIS));

@@ -4,25 +4,25 @@ import javax.swing.*;
 import javax.swing.border.Border;
 import java.awt.*;
 
-public class ProminenceAlgorithm extends AnalyticsAlgorithm
+public class TestAlgorithm extends AnalyticsAlgorithm
 {
     public String getName()
     {
-        return "Prominence Algorithm";
+        return "Test Algorithm";
     }
 
     public void run()
     {
-        new ProminenceAlgorithmDialogBox();
+        new TestAlgorithmDialogBox();
     }
 
-    public class ProminenceAlgorithmDialogBox extends AnalyticsAlgorithm.AlgorithmDialogBox
+    public class TestAlgorithmDialogBox extends AnalyticsAlgorithm.AlgorithmDialogBox
     {
         protected  JCheckBox SomeotherCriteria;
-        public ProminenceAlgorithmDialogBox()
+        public TestAlgorithmDialogBox()
         {
-
             super();
+            FilterContainer.removeAll();
             SomeotherCriteria = new JCheckBox("Hello");
             FilterContainer.add(SomeotherCriteria, BorderLayout.CENTER);
             setVisible(true);

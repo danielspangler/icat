@@ -4,7 +4,7 @@
  */
 package edu.odu.icat.graphicsinterface;
 
-import com.mxgraph.examples.swing.GraphEditor;
+import edu.odu.icat.graphicsinterface.GraphEditor;
 import edu.odu.icat.analytics.AnalyticsAlgorithm;
 import edu.odu.icat.analytics.AnalyticsEngine;
 

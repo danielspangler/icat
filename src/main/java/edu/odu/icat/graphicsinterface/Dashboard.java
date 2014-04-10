@@ -17,6 +17,8 @@ import javax.swing.SpringLayout;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import javax.swing.JTextPane;
 import javax.swing.JLabel;
 import java.io.IOException;
@@ -66,11 +68,17 @@ public class Dashboard extends JFrame {
 		sl_contentPane.putConstraint(SpringLayout.WEST, btnNewButton, 10, SpringLayout.WEST, contentPane);
 		contentPane.add(btnNewButton);
 		
-		JTextPane txtpnSearch = new JTextPane();
+		final JTextPane txtpnSearch = new JTextPane();
 		sl_contentPane.putConstraint(SpringLayout.NORTH, txtpnSearch, 10, SpringLayout.NORTH, contentPane);
 		sl_contentPane.putConstraint(SpringLayout.WEST, txtpnSearch, -165, SpringLayout.EAST, contentPane);
 		sl_contentPane.putConstraint(SpringLayout.EAST, txtpnSearch, -44, SpringLayout.EAST, contentPane);
 		txtpnSearch.setText("Search");
+        txtpnSearch.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                txtpnSearch.setText("");
+            }
+        });
 		contentPane.add(txtpnSearch);
 		
 		JLabel lblIcatdashboard = new JLabel("ICAT - Dashboard");

@@ -1,13 +1,11 @@
 package com.mxgraph.examples.swing.editor;
 
-import javax.swing.JMenu;
-import javax.swing.JPopupMenu;
-import javax.swing.TransferHandler;
-
 import com.mxgraph.examples.swing.editor.EditorActions.HistoryAction;
 import com.mxgraph.examples.swing.editor.EditorActions.NewVertexAction;
 import com.mxgraph.swing.util.mxGraphActions;
 import com.mxgraph.util.mxResources;
+
+import javax.swing.*;
 
 public class EditorPopupMenu extends JPopupMenu
 {
@@ -23,6 +21,9 @@ public class EditorPopupMenu extends JPopupMenu
 				.isSelectionEmpty();
 
         add(editor.bind(mxResources.get("newVertex"), new NewVertexAction()));
+
+        add(editor.bind(mxResources.get("zoomIn"), mxGraphActions.getZoomInAction()));
+        add(editor.bind(mxResources.get("zoomOut"), mxGraphActions.getZoomOutAction()));
 
 		add(editor.bind(mxResources.get("undo"), new HistoryAction(true),
 				"/com/mxgraph/examples/swing/images/undo.gif"));

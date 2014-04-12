@@ -15,6 +15,7 @@ import javax.swing.border.EmptyBorder;
 //import com.jgoodies.forms.layout.RowSpec;
 import javax.swing.SpringLayout;
 import javax.swing.JButton;
+import java.awt.Toolkit;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.MouseAdapter;
@@ -35,7 +36,7 @@ public class Dashboard extends JFrame {
 	 */
 	public Dashboard() {
 		setTitle("Dashboard");
-
+        this.setIconImage(Toolkit.getDefaultToolkit().getImage("src/main/resources/logo.png"));
 
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 507, 415);
@@ -87,5 +88,3 @@ public class Dashboard extends JFrame {
 		contentPane.add(lblIcatdashboard);
 	}
 }
-    
-

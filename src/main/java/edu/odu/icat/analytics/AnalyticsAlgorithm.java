@@ -33,6 +33,7 @@ public abstract class AnalyticsAlgorithm implements  Runnable
             //setModal(true);         //Will not continue until this box is closed
             setSize(400, 300);
             FilterContainer = new JPanel();
+            this.setIconImage(Toolkit.getDefaultToolkit().getImage("src/main/resources/logo.png"));
             FilterContainer.setLayout(new BoxLayout(FilterContainer, BoxLayout.PAGE_AXIS));
             FilterContainer.add(Box.createRigidArea(new Dimension(0,10)));
             FilterContainer.setBorder(BorderFactory.createEmptyBorder(10,10,10,10));

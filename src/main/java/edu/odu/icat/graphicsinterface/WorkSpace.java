@@ -50,6 +50,7 @@ public class WorkSpace extends JFrame {
 	 */
 	public WorkSpace() {
 		setTitle("Workspace");
+        this.setIconImage(Toolkit.getDefaultToolkit().getImage("src/main/resources/logo.png"));
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 564, 600);
         contentPane = new GraphEditor();

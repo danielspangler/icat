@@ -1,15 +1,11 @@
 package edu.odu.icat.analytics;
 
-import edu.odu.icat.model.*;
+import edu.odu.icat.model.Entity;
 
 import javax.swing.*;
 import java.awt.*;
-import java.util.List;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.logging.Filter;
 
 public abstract class AnalyticsAlgorithm implements  Runnable
 {

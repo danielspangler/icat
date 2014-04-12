@@ -9,14 +9,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Controller will interact with the File System and the
+ * Controller will interact with whatever
  */
 public class Control {
 
     private static Control ourInstance = new Control();
 
     Project currentProject = new Project("", "", "");
-    ProjectDAO projectDAO = new ProjectDAO();
+    //ProjectDAO projectDAO = new ProjectDAO();
     /**
      * Case of Multiple threads
      * *

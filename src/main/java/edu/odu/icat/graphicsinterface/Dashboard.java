@@ -4,6 +4,7 @@
  */
 package edu.odu.icat.graphicsinterface;
 
+import java.awt.*;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.event.ActionEvent;
@@ -28,7 +29,7 @@ public class Dashboard extends JFrame {
 	 */
 	public Dashboard() {
 		setTitle("Dashboard");
-
+        this.setIconImage(Toolkit.getDefaultToolkit().getImage("src/main/resources/logo.png"));
 
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 507, 415);

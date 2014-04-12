@@ -92,7 +92,7 @@ public class ProjectTest {
         p.addForce(f2);
 
         try {
-            p.remoteEntity(e1);
+            p.removeEntity(e1);
             fail("Entities can't be removed if they have active forces");
         } catch (Exception expected) {}
 
@@ -100,7 +100,7 @@ public class ProjectTest {
         p.removeForce(f2);
 
         assertEquals(2, p.getEntities().size());
-        p.remoteEntity(e1);
+        p.removeEntity(e1);
         assertEquals(1, p.getEntities().size());
         assertFalse(p.getEntities().contains(e1));
     }

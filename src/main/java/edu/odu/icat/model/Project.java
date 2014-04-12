@@ -108,7 +108,7 @@ public class Project extends Base {
         entities.add(entity);
     }
 
-    public void remoteEntity(Entity entity) {
+    public void removeEntity(Entity entity) {
         checkArgument(findAllForcesInvolvingEntity(entity).size()==0, "An entity may not be removed from the project if forces are currently acting on it");
         entities.remove(entity);
     }

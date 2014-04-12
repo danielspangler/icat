@@ -22,7 +22,7 @@ public class Control {
     private Control() {
        getProject();
     }
-
+//getEntity
     public List<Entity> getEntities(){
         return new ArrayList<Entity>(currentProject.getEntities());
     }

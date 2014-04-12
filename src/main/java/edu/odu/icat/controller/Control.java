@@ -1,8 +1,8 @@
 package edu.odu.icat.controller;
 
-import edu.odu.icat.model.Project;
 import edu.odu.icat.model.Entity;
 import edu.odu.icat.model.Force;
+import edu.odu.icat.model.Project;
 import edu.odu.icat.service.ProjectDAO;
 
 import java.util.ArrayList;
@@ -16,7 +16,7 @@ public class Control {
     private static Control ourInstance = new Control();
 
     Project currentProject = new Project("", "", "");
-    //ProjectDAO projectDAO = new ProjectDAO();
+    ProjectDAO projectDAO = new ProjectDAO();
     /**
      * Case of Multiple threads
      * *
@@ -48,10 +48,11 @@ public class Control {
         return new ArrayList<Force>(currentProject.getForces());
     }
 
-    private void getProject(){
+    public void getProject(){
         /**
-         * get a project from the File System
+         * Create a new project
          */
+        
 
     }
 
@@ -70,6 +71,7 @@ public class Control {
          * Do need a search box for an Entity within the Workspace?
          */
     }
+
 
 
 }

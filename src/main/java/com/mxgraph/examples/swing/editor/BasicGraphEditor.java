@@ -152,6 +152,8 @@ public class BasicGraphEditor extends JPanel
 		}
 	};
 
+    public Point mouseClickLoc;
+
 	/**
 	 * 
 	 */
@@ -420,6 +422,7 @@ public class BasicGraphEditor extends JPanel
 	{
 		Point pt = SwingUtilities.convertPoint(e.getComponent(), e.getPoint(),
 				graphComponent);
+        mouseClickLoc = e.getPoint();
 		EditorPopupMenu menu = new EditorPopupMenu(BasicGraphEditor.this);
 		menu.show(graphComponent, pt.x, pt.y);
 

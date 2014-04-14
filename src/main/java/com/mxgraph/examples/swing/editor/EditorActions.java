@@ -4,9 +4,7 @@
  */
 package com.mxgraph.examples.swing.editor;
 
-import java.awt.Color;
-import java.awt.Component;
-import java.awt.Image;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
@@ -28,16 +26,7 @@ import java.util.HashSet;
 import java.util.Map;
 
 import javax.imageio.ImageIO;
-import javax.swing.AbstractAction;
-import javax.swing.ImageIcon;
-import javax.swing.JCheckBoxMenuItem;
-import javax.swing.JColorChooser;
-import javax.swing.JComponent;
-import javax.swing.JEditorPane;
-import javax.swing.JFileChooser;
-import javax.swing.JOptionPane;
-import javax.swing.JSplitPane;
-import javax.swing.SwingUtilities;
+import javax.swing.*;
 import javax.swing.filechooser.FileFilter;
 import javax.swing.text.html.HTML;
 import javax.swing.text.html.HTMLDocument;
@@ -112,13 +101,13 @@ public class EditorActions
 
             if (graph != null)
             {
-                graph.insertVertex(graph.getDefaultParent(), null, "", 20, 20, 80,
+                Point pt = getEditor(e).mouseClickLoc;
+                graph.insertVertex(graph.getDefaultParent(), null, "",pt.x,pt.y, 80,
                         30);
             }
         }
 
     }
-
 	/**
 	 *
 	 */

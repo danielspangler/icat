@@ -7,15 +7,25 @@ import javax.swing.*;
 
 public class InfluenceAlgorithm extends AnalyticsAlgorithm
 {
-	public String getName()
+
+    public InfluenceAlgorithm()
+    {
+        dialog = new AlgorithmDialogBox();
+    }
+
+    public String getName()
     {
         return "Influence Algorithm";
+    }
+
+    public AlgorithmDialogBox getAlgorithmDialogBox()
+    {
+        return dialog;
     }
 
     public void run()
 	{
 
-        AlgorithmDialogBox adb = new AlgorithmDialogBox();
 
         List<Entity> OutputData = new ArrayList<Entity>();
         OutputData.add(new Entity("Brandon", "Problem"));  //Lol
@@ -30,12 +40,13 @@ public class InfluenceAlgorithm extends AnalyticsAlgorithm
         OutputData.add(new Entity("Daniel", "Stakeholder"));
 
 
-        for(Entity e: OutputData)
-        adb.addEntityToReport(e);
-        JOptionPane.showMessageDialog(new JFrame(), "Algorithm finished");
+//        for(Entity e: OutputData)
+//        adb.addEntityToReport(e);
+//        JOptionPane.showMessageDialog(new JFrame(), "Algorithm finished");
+//
+//        System.out.println(adb.getVisibility());
+//        System.out.println(adb.getControllability());
 
-        System.out.println(adb.getVisibility());
-        System.out.println(adb.getControllability());
 		// Influence Algorithm in n^2 time
 		//
 		// Algorithm:  Influence Algorithm

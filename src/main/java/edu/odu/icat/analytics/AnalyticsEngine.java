@@ -1,5 +1,7 @@
 package edu.odu.icat.analytics;
 
+import com.sun.org.apache.xml.internal.security.algorithms.JCEMapper;
+
 import java.util.*;
 
 import java.io.File;
@@ -52,12 +54,13 @@ public class AnalyticsEngine
 
 	}
 
-	public void setCurrentAlgorithm()
+	public AnalyticsAlgorithm.AlgorithmDialogBox getAlgorithmDialog(String algorithm)
 	{
 		/*
 		 *	drop down in gui will be able to set algorithm
 		 */
 
+        return CurrentAlgorithms.get(algorithm).getAlgorithmDialogBox();
 	}
 
     /*

@@ -11,6 +11,11 @@ public class ProminenceAlgorithm extends AnalyticsAlgorithm
         return "Prominence Algorithm";
     }
 
+    public AlgorithmDialogBox getAlgorithmDialogBox()
+    {
+        return new ProminenceAlgorithmDialogBox();
+    }
+
     public void run()
     {
         new ProminenceAlgorithmDialogBox();
@@ -21,7 +26,6 @@ public class ProminenceAlgorithm extends AnalyticsAlgorithm
         protected  JCheckBox SomeotherCriteria;
         public ProminenceAlgorithmDialogBox()
         {
-
             super();
             SomeotherCriteria = new JCheckBox("Hello");
             FilterContainer.add(SomeotherCriteria, BorderLayout.CENTER);

@@ -28,6 +28,7 @@ import java.util.List;
 public class WorkSpace extends JFrame {
 
 	private JPanel contentPane;
+    private JPanel attributePane;
 
 	/**
 	 * Launch the application.
@@ -53,7 +54,11 @@ public class WorkSpace extends JFrame {
         this.setIconImage(Toolkit.getDefaultToolkit().getImage("src/main/resources/logo.png"));
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 564, 600);
-        contentPane = new GraphEditor();
+
+        contentPane = new JPanel();
+
+        contentPane.add(new JButton("button"));
+        contentPane.add(new GraphEditor());
 		setContentPane(contentPane);
         MenuButtons();
 	}
@@ -75,7 +80,7 @@ public class WorkSpace extends JFrame {
             reportsMenu.add(temp);
             temp.addActionListener(new ActionListener() {
                 public void actionPerformed(ActionEvent e) {
-                    AnalyticsEngine.getInstance().runAlgorithm(name);       //run selected algorithm
+                    contentPane.add(AnalyticsEngine.getInstance().getAlgorithmDialog(name));       //run selected algorithm
                 }
             });
         }
@@ -136,6 +141,11 @@ public class WorkSpace extends JFrame {
         setTitle("WorkSpace");
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setLocationRelativeTo(null);  // Center window
+    }
+
+    private void updateAttributePane(JPanel newPanel)
+    {
+
     }
     
     //-------Action listener for load button

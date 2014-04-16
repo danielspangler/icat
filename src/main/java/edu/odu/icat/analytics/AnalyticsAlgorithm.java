@@ -9,11 +9,15 @@ import java.awt.event.ActionListener;
 
 public abstract class AnalyticsAlgorithm implements  Runnable
 {
-	public abstract String getName();
+	protected AlgorithmDialogBox dialog;
+
+    public abstract String getName();
+
+    public abstract AlgorithmDialogBox getAlgorithmDialogBox();
 
     public abstract void run();
 
-    public class AlgorithmDialogBox extends JDialog
+    public class AlgorithmDialogBox extends JPanel
     {
         protected JCheckBox visibilityCheck;
         protected JCheckBox controllabilityCheck;
@@ -26,10 +30,9 @@ public abstract class AnalyticsAlgorithm implements  Runnable
 
         public AlgorithmDialogBox()
         {
-            //setModal(true);         //Will not continue until this box is closed
             setSize(400, 300);
             FilterContainer = new JPanel();
-            this.setIconImage(Toolkit.getDefaultToolkit().getImage("src/main/resources/logo.png"));
+            //this.setIconImage(Toolkit.getDefaultToolkit().getImage("src/main/resources/logo.png"));
             FilterContainer.setLayout(new BoxLayout(FilterContainer, BoxLayout.PAGE_AXIS));
             FilterContainer.add(Box.createRigidArea(new Dimension(0,10)));
             FilterContainer.setBorder(BorderFactory.createEmptyBorder(10,10,10,10));
@@ -75,11 +78,16 @@ public abstract class AnalyticsAlgorithm implements  Runnable
             CancelButton.addActionListener(new QuitAction());
             ButtonsArea.add(CancelButton);
 
-            getContentPane().add(FilterContainer, BorderLayout.NORTH);
-            getContentPane().add(new JPanel(), BorderLayout.WEST);
-            getContentPane().add(AlgorithmOutputArea, BorderLayout.CENTER);
-            getContentPane().add(new JPanel(), BorderLayout.EAST);
-            getContentPane().add(ButtonsArea, BorderLayout.SOUTH);
+            //getContentPane().
+            add(FilterContainer, BorderLayout.NORTH);
+            //getContentPane().
+            add(new JPanel(), BorderLayout.WEST);
+            //getContentPane().
+            add(AlgorithmOutputArea, BorderLayout.CENTER);
+            //getContentPane().
+            add(new JPanel(), BorderLayout.EAST);
+            //getContentPane().
+            add(ButtonsArea, BorderLayout.SOUTH);
 
             setVisible(true);
         }
@@ -105,14 +113,13 @@ public abstract class AnalyticsAlgorithm implements  Runnable
             public void actionPerformed(ActionEvent e) {
                 PrintButton.setEnabled(true);
                 ExportButton.setEnabled(true);
-                setModal(false);
             }
         }
 
         //--------Action listener for exit button
         class QuitAction implements ActionListener {
             public void actionPerformed(ActionEvent e) {
-                AlgorithmDialogBox.this.dispose();
+                //AlgorithmDialogBox.this.dispose();
             }
         }
 

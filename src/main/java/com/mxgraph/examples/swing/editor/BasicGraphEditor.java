@@ -432,6 +432,7 @@ public class BasicGraphEditor extends JPanel
 	protected void mouseLocationChanged(MouseEvent e)
 	{
 		status(e.getX() + ", " + e.getY());
+        //add state varibel
 	}
 
 	/**

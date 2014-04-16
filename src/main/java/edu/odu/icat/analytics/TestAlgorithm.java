@@ -11,6 +11,11 @@ public class TestAlgorithm extends AnalyticsAlgorithm
         return "Test Algorithm";
     }
 
+    public AlgorithmDialogBox getAlgorithmDialogBox()
+    {
+        return new TestAlgorithmDialogBox();
+    }
+
     public void run()
     {
         new TestAlgorithmDialogBox();

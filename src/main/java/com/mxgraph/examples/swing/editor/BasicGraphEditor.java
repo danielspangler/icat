@@ -227,7 +227,7 @@ public class BasicGraphEditor extends JPanel
 		setLayout(new BorderLayout());
 		add(graphComponent, BorderLayout.CENTER);
 		//add(outer, BorderLayout.CENTER);
-		add(statusBar, BorderLayout.SOUTH);
+		//add(statusBar, BorderLayout.SOUTH);
 		//installToolBar();
 
 		// Installs rubberband selection and handling for some special

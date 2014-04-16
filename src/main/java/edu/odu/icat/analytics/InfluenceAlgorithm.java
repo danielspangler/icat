@@ -3,7 +3,6 @@ package edu.odu.icat.analytics;
 import edu.odu.icat.model.Entity;
 
 import java.util.*;
-import javax.swing.*;
 
 public class InfluenceAlgorithm extends AnalyticsAlgorithm
 {

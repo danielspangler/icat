@@ -187,7 +187,7 @@ public class BasicGraphEditor extends JPanel
         // Puts everything together
         setLayout(new BorderLayout());
         add(graphComponent, BorderLayout.CENTER);
-        add(statusBar, BorderLayout.SOUTH);
+        //add(statusBar, BorderLayout.SOUTH);
 
         //installToolBar();
 

@@ -33,6 +33,7 @@ public class WorkSpace extends JFrame {
 
     private JPanel contentPane;
     private JPanel attributePane;
+    private JSplitPane split;
 
 	/**
 	 * Launch the application.
@@ -57,16 +58,17 @@ public class WorkSpace extends JFrame {
 		setTitle("Workspace");
         this.setIconImage(Toolkit.getDefaultToolkit().getImage("src/main/resources/logo.png"));
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 564, 600);
+		setBounds(100, 100, 850, 600);
 
 
 
         setLayout(new BorderLayout());
 
         attributePane = new JPanel();
+        attributePane.add(new JLabel("Nothing Selected"));
         graphComponent = new GraphEditor();
 
-        JSplitPane split = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, attributePane,
+        split = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, attributePane,
                 graphComponent);
         split.setOneTouchExpandable(true);
         split.setDividerLocation(200);
@@ -77,8 +79,6 @@ public class WorkSpace extends JFrame {
 
         MenuButtons();
 	}
-
-    private JPopupMenu m_popup = new JPopupMenu();
     
     public void MenuButtons() {
 
@@ -95,14 +95,7 @@ public class WorkSpace extends JFrame {
             reportsMenu.add(temp);
             temp.addActionListener(new ActionListener() {
                 public void actionPerformed(ActionEvent e) {
-                   attributePane.removeAll();
-                   JPanel dialog = AnalyticsEngine.getInstance().getAlgorithmDialog(name);
-                   dialog.setPreferredSize(new Dimension(300,400));
-                   attributePane.add(dialog);
-                   attributePane.repaint();
-                   dialog.repaint();
-                   attributePane.setVisible(true);
-                   System.out.println(name);
+                   updateAttributePane(AnalyticsEngine.getInstance().getAlgorithmDialog(name));
                 }
             });
         }
@@ -167,7 +160,7 @@ public class WorkSpace extends JFrame {
 
     private void updateAttributePane(JPanel newPanel)
     {
-
+        split.setLeftComponent(newPanel);
     }
     
     //-------Action listener for load button

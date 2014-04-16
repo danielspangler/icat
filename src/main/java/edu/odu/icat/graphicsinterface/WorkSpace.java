@@ -23,10 +23,11 @@ import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 
+import java.awt.print.*;
 import java.util.List;
 
 
-public class WorkSpace extends JFrame {
+public class WorkSpace extends JFrame implements Printable{
 
 
     protected JPanel graphComponent;
@@ -145,6 +146,7 @@ public class WorkSpace extends JFrame {
         //Add listeners to menu items
         loadItem.addActionListener(new LoadAction());
         quitItem.addActionListener(new QuitAction());
+        printItem.addActionListener(new PrintAction());
 
 
         //Add the (unused) text area to the content pane
@@ -169,7 +171,27 @@ public class WorkSpace extends JFrame {
     {
 
     }
-    
+
+    public int print(Graphics g, PageFormat pf, int page) throws
+            PrinterException {
+
+        if (page > 0) { /* We have only one page, and 'page' is zero-based */
+            return NO_SUCH_PAGE;
+        }
+
+        /* User (0,0) is typically outside the imageable area, so we must
+         * translate by the X and Y values in the PageFormat to avoid clipping
+         */
+        Graphics2D g2d = (Graphics2D)g;
+        g2d.translate(pf.getImageableX(), pf.getImageableY());
+
+        /* Now print the window and its visible contents */
+        graphComponent.printAll(g);
+
+        /* tell the caller that this page is part of the printed document */
+        return PAGE_EXISTS;
+    }
+
     //-------Action listener for load button
     class LoadAction implements ActionListener {
         public void actionPerformed(ActionEvent e) {
@@ -182,5 +204,28 @@ public class WorkSpace extends JFrame {
         public void actionPerformed(ActionEvent e) {
             WorkSpace.this.dispose();
         }
+    }
+
+    //--------Action listener for exit button
+    class PrintAction implements ActionListener
+    {
+        public void actionPerformed(ActionEvent e) {
+            PrinterJob job = PrinterJob.getPrinterJob();
+            job.setPrintable(WorkSpace.this);
+            //boolean ok = job.printDialog();
+            if (job.printDialog()) {
+                try {
+                    job.print();
+                } catch (PrinterException ex) {
+              /* The job did not successfully complete */
+                }
+            }
+        }
+
+
+
+
+
+
     }
 }

@@ -30,7 +30,6 @@ public abstract class AnalyticsAlgorithm implements  Runnable
 
         public AlgorithmDialogBox()
         {
-            setSize(400, 300);
             FilterContainer = new JPanel();
             //this.setIconImage(Toolkit.getDefaultToolkit().getImage("src/main/resources/logo.png"));
             FilterContainer.setLayout(new BoxLayout(FilterContainer, BoxLayout.PAGE_AXIS));
@@ -78,16 +77,15 @@ public abstract class AnalyticsAlgorithm implements  Runnable
             CancelButton.addActionListener(new QuitAction());
             ButtonsArea.add(CancelButton);
 
+            setLayout(new BorderLayout());
             //getContentPane().
             add(FilterContainer, BorderLayout.NORTH);
             //getContentPane().
-            add(new JPanel(), BorderLayout.WEST);
-            //getContentPane().
             add(AlgorithmOutputArea, BorderLayout.CENTER);
             //getContentPane().
-            add(new JPanel(), BorderLayout.EAST);
-            //getContentPane().
             add(ButtonsArea, BorderLayout.SOUTH);
+
+            setPreferredSize(new Dimension(400, 300));
 
             setVisible(true);
         }

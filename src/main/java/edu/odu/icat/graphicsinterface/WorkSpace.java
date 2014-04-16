@@ -95,15 +95,12 @@ public class WorkSpace extends JFrame {
             reportsMenu.add(temp);
             temp.addActionListener(new ActionListener() {
                 public void actionPerformed(ActionEvent e) {
+                   attributePane.removeAll();
                    JPanel dialog = AnalyticsEngine.getInstance().getAlgorithmDialog(name);
-
                    dialog.setPreferredSize(new Dimension(300,400));
-                   JFrame popup = new JFrame(name);
-                   popup.setVisible(true);
-
-                    popup.getContentPane().add(dialog);
-                   //attributePane.add();
+                   attributePane.add(dialog);
                    attributePane.repaint();
+                   dialog.repaint();
                    attributePane.setVisible(true);
                    System.out.println(name);
                 }

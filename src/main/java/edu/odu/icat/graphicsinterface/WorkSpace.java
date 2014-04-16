@@ -4,6 +4,7 @@
  */
 package edu.odu.icat.graphicsinterface;
 
+import com.mxgraph.swing.mxGraphComponent;
 import edu.odu.icat.graphicsinterface.GraphEditor;
 import edu.odu.icat.analytics.AnalyticsAlgorithm;
 import edu.odu.icat.analytics.AnalyticsEngine;
@@ -27,7 +28,10 @@ import java.util.List;
 
 public class WorkSpace extends JFrame {
 
-	private JPanel contentPane;
+
+    protected JPanel graphComponent;
+
+    private JPanel contentPane;
     private JPanel attributePane;
 
 	/**
@@ -55,11 +59,22 @@ public class WorkSpace extends JFrame {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 564, 600);
 
-        contentPane = new JPanel();
 
-        contentPane.add(new JButton("button"));
-        contentPane.add(new GraphEditor());
-		setContentPane(contentPane);
+
+        setLayout(new BorderLayout());
+
+        attributePane = new JPanel();
+        graphComponent = new GraphEditor();
+
+        JSplitPane split = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, attributePane,
+                graphComponent);
+        split.setOneTouchExpandable(true);
+        split.setDividerLocation(200);
+        split.setDividerSize(6);
+        split.setBorder(null);
+
+        add(split, BorderLayout.CENTER);
+
         MenuButtons();
 	}
 
@@ -80,7 +95,17 @@ public class WorkSpace extends JFrame {
             reportsMenu.add(temp);
             temp.addActionListener(new ActionListener() {
                 public void actionPerformed(ActionEvent e) {
-                    contentPane.add(AnalyticsEngine.getInstance().getAlgorithmDialog(name));       //run selected algorithm
+                   JPanel dialog = AnalyticsEngine.getInstance().getAlgorithmDialog(name);
+
+                   dialog.setPreferredSize(new Dimension(300,400));
+                   JFrame popup = new JFrame(name);
+                   popup.setVisible(true);
+
+                    popup.getContentPane().add(dialog);
+                   //attributePane.add();
+                   attributePane.repaint();
+                   attributePane.setVisible(true);
+                   System.out.println(name);
                 }
             });
         }
@@ -126,7 +151,7 @@ public class WorkSpace extends JFrame {
 
 
         //Add the (unused) text area to the content pane
-        JPanel content = new JPanel();
+        /*JPanel content = new JPanel();
         content.setLayout(new BorderLayout());
         content.add(contentPane, BorderLayout.CENTER);
 
@@ -135,7 +160,7 @@ public class WorkSpace extends JFrame {
         contentPane.setComponentPopupMenu(m_popup);
 
         //Set the JFrame's content pane and menu bar
-        setContentPane(content);
+        setContentPane(content);*/
         setJMenuBar(menubar);
 
         setTitle("WorkSpace");

@@ -216,13 +216,15 @@ public class BasicGraphEditor extends JPanel
 
 		// Creates the status bar
 		statusBar = createStatusBar();
+        statusBar.setVisible(false);
 
 		// Display some useful information about repaint events
 		installRepaintListener();
 
 		// Puts everything together
 		setLayout(new BorderLayout());
-		add(outer, BorderLayout.CENTER);
+		add(graphComponent, BorderLayout.CENTER);
+		//add(outer, BorderLayout.CENTER);
 		add(statusBar, BorderLayout.SOUTH);
 		//installToolBar();
 

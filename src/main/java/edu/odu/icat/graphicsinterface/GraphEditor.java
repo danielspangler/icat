@@ -28,7 +28,7 @@ import java.util.List;
 
 public class GraphEditor extends BasicGraphEditor
 {
-	/**
+    /**
 	 * 
 	 */
 	private static final long serialVersionUID = -4601740824088314699L;

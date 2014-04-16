@@ -22,16 +22,16 @@ public class ExportPDF {
             //Paragraph paragraph = new Paragraph();
             document.add(new Paragraph("If you're reading this, then you're in the wrong place!", font1));
 
-//
-//            PdfPTable table = new PdfPTable(2); /*Number of Columns*/
-//
-//            PdfPCell cell1 = new PdfPCell(new Paragraph("Cell one"));
-//            PdfPCell cell2 = new PdfPCell(new Paragraph("Cell 2"));
-//
-//            table.addCell(cell1);
-//            table.addCell(cell2);
-//
-//            document.add(table);
+////
+////            PdfPTable table = new PdfPTable(2); /*Number of Columns*/
+////
+////            PdfPCell cell1 = new PdfPCell(new Paragraph("Cell one"));
+////            PdfPCell cell2 = new PdfPCell(new Paragraph("Cell 2"));
+////
+////            table.addCell(cell1);
+////            table.addCell(cell2);
+////
+////            document.add(table);
             document.close();
 
             //table.addCell("cell one");

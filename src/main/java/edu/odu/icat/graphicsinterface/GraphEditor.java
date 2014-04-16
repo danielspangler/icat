@@ -3,8 +3,8 @@
  * Copyright (c) 2006-2012, JGraph Ltd */
 package edu.odu.icat.graphicsinterface;
 
-import com.mxgraph.examples.swing.editor.BasicGraphEditor;
-import com.mxgraph.examples.swing.editor.EditorMenuBar;
+import edu.odu.icat.graphicsinterface.editor.BasicGraphEditor;
+import edu.odu.icat.graphicsinterface.editor.EditorMenuBar;
 import com.mxgraph.io.mxCodec;
 import com.mxgraph.model.mxCell;
 import com.mxgraph.model.mxGeometry;
@@ -83,8 +83,8 @@ public class GraphEditor extends BasicGraphEditor
 			super(graph);
 
 			// Sets switches typically used in an editor
-			setPageVisible(true);
-			setGridVisible(true);
+			setPageVisible(false);
+			setGridVisible(false);
 			setToolTips(true);
 			getConnectionHandler().setCreateTarget(true);
 

@@ -1,6 +1,6 @@
 package edu.odu.icat.graphicsinterface.editor;
 
-import com.mxgraph.examples.swing.editor.EditorActions.*;
+import edu.odu.icat.graphicsinterface.editor.EditorActions.*;
 import com.mxgraph.swing.mxGraphComponent;
 import com.mxgraph.swing.util.mxGraphActions;
 import com.mxgraph.util.mxConstants;

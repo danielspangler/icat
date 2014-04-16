@@ -1,7 +1,7 @@
 package edu.odu.icat.graphicsinterface.editor;
 
-import com.mxgraph.examples.swing.editor.EditorActions.HistoryAction;
-import com.mxgraph.examples.swing.editor.EditorActions.NewVertexAction;
+import edu.odu.icat.graphicsinterface.editor.EditorActions.HistoryAction;
+import edu.odu.icat.graphicsinterface.editor.EditorActions.NewVertexAction;
 import com.mxgraph.swing.util.mxGraphActions;
 import com.mxgraph.util.mxResources;
 
@@ -21,6 +21,9 @@ public class EditorPopupMenu extends JPopupMenu
 				.isSelectionEmpty();
 
         add(editor.bind(mxResources.get("newVertex"), new NewVertexAction()));
+
+        add(editor.bind(mxResources.get("zoomIn"), mxGraphActions.getZoomInAction()));
+        add(editor.bind(mxResources.get("zoomOut"), mxGraphActions.getZoomOutAction()));
 
 		add(editor.bind(mxResources.get("undo"), new HistoryAction(true),
 				"/com/mxgraph/examples/swing/images/undo.gif"));

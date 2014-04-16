@@ -90,7 +90,8 @@ public class EditorActions
 
             if (graph != null)
             {
-                graph.insertVertex(graph.getDefaultParent(), null, "", 20, 20, 80,
+                Point pt = getEditor(e).mouseClickLoc;
+                graph.insertVertex(graph.getDefaultParent(), null, "",pt.x,pt.y, 80,
                         30);
             }
         }

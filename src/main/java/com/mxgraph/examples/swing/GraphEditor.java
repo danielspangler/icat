@@ -70,6 +70,7 @@ public class GraphEditor extends BasicGraphEditor
 		super(appTitle, component);
 		final mxGraph graph = graphComponent.getGraph();
         graphOutline.setVisible(false);
+       // graphComponent.setPageVisible(true);
 	}
 
 	/**
@@ -92,8 +93,8 @@ public class GraphEditor extends BasicGraphEditor
 			super(graph);
 
 			// Sets switches typically used in an editor
-			setPageVisible(true);
-			setGridVisible(true);
+			setPageVisible(false);
+			setGridVisible(false);
 			setToolTips(true);
 			getConnectionHandler().setCreateTarget(true);
 

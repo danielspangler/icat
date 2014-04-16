@@ -186,7 +186,17 @@ public class WorkSpace extends JFrame implements Printable{
         g2d.translate(pf.getImageableX(), pf.getImageableY());
 
         /* Now print the window and its visible contents */
-        graphComponent.printAll(g);
+        java.awt.geom.AffineTransform originalTransform = g2d.getTransform();
+
+        double scaleX = pf.getImageableWidth() / this.getWidth();
+        double scaleY = pf.getImageableHeight() / this.getHeight();
+        // Maintain aspect ratio
+        double scale = Math.min(scaleX, scaleY);
+        g2d.translate(pf.getImageableX(), pf.getImageableY());
+        g2d.scale(scale, scale);
+        graphComponent.getComponent(0).printAll(g2d);
+
+        g2d.setTransform(originalTransform);
 
         /* tell the caller that this page is part of the printed document */
         return PAGE_EXISTS;
@@ -212,7 +222,6 @@ public class WorkSpace extends JFrame implements Printable{
         public void actionPerformed(ActionEvent e) {
             PrinterJob job = PrinterJob.getPrinterJob();
             job.setPrintable(WorkSpace.this);
-            //boolean ok = job.printDialog();
             if (job.printDialog()) {
                 try {
                     job.print();

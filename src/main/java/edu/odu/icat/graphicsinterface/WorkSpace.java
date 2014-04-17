@@ -147,6 +147,7 @@ public class WorkSpace extends JFrame implements Printable{
         loadItem.addActionListener(new LoadAction());
         quitItem.addActionListener(new QuitAction());
         printItem.addActionListener(new PrintAction());
+        exportItem.addActionListener(new ExportAction());
 
 
         //Add the (unused) text area to the content pane
@@ -183,17 +184,17 @@ public class WorkSpace extends JFrame implements Printable{
          * translate by the X and Y values in the PageFormat to avoid clipping
          */
         Graphics2D g2d = (Graphics2D)g;
-        g2d.translate(pf.getImageableX(), pf.getImageableY());
 
-        /* Now print the window and its visible contents */
         java.awt.geom.AffineTransform originalTransform = g2d.getTransform();
 
-        double scaleX = pf.getImageableWidth() / this.getWidth();
-        double scaleY = pf.getImageableHeight() / this.getHeight();
+        double scaleX = pf.getImageableWidth() / graphComponent.getComponent(0).getWidth();
+        double scaleY = pf.getImageableHeight() / graphComponent.getComponent(0).getHeight();
         // Maintain aspect ratio
         double scale = Math.min(scaleX, scaleY);
         g2d.translate(pf.getImageableX(), pf.getImageableY());
         g2d.scale(scale, scale);
+
+        /* Now print the window and its visible contents */
         graphComponent.getComponent(0).printAll(g2d);
 
         g2d.setTransform(originalTransform);
@@ -216,7 +217,7 @@ public class WorkSpace extends JFrame implements Printable{
         }
     }
 
-    //--------Action listener for exit button
+    //--------Action listener for print button
     class PrintAction implements ActionListener
     {
         public void actionPerformed(ActionEvent e) {
@@ -230,11 +231,18 @@ public class WorkSpace extends JFrame implements Printable{
                 }
             }
         }
+    }
 
+    //--------Action listener for export button
+    class ExportAction implements ActionListener
+    {
+        public void actionPerformed(ActionEvent e)
+        {
 
-
-
-
+        }
 
     }
+
+
+
 }

@@ -90,8 +90,8 @@ public class EditorActions
 
             if (graph != null)
             {
-                Point pt = getEditor(e).mouseClickLoc;
-                graph.insertVertex(graph.getDefaultParent(), null, "",pt.x,pt.y, 80,
+                mxPoint pt = getEditor(e).mouseClickLoc;
+                graph.insertVertex(graph.getDefaultParent(), null, "",pt.getX(),pt.getY(), 80,
                         30);
             }
         }

@@ -4,6 +4,8 @@ import java.util.List;
 import static com.google.common.base.Preconditions.*;
 import static com.google.common.base.Strings.*;
 
+import edu.odu.icat.controller.Control;
+
 /**
  * Represents an Entity in a problem domain.
  */
@@ -24,6 +26,8 @@ public class Entity extends Base {
         setClassification(classification);
         setVisible(true);
         setControllable(true);
+
+        Control.getInstance().getCurrentProject().addEntity(this);  //Add self to project
     }
 
     public String getName() {

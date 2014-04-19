@@ -22,12 +22,10 @@ public class ReportTableModel extends AbstractTableModel {
         entityDegrees = new ArrayList<Integer>();
     }
 
-    @Override
     public int getRowCount() {
         return reportEntities.size();
     }
 
-    @Override
     public int getColumnCount() {
         return 3;
     }
@@ -63,7 +61,6 @@ public class ReportTableModel extends AbstractTableModel {
         }
     }
 
-    @Override
     public Object getValueAt(int rowIndex, int columnIndex) {
         Entity entity = reportEntities.get(rowIndex);
         switch (columnIndex){

@@ -5,6 +5,9 @@
 package edu.odu.icat.graphicsinterface;
 
 import edu.odu.icat.analytics.AnalyticsEngine;
+import edu.odu.icat.model.Entity;
+
+import com.mxgraph.model.mxCell;
 
 import javax.swing.*;
 import java.awt.*;
@@ -23,7 +26,7 @@ import java.util.List;
 public class WorkSpace extends JFrame implements Printable{
 
 
-    protected JPanel graphComponent;
+    protected GraphEditor graphComponent;
 
     private JPanel contentPane;
     private JPanel attributePane;
@@ -70,8 +73,22 @@ public class WorkSpace extends JFrame implements Printable{
         split.setBorder(null);
 
         add(split, BorderLayout.CENTER);
-        updateAttributePane(entityAttributes());
         MenuButtons();
+
+        graphComponent.getGraphComponent().getGraphControl().addMouseListener(new MouseAdapter() {
+            @Override
+            public void mousePressed(MouseEvent e) {
+                super.mousePressed(e);
+                Object cell = graphComponent.getGraphComponent().getCellAt(e.getX(), e.getY());
+
+                if (cell != null && cell instanceof mxCell)
+                {
+                    Entity entity =(Entity) ((mxCell) cell).getValue();
+                    updateAttributePane(entityAttributes(entity));
+                }
+            }
+        });
+
 	}
 
     private JPopupMenu m_popup = new JPopupMenu();
@@ -151,7 +168,7 @@ public class WorkSpace extends JFrame implements Printable{
         split.setLeftComponent(newComponent);
     }
 
-    public JPanel entityAttributes()
+    public JPanel entityAttributes(Entity entity)
     {
         JPanel newPanel = new JPanel();
         newPanel.setLayout(new BoxLayout(newPanel, BoxLayout.Y_AXIS));

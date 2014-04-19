@@ -69,7 +69,7 @@ public class WorkSpace extends JFrame implements Printable{
         split.setBorder(null);
 
         add(split, BorderLayout.CENTER);
-
+        updateAttributePane(entityAttributes());
         MenuButtons();
 	}
 
@@ -148,9 +148,9 @@ public class WorkSpace extends JFrame implements Printable{
         split.setLeftComponent(newComponent);
     }
 
-    //kirbs stuff
-    public void entitiesPane(JPanel newPanel)
+    public JPanel entityAttributes()
     {
+        JPanel newPanel = new JPanel();
         newPanel.setLayout(new BoxLayout(newPanel, BoxLayout.Y_AXIS));
 
         final JTextPane titlePane = new JTextPane();
@@ -163,20 +163,15 @@ public class WorkSpace extends JFrame implements Printable{
             }
         });
 
-        JMenuItem attribute = new JMenuItem("Attribute");
-        JMenuItem problem = new JMenuItem("Problem");
-        JMenuItem resource = new JMenuItem("Resource");
-        JMenuItem stakeholder = new JMenuItem("Stakeholder");
-        JMenuItem objective = new JMenuItem("Objective");
-
         JMenuBar bar = new JMenuBar();
         JMenu entityTypeMenu = new JMenu("Type");
         bar.add(entityTypeMenu);
-        entityTypeMenu.add(attribute);
-        entityTypeMenu.add(objective);
-        entityTypeMenu.add(problem);
-        entityTypeMenu.add(resource);
-        entityTypeMenu.add(stakeholder);
+
+        for(String s: edu.odu.icat.controller.Control.getInstance().getEntityClassifications())
+        {
+            entityTypeMenu.add(new JMenuItem(s));
+        }
+
         newPanel.add(bar, newPanel);
 
         JTextField metaDataTextArea = new JTextField(20);
@@ -184,6 +179,8 @@ public class WorkSpace extends JFrame implements Printable{
 
         JButton deleteButton = new JButton("Delete");
         newPanel.add(deleteButton, newPanel);
+
+        return newPanel;
     }
 
     public int print(Graphics g, PageFormat pf, int page) throws

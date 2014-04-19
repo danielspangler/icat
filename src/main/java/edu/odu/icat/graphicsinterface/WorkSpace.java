@@ -157,6 +157,7 @@ public class WorkSpace extends JFrame implements Printable{
         newPanel.setLayout(new BoxLayout(newPanel, BoxLayout.Y_AXIS));
 
         final JTextPane titlePane = new JTextPane();
+        titlePane.setSize( titlePane.getPreferredSize() );
         newPanel.add(titlePane, newPanel);
         titlePane.setText("Title");
         titlePane.addMouseListener(new MouseAdapter() {
@@ -165,6 +166,8 @@ public class WorkSpace extends JFrame implements Printable{
                 titlePane.setText("");
             }
         });
+
+        newPanel.add(Box.createVerticalGlue());
 
         JMenuBar bar = new JMenuBar();
         JMenu entityTypeMenu = new JMenu("Type");
@@ -175,13 +178,25 @@ public class WorkSpace extends JFrame implements Printable{
             entityTypeMenu.add(new JMenuItem(s));
         }
 
-        newPanel.add(bar, newPanel);
+        newPanel.add(bar);
+        newPanel.add(Box.createVerticalGlue());
+        JTextField metaDataTextArea = new JTextField("",20);
+        newPanel.add(metaDataTextArea);
 
-        JTextField metaDataTextArea = new JTextField(20);
-        newPanel.add(metaDataTextArea, newPanel);
+        newPanel.add(Box.createVerticalGlue());
+
+        JCheckBox noncontrolCheckBox = new JCheckBox("Non-Controllable");
+        JCheckBox nonvisibleCheckBox = new JCheckBox("Non-Visible");
+
+        newPanel.add(nonvisibleCheckBox);
+        newPanel.add(noncontrolCheckBox);
+
+        newPanel.add(new JSeparator());
 
         JButton deleteButton = new JButton("Delete");
         newPanel.add(deleteButton, newPanel);
+
+        setVisible(true);
 
         return newPanel;
     }

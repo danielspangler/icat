@@ -1,9 +1,11 @@
 package edu.odu.icat.graphicsinterface.editor;
 
+import com.mxgraph.swing.mxGraphComponent;
 import edu.odu.icat.graphicsinterface.editor.EditorActions.HistoryAction;
 import edu.odu.icat.graphicsinterface.editor.EditorActions.NewVertexAction;
 import com.mxgraph.swing.util.mxGraphActions;
 import com.mxgraph.util.mxResources;
+
 
 import javax.swing.*;
 
@@ -25,6 +27,7 @@ public class EditorPopupMenu extends JPopupMenu
 
         add(editor.bind(mxResources.get("zoomIn"), mxGraphActions.getZoomInAction()));
         add(editor.bind(mxResources.get("zoomOut"), mxGraphActions.getZoomOutAction()));
+        add(editor.bind(mxResources.get("actualSize"),mxGraphActions.getZoomActualAction()));
 
 		add(editor.bind(mxResources.get("undo"), new HistoryAction(true),
 				"/com/mxgraph/examples/swing/images/undo.gif"));

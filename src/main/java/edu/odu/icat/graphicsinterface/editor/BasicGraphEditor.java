@@ -122,8 +122,8 @@ public class BasicGraphEditor extends JPanel
     public BasicGraphEditor(String appTitle, mxGraphComponent component)
     {
         // Stores and updates the frame title
-        this.appTitle = appTitle;
 
+        this.appTitle = appTitle;
         // Stores a reference to the graph and creates the command history
         graphComponent = component;
         final mxGraph graph = graphComponent.getGraph();
@@ -272,7 +272,7 @@ public class BasicGraphEditor extends JPanel
         scrollPane
                 .setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
         scrollPane
-                .setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+                .setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
         libraryPane.add(title, scrollPane);
 
         // Updates the widths of the palettes if the container size changes

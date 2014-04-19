@@ -156,6 +156,44 @@ public class WorkSpace extends JFrame implements Printable{
         split.setLeftComponent(newPanel);
     }
 
+    //kirbs stuff
+    public void entitiesPane(JPanel newPanel)
+    {
+        newPanel.setLayout(new BoxLayout(newPanel, BoxLayout.Y_AXIS));
+
+        final JTextPane titlePane = new JTextPane();
+        newPanel.add(titlePane, newPanel);
+        titlePane.setText("Title");
+        titlePane.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                titlePane.setText("");
+            }
+        });
+
+        JMenuItem attribute = new JMenuItem("Attribute");
+        JMenuItem problem = new JMenuItem("Problem");
+        JMenuItem resource = new JMenuItem("Resource");
+        JMenuItem stakeholder = new JMenuItem("Stakeholder");
+        JMenuItem objective = new JMenuItem("Objective");
+
+        JMenuBar bar = new JMenuBar();
+        JMenu entityTypeMenu = new JMenu("Type");
+        bar.add(entityTypeMenu);
+        entityTypeMenu.add(attribute);
+        entityTypeMenu.add(objective);
+        entityTypeMenu.add(problem);
+        entityTypeMenu.add(resource);
+        entityTypeMenu.add(stakeholder);
+        newPanel.add(bar, newPanel);
+
+        JTextField metaDataTextArea = new JTextField(20);
+        newPanel.add(metaDataTextArea, newPanel);
+
+        JButton deleteButton = new JButton("Delete");
+        newPanel.add(deleteButton, newPanel);
+    }
+
     public int print(Graphics g, PageFormat pf, int page) throws
             PrinterException {
 

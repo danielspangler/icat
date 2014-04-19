@@ -178,6 +178,10 @@ public class BasicGraphEditor extends JPanel
         outer.setDividerSize(6);
         outer.setBorder(null);
 
+        // Creates the status bar
+        statusBar = createStatusBar();
+        statusBar.setVisible(false);
+
        // Display some useful information about repaint events
         installRepaintListener();
 
@@ -483,7 +487,7 @@ public class BasicGraphEditor extends JPanel
                      */
                     public void mouseDragged(MouseEvent e)
                     {
-                        mouseLocationChanged(e);
+                        //mouseLocationChanged(e);
                     }
 
                     /*

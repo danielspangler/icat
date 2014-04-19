@@ -1,6 +1,7 @@
 package edu.odu.icat.analytics;
 
-import edu.odu.icat.model.Entity;
+import edu.odu.icat.model.*;
+import edu.odu.icat.controller.*;
 
 import java.util.*;
 
@@ -24,7 +25,7 @@ public class InfluenceAlgorithm extends AnalyticsAlgorithm
 
     public void run()
 	{
-
+        System.out.println("Running " + getName());
 
         List<Entity> OutputData = new ArrayList<Entity>();
         OutputData.add(new Entity("Brandon", "Problem"));  //Lol
@@ -38,13 +39,24 @@ public class InfluenceAlgorithm extends AnalyticsAlgorithm
         OutputData.add(new Entity("Daniel", "Stakeholder"));
         OutputData.add(new Entity("Daniel", "Stakeholder"));
 
+        for(Entity e: OutputData)
+            dialog.addEntityToReport(e);
 
-//        for(Entity e: OutputData)
-//        adb.addEntityToReport(e);
-//        JOptionPane.showMessageDialog(new JFrame(), "Algorithm finished");
-//
-//        System.out.println(adb.getVisibility());
-//        System.out.println(adb.getControllability());
+        Control controller = Control.getInstance();
+        List<Force> forces = controller.getForces();
+
+        HashMap<Entity, Integer> entities = new HashMap<Entity, Integer>();
+
+        for(Force f: forces)
+        {
+            if(!dialog.getVisibility() || (f.getOrigin().isVisible() && f.getDestination().isVisible()))
+            if(!dialog.getControllability() || (f.getDestination().isControllable()))
+            {
+                Integer i = entities.get(f.getOrigin());
+                i+= f.getWeight();
+                entities.put(f.getOrigin(), i);
+            }
+        }
 
 		// Influence Algorithm in n^2 time
 		//

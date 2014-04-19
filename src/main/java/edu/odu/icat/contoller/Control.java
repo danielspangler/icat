@@ -43,5 +43,4 @@ public class Control {
     public String getDefaultEntityClassification() {
         return entityClassifications.get(1);
     }
-
 }

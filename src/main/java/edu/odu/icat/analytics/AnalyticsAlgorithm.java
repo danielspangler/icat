@@ -73,7 +73,7 @@ public abstract class AnalyticsAlgorithm implements  Runnable
             RunButton.addActionListener(new RunAction());
             ButtonsArea.add(Box.createRigidArea(new Dimension(5, 0)));
 
-            JButton CancelButton = new JButton("Cancel");
+            JButton CancelButton = new JButton("Clear");
             CancelButton.addActionListener(new QuitAction());
             ButtonsArea.add(CancelButton);
 
@@ -111,13 +111,14 @@ public abstract class AnalyticsAlgorithm implements  Runnable
             public void actionPerformed(ActionEvent e) {
                 PrintButton.setEnabled(true);
                 ExportButton.setEnabled(true);
+                AnalyticsAlgorithm.this.run();
             }
         }
 
         //--------Action listener for exit button
         class QuitAction implements ActionListener {
             public void actionPerformed(ActionEvent e) {
-                //AlgorithmDialogBox.this.dispose();
+                AlgorithmDialogBox.this.Data.removeAllElements();
             }
         }
 

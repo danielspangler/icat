@@ -26,8 +26,6 @@ public class Entity extends Base {
         setClassification(classification);
         setVisible(true);
         setControllable(true);
-
-        Control.getInstance().getCurrentProject().addEntity(this);  //Add self to project
     }
 
     public String getName() {

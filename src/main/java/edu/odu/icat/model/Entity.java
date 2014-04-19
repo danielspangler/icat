@@ -1,6 +1,5 @@
 package edu.odu.icat.model;
 
-import java.awt.Point;
 import java.util.List;
 import static com.google.common.base.Preconditions.*;
 import static com.google.common.base.Strings.*;
@@ -12,7 +11,7 @@ public class Entity extends Base {
 
     private String name;
     private String classification;
-    private Point location;
+    private Location location;
     private String notes;
 
     /** DO NOT USE: this is only for serialization purposes **/
@@ -41,11 +40,11 @@ public class Entity extends Base {
         this.classification = classification;
     }
 
-    public Point getLocation() {
+    public Location getLocation() {
         return location;
     }
 
-    public void setLocation(Point location) {
+    public void setLocation(Location location) {
         this.location = location;
     }
 
@@ -57,4 +56,8 @@ public class Entity extends Base {
         this.notes = notes;
     }
 
+    @Override
+    public String toString() {
+        return getName();
+    }
 }

@@ -621,7 +621,7 @@ public class BasicGraphEditor extends JPanel
      */
     public void status(String msg)
     {
-        statusBar.setText(msg);
+//        statusBar.setText(msg);
     }
 
     /**

@@ -20,6 +20,7 @@ public class EditorPopupMenu extends JPopupMenu
 		boolean selected = !editor.getGraphComponent().getGraph()
 				.isSelectionEmpty();
 
+        add(editor.bind("Test", new EditorActions.TestAction()));
         add(editor.bind(mxResources.get("newVertex"), new NewVertexAction()));
 
         add(editor.bind(mxResources.get("zoomIn"), mxGraphActions.getZoomInAction()));

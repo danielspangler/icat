@@ -26,6 +26,9 @@ import com.mxgraph.util.png.mxPngEncodeParam;
 import com.mxgraph.util.png.mxPngImageEncoder;
 import com.mxgraph.util.png.mxPngTextDecoder;
 import com.mxgraph.view.mxGraph;
+import edu.odu.icat.contoller.Control;
+import edu.odu.icat.model.Entity;
+import edu.odu.icat.model.Location;
 import org.w3c.dom.Document;
 
 import javax.imageio.ImageIO;
@@ -91,9 +94,23 @@ public class EditorActions
             if (graph != null)
             {
                 mxPoint pt = getEditor(e).mouseClickLoc;
-                graph.insertVertex(graph.getDefaultParent(), null, "",pt.getX(),pt.getY(), 80,
+                Entity entity = new Entity("Name", Control.getInstance().getDefaultEntityClassification());
+                Control.getInstance().getCurrentProject().addEntity(entity);
+                entity.setLocation(new Location(pt.getX(), pt.getY()));
+                graph.insertVertex(graph.getDefaultParent(), null, entity, pt.getX(),pt.getY(), 80,
                         30);
             }
+        }
+
+    }
+
+    public static class TestAction extends AbstractAction {
+
+        public void actionPerformed(ActionEvent e)
+        {
+            mxGraph graph = getEditor(e).getGraphComponent().getGraph();
+            Object model = graph.getModel();
+
         }
 
     }

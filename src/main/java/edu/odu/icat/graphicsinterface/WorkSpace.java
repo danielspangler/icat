@@ -16,6 +16,7 @@ import java.awt.print.PageFormat;
 import java.awt.print.Printable;
 import java.awt.print.PrinterException;
 import java.awt.print.PrinterJob;
+import java.io.File;
 import java.util.List;
 
 
@@ -135,6 +136,8 @@ public class WorkSpace extends JFrame implements Printable{
         quitItem.addActionListener(new QuitAction());
         printItem.addActionListener(new PrintAction());
         exportItem.addActionListener(new ExportAction());
+        saveItem.addActionListener(new SaveAction());
+        saveAsItem.addActionListener(new SaveAsAction());
 
         setJMenuBar(menubar);
 
@@ -215,8 +218,17 @@ public class WorkSpace extends JFrame implements Printable{
 
     //-------Action listener for load button
     class LoadAction implements ActionListener {
-        public void actionPerformed(ActionEvent e) {
-            JOptionPane.showMessageDialog(WorkSpace.this, "No Files Found.");
+        JFileChooser fc = new JFileChooser();
+
+        public void actionPerformed(ActionEvent e)
+        {
+            //JOptionPane.showMessageDialog(WorkSpace.this, "No Files Found.");
+            if (fc.showOpenDialog(WorkSpace.this) == JFileChooser.APPROVE_OPTION)
+            {
+                File openFils = fc.getSelectedFile();
+                // load the file here
+
+            }
         }
     }
 
@@ -253,6 +265,37 @@ public class WorkSpace extends JFrame implements Printable{
 
     }
 
+    //-------Action listener for save button
+    class SaveAction implements ActionListener {
+        JFileChooser fc = new JFileChooser();
+
+        public void actionPerformed(ActionEvent e)
+        {
+           // JOptionPane.showMessageDialog(WorkSpace.this, "No Files Found.");
+            if (fc.showSaveDialog(WorkSpace.this) == JFileChooser.APPROVE_OPTION)
+            {
+                File saveFils = fc.getSelectedFile();
+                // save the file here
+
+            }
+        }
+    }
+
+    //-------Action listener for save as button
+    class SaveAsAction implements ActionListener {
+        JFileChooser fc = new JFileChooser();
+
+        public void actionPerformed(ActionEvent e)
+        {
+            //JOptionPane.showMessageDialog(WorkSpace.this, "No Files Found.");
+            if (fc.showSaveDialog(WorkSpace.this) == JFileChooser.APPROVE_OPTION)
+            {
+                File saveFils = fc.getSelectedFile();
+                // save the file here
+
+            }
+        }
+    }
 
 
 }

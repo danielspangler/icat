@@ -25,7 +25,7 @@ public class Control {
     }
 
     public Project getCurrentProject() {
-        if (currentProject==null) {
+        if (currentProject == null) {
             currentProject = new Project("Name", "Description", "Author");
         }
         return currentProject;

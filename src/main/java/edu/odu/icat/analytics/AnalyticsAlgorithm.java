@@ -21,10 +21,10 @@ public abstract class AnalyticsAlgorithm implements  Runnable
     {
         protected JCheckBox visibilityCheck;
         protected JCheckBox controllabilityCheck;
+
         protected JPanel FilterContainer;
         protected JScrollPane AlgorithmOutputArea;
-        protected JList DataList;
-        protected DefaultListModel Data;
+
         protected JButton ExportButton;
         protected JButton PrintButton;
 
@@ -50,26 +50,14 @@ public abstract class AnalyticsAlgorithm implements  Runnable
 
             //Algorithm Output
 
-            Data = new DefaultListModel();
-            DataList = new JList(Data); //data has type Object[]
-            DataList.setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
-            DataList.setLayoutOrientation(JList.HORIZONTAL_WRAP);
-            DataList.setVisibleRowCount(-1);
-
-            AlgorithmOutputArea = new JScrollPane(DataList);
-            AlgorithmOutputArea.setPreferredSize(new Dimension(250, 80));
-
-            //
-
             String[] columnHeaders = { "Name" , "Classification" , "AlgorithmData" };
             ReportTable = new JTable(new ReportTableModel());
             ReportData = (ReportTableModel) ReportTable.getModel();
 
             ReportTable.setPreferredScrollableViewportSize(new Dimension(500, 70));
             ReportTable.setFillsViewportHeight(true);
-
-            //Create the scroll pane and add the table to it.
-            JScrollPane scrollPane = new JScrollPane(ReportTable);
+            ReportTable.getTableHeader().setReorderingAllowed(false);
+            JScrollPane AlgorithmOutputArea = new JScrollPane(ReportTable);
 
             //Area for Buttons
 
@@ -101,7 +89,7 @@ public abstract class AnalyticsAlgorithm implements  Runnable
             //getContentPane().
             add(FilterContainer, BorderLayout.NORTH);
             //getContentPane().
-            add(scrollPane/*AlgorithmOutputArea*/, BorderLayout.CENTER);
+            add(AlgorithmOutputArea, BorderLayout.CENTER);
             //getContentPane().
             add(ButtonsArea, BorderLayout.SOUTH);
 
@@ -123,8 +111,6 @@ public abstract class AnalyticsAlgorithm implements  Runnable
         public void addEntityToReport(Entity entity, int Degree)
         {
             ReportData.add(entity, Degree);
-            Data.addElement(entity);
-            AlgorithmOutputArea.repaint();
         }
 
         //-------Action listener for load button
@@ -141,7 +127,6 @@ public abstract class AnalyticsAlgorithm implements  Runnable
         class QuitAction implements ActionListener {
             public void actionPerformed(ActionEvent e) {
                 AlgorithmDialogBox.this.ReportData.removeAll();
-                AlgorithmDialogBox.this.Data.removeAllElements();
             }
         }
 

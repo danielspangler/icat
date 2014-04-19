@@ -70,8 +70,8 @@ public class WorkSpace extends JFrame {
 
         split = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, attributePane,
                 graphComponent);
-        split.setOneTouchExpandable(true);
-        split.setDividerLocation(200);
+        split.setOneTouchExpandable(false);
+        split.setDividerLocation(300);
         split.setDividerSize(6);
         split.setBorder(null);
 
@@ -139,18 +139,6 @@ public class WorkSpace extends JFrame {
         loadItem.addActionListener(new LoadAction());
         quitItem.addActionListener(new QuitAction());
 
-
-        //Add the (unused) text area to the content pane
-        /*JPanel content = new JPanel();
-        content.setLayout(new BorderLayout());
-        content.add(contentPane, BorderLayout.CENTER);
-
-        //Add menu items to popup menu, add popup menu to text area
-        m_popup.add(new JMenuItem("Testing"));
-        contentPane.setComponentPopupMenu(m_popup);
-
-        //Set the JFrame's content pane and menu bar
-        setContentPane(content);*/
         setJMenuBar(menubar);
 
         setTitle("WorkSpace");
@@ -158,7 +146,7 @@ public class WorkSpace extends JFrame {
         setLocationRelativeTo(null);  // Center window
     }
 
-    private void updateAttributePane(JPanel newPanel)
+    public void updateAttributePane(JPanel newPanel)
     {
         split.setLeftComponent(newPanel);
     }

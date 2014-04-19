@@ -178,18 +178,12 @@ public class BasicGraphEditor extends JPanel
         outer.setDividerSize(6);
         outer.setBorder(null);
 
-        // Creates the status bar
-        statusBar = createStatusBar();
-
-        // Display some useful information about repaint events
+       // Display some useful information about repaint events
         installRepaintListener();
 
         // Puts everything together
         setLayout(new BorderLayout());
         add(graphComponent, BorderLayout.CENTER);
-        //add(statusBar, BorderLayout.SOUTH);
-
-        //installToolBar();
 
         // Installs rubberband selection and handling for some special
         // keystrokes such as F2, Control-C, -V, X, A etc.

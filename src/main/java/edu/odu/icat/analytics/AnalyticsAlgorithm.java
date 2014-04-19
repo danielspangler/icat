@@ -28,10 +28,15 @@ public abstract class AnalyticsAlgorithm implements  Runnable
         protected JButton ExportButton;
         protected JButton PrintButton;
 
+        protected JTable ReportTable;
+        protected ReportTableModel ReportData;
+
         public AlgorithmDialogBox()
         {
+
+            //Filter Selection
+
             FilterContainer = new JPanel();
-            //this.setIconImage(Toolkit.getDefaultToolkit().getImage("src/main/resources/logo.png"));
             FilterContainer.setLayout(new BoxLayout(FilterContainer, BoxLayout.PAGE_AXIS));
             FilterContainer.add(Box.createRigidArea(new Dimension(0,10)));
             FilterContainer.setBorder(BorderFactory.createEmptyBorder(10,10,10,10));
@@ -41,7 +46,9 @@ public abstract class AnalyticsAlgorithm implements  Runnable
             FilterContainer.add(visibilityCheck);
             controllabilityCheck = new JCheckBox("Controllability");
             FilterContainer.add(controllabilityCheck);
-            FilterContainer.add(new JSeparator());
+            //FilterContainer.add(new JSeparator());
+
+            //Algorithm Output
 
             Data = new DefaultListModel();
             DataList = new JList(Data); //data has type Object[]
@@ -52,6 +59,20 @@ public abstract class AnalyticsAlgorithm implements  Runnable
             AlgorithmOutputArea = new JScrollPane(DataList);
             AlgorithmOutputArea.setPreferredSize(new Dimension(250, 80));
 
+            //
+
+            String[] columnHeaders = { "Name" , "Classification" , "AlgorithmData" };
+            ReportTable = new JTable(new ReportTableModel());
+            ReportData = (ReportTableModel) ReportTable.getModel();
+
+            ReportTable.setPreferredScrollableViewportSize(new Dimension(500, 70));
+            ReportTable.setFillsViewportHeight(true);
+
+            //Create the scroll pane and add the table to it.
+            JScrollPane scrollPane = new JScrollPane(ReportTable);
+
+            //Area for Buttons
+
             JPanel ButtonsArea = new JPanel();
             ButtonsArea.setLayout(new BoxLayout(ButtonsArea, BoxLayout.LINE_AXIS));
             ButtonsArea.setBorder(BorderFactory.createEmptyBorder(0, 10, 10, 10));
@@ -61,7 +82,6 @@ public abstract class AnalyticsAlgorithm implements  Runnable
             PrintButton.setEnabled(false);
             ButtonsArea.add(PrintButton);
             ButtonsArea.add(Box.createRigidArea(new Dimension(5, 0)));
-
 
             ExportButton = new JButton("Export");
             ExportButton.setEnabled(false);
@@ -81,7 +101,7 @@ public abstract class AnalyticsAlgorithm implements  Runnable
             //getContentPane().
             add(FilterContainer, BorderLayout.NORTH);
             //getContentPane().
-            add(AlgorithmOutputArea, BorderLayout.CENTER);
+            add(scrollPane/*AlgorithmOutputArea*/, BorderLayout.CENTER);
             //getContentPane().
             add(ButtonsArea, BorderLayout.SOUTH);
 
@@ -100,8 +120,9 @@ public abstract class AnalyticsAlgorithm implements  Runnable
             return controllabilityCheck.isSelected();
         }
 
-        public void addEntityToReport(Entity entity)
+        public void addEntityToReport(Entity entity, int Degree)
         {
+            ReportData.add(entity, Degree);
             Data.addElement(entity);
             AlgorithmOutputArea.repaint();
         }
@@ -109,6 +130,7 @@ public abstract class AnalyticsAlgorithm implements  Runnable
         //-------Action listener for load button
         class RunAction implements ActionListener {
             public void actionPerformed(ActionEvent e) {
+                AlgorithmDialogBox.this.ReportData.removeAll();
                 PrintButton.setEnabled(true);
                 ExportButton.setEnabled(true);
                 AnalyticsAlgorithm.this.run();
@@ -118,6 +140,7 @@ public abstract class AnalyticsAlgorithm implements  Runnable
         //--------Action listener for exit button
         class QuitAction implements ActionListener {
             public void actionPerformed(ActionEvent e) {
+                AlgorithmDialogBox.this.ReportData.removeAll();
                 AlgorithmDialogBox.this.Data.removeAllElements();
             }
         }

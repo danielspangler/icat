@@ -61,6 +61,7 @@ public class GraphEditor extends BasicGraphEditor
 		super(appTitle, component);
 		final mxGraph graph = graphComponent.getGraph();
         graphOutline.setVisible(false);
+        graph.setAllowDanglingEdges(false);
 	}
 
 	/**

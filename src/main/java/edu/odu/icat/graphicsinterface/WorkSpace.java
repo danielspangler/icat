@@ -5,6 +5,7 @@
 package edu.odu.icat.graphicsinterface;
 
 import edu.odu.icat.analytics.AnalyticsEngine;
+import edu.odu.icat.controller.Control;
 
 import javax.swing.*;
 import java.awt.*;
@@ -135,6 +136,8 @@ public class WorkSpace extends JFrame implements Printable{
         quitItem.addActionListener(new QuitAction());
         printItem.addActionListener(new PrintAction());
         exportItem.addActionListener(new ExportAction());
+        saveItem.addActionListener(new SaveProject());
+        //saveAsItem.addActionListener(new SaveAsProject());
 
         setJMenuBar(menubar);
 
@@ -255,6 +258,35 @@ public class WorkSpace extends JFrame implements Printable{
         }
 
     }
+
+    //--------Action listener for Save button
+    class SaveProject implements ActionListener
+    {
+        public void actionPerformed (ActionEvent e)
+        {
+            JOptionPane.showMessageDialog(WorkSpace.this, "File Saved");
+            Control control = Control.getInstance();
+            control.saveProject();
+        }
+    }
+
+    //--------Action listener for Save As button
+//    class SaveAsProject implements ActionListener
+//    {
+//        public void actionPerformed (ActionEvent e)
+//        {
+//            Control control = Control.getInstance();
+//            JFileChooser chooser = new JFileChooser();
+//            FileNameExtensionFilter filter = new FileNameExtensionFilter("ICAT, pdf, JPG & GIF images");
+//            chooser.setFileFilter(filter);
+//            int returnValue = chooser.showOpenDialog(WorkSpace.this);
+//            if (returnValue == JFileChooser.SAVE_DIALOG){
+//
+//            }
+//
+//
+//        }
+//    }
 
 
 

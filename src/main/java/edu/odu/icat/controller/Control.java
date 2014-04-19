@@ -26,6 +26,7 @@ public class Control {
 
     private Control() {
         createProject();
+        loadProject("currentProject");
     }
 
 
@@ -59,6 +60,10 @@ public class Control {
     public void createProject(){
         currentProject = new Project("Untitled Project", "This is test", "Dr. Patric Hester ©");
         projectDAO.saveProject("ICAT", currentProject);
+    }
+
+    public void saveProject(){
+        projectDAO.saveProject("ToUpdate", currentProject);
     }
 
     public List<String> getEntityClassifications() {

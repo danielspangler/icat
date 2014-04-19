@@ -4,9 +4,11 @@
  */
 package edu.odu.icat.graphicsinterface;
 
-import java.awt.*;
+import edu.odu.icat.controller.Control;
+
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
@@ -57,6 +59,8 @@ public class Dashboard extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 			WorkSpace Ws = new WorkSpace();	
 			Ws.setVisible(true);
+                Control controller = Control.getInstance();
+                controller.createProject("ICAT");
         }
 		});
 		sl_contentPane.putConstraint(SpringLayout.WEST, btnNewButton, 10, SpringLayout.WEST, contentPane);

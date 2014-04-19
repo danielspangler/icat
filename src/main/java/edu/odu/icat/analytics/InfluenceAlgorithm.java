@@ -50,6 +50,7 @@ public class InfluenceAlgorithm extends AnalyticsAlgorithm
 
         for(Entity e: entities)
         {
+
             EntityWeights.put(e, 0);
         }
 

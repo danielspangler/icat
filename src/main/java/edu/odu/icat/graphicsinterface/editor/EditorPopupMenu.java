@@ -48,8 +48,7 @@ public class EditorPopupMenu extends JPopupMenu
 		addSeparator();
 
 		add(
-				editor.bind(mxResources.get("delete"), mxGraphActions
-						.getDeleteAction(),
+				editor.bind(mxResources.get("delete"), new EditorActions.DeleteVertexAction(),
 						"/com/mxgraph/examples/swing/images/delete.gif"))
 				.setEnabled(selected);
 

@@ -25,7 +25,6 @@ public class Control {
     }
 
     private Control() {
-
         createProject();
     }
 
@@ -43,7 +42,7 @@ public class Control {
         return new ArrayList<Entity>(currentProject.getEntities());
     }
 
-
+    //return the list of Forces
     public List<Force> getForces(){
 
         return new ArrayList<Force>(currentProject.getForces());
@@ -58,7 +57,8 @@ public class Control {
      * Create a new project (a single instance)
      */
     public void createProject(){
-        projectDAO.saveProject("path", currentProject);
+        currentProject = new Project("Untitled Project", "This is test", "Dr. Patric Hester ©");
+        projectDAO.saveProject("ICAT", currentProject);
     }
 
     public List<String> getEntityClassifications() {

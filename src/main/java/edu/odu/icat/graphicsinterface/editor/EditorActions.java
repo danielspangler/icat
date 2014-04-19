@@ -26,7 +26,7 @@ import com.mxgraph.util.png.mxPngEncodeParam;
 import com.mxgraph.util.png.mxPngImageEncoder;
 import com.mxgraph.util.png.mxPngTextDecoder;
 import com.mxgraph.view.mxGraph;
-import edu.odu.icat.contoller.Control;
+import edu.odu.icat.controller.Control;
 import edu.odu.icat.model.Entity;
 import edu.odu.icat.model.Location;
 import org.w3c.dom.Document;

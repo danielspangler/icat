@@ -4,26 +4,18 @@
  */
 package edu.odu.icat.graphicsinterface;
 
-import com.mxgraph.swing.mxGraphComponent;
-import edu.odu.icat.graphicsinterface.GraphEditor;
-import edu.odu.icat.analytics.AnalyticsAlgorithm;
 import edu.odu.icat.analytics.AnalyticsEngine;
 
-import java.awt.BorderLayout;
-import java.awt.EventQueue;
-
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
-import javax.swing.JScrollPane;
-import javax.swing.JToolBar;
-import javax.swing.JScrollBar;
-
-import java.awt.*;
-import java.awt.event.*;
 import javax.swing.*;
-
-import java.awt.print.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.print.PageFormat;
+import java.awt.print.Printable;
+import java.awt.print.PrinterException;
+import java.awt.print.PrinterJob;
 import java.util.List;
 
 

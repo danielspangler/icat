@@ -60,7 +60,7 @@ public class Dashboard extends JFrame {
 			WorkSpace Ws = new WorkSpace();	
 			Ws.setVisible(true);
                 Control controller = Control.getInstance();
-                controller.createProject("ICAT");
+                controller.createProject();
         }
 		});
 		sl_contentPane.putConstraint(SpringLayout.WEST, btnNewButton, 10, SpringLayout.WEST, contentPane);

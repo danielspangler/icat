@@ -1,10 +1,10 @@
 package edu.odu.icat.controller;
 
 import edu.odu.icat.model.*;
-//import edu.odu.icat.model.Project;
 import edu.odu.icat.service.ProjectDAO;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -14,20 +14,11 @@ public class Control {
 
     private static Control ourInstance = new Control();
 
-    Project currentProject = new Project("Untitled Project", "This is just a test", "Dr, Patrick Hester");
-    ProjectDAO projectDAO = new ProjectDAO();
-    Entity entity = new Entity("Entity", "Type");
-    /**
-     * Case of Multiple threads
-     * *
-     * if (ourInstance == null){
-     *     synchronized(Control.class){
-     *         if (ourInstance == null){
-     *             ourInstance = new Control();
-     *         }
-     *     }
-     * }
-     */
+    private Project currentProject;
+    private ProjectDAO projectDAO = new ProjectDAO();
+    private List<String> entityClassifications = Arrays.asList("Problem", "Stakeholder", "Objective", "Attribute", "Resource");
+
+    //private Entity entity = new Entity("Entity", "Type");
 
     public static Control getInstance() {
         return ourInstance;
@@ -35,7 +26,15 @@ public class Control {
 
     private Control() {
 
-        createProject("Path");
+        createProject();
+    }
+
+
+    public Project getCurrentProject() {
+        if (currentProject == null) {
+            currentProject = new Project("Name", "Description", "Author");
+        }
+        return currentProject;
     }
 
     //return the list of Entities
@@ -50,13 +49,25 @@ public class Control {
         return new ArrayList<Force>(currentProject.getForces());
     }
 
+    public void loadProject(String project)
+    {
+        currentProject = projectDAO.getProject(project);
+    }
+
     /**
      * Create a new project (a single instance)
      */
-    public void createProject(String path){
-        projectDAO.saveProject(path, currentProject);
+    public void createProject(){
+        projectDAO.saveProject("path", currentProject);
     }
 
+    public List<String> getEntityClassifications() {
+        return entityClassifications;
+    }
+
+    public String getDefaultEntityClassification() {
+        return entityClassifications.get(1);
+    }
 
 
 

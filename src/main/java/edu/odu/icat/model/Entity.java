@@ -22,6 +22,8 @@ public class Entity extends Base {
     public Entity(String name, String classification) {
         setName(name);
         setClassification(classification);
+        setVisible(true);
+        setControllable(true);
     }
 
     public String getName() {

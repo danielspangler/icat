@@ -151,9 +151,9 @@ public class WorkSpace extends JFrame implements Printable{
         setLocationRelativeTo(null);  // Center window
     }
 
-    public void updateAttributePane(JPanel newPanel)
+    public void updateAttributePane(JComponent newComponent)
     {
-        split.setLeftComponent(newPanel);
+        split.setLeftComponent(newComponent);
     }
 
     //kirbs stuff

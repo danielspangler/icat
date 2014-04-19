@@ -43,39 +43,51 @@ public class InfluenceAlgorithm extends AnalyticsAlgorithm
             dialog.addEntityToReport(e);
 
         Control controller = Control.getInstance();
-        List<Force> forces = controller.getForces();
+        List<Force> forces = controller.getCurrentProject().getForces();
+        List<Entity> entities = controller.getCurrentProject().getEntities();
 
-        HashMap<Entity, Integer> entities = new HashMap<Entity, Integer>();
+        Map<Entity, Integer> EntityWeights = new HashMap<Entity, Integer>();
+
+        for(Entity e: entities)
+        {
+            EntityWeights.put(e, 0);
+        }
 
         for(Force f: forces)
         {
-            if(!dialog.getVisibility() || (f.getOrigin().isVisible() && f.getDestination().isVisible()))
-            if(!dialog.getControllability() || (f.getDestination().isControllable()))
+            if(!dialog.getVisibility() || (f.getOrigin().isVisible() && f.getDestination().isVisible()))    //if filter off, both EntityWeights must be visible
+            if(!dialog.getControllability() || (f.getDestination().isControllable()))                       //if filter off, destination must be controllable
             {
-                Integer i = entities.get(f.getOrigin());
+                Integer i = EntityWeights.get(f.getOrigin());
                 i+= f.getWeight();
-                entities.put(f.getOrigin(), i);
+                EntityWeights.put(f.getOrigin(), i);
             }
         }
 
-		// Influence Algorithm in n^2 time
-		//
-		// Algorithm:  Influence Algorithm
-		// Input: ICAT Data Model with n vertices and m edges
-		// Output: Sorted List L of Entity-Influence pairs
-		// 1.	L <- Ø
-		// 2. 	for i <- 1 to n
-		// 3. 		v1 <- vi
-		// 4.		vsum <- 0
-		// 5.		for j <- 1 to n
-		// 6.			v2 <- vj
-		// 7.			if edge (v1, v2) exists
-		// 8.				vsum <- vsum + weight of edge
-		// 9.			end if
-		// 10.		end for
-		// 11.		Let p <- pair (v1, sum)
-		// 12.		Append p to L
-		// 13.	end for
-		// 14.  Sort L by sum
+        ValueComparator sort = new ValueComparator(EntityWeights);
+        Map<Entity, Integer> SortedEntites = new TreeMap<Entity, Integer>(sort);
+
+        for(Entity e : SortedEntites.keySet())
+        {
+            dialog.addEntityToReport(e);
+        }
+
 	}
+
+    class ValueComparator implements Comparator<Entity> {
+
+        Map<Entity, Integer> base;
+        public ValueComparator(Map<Entity, Integer> base) {
+            this.base = base;
+        }
+
+        // Note: this comparator imposes orderings that are inconsistent with equals.
+        public int compare(Entity a, Entity b) {
+            if (base.get(a) >= base.get(b)) {
+                return -1;
+            } else {
+                return 1;
+            } // returning 0 would merge keys
+        }
+    }
 }

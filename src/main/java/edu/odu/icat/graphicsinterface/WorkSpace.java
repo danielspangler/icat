@@ -5,6 +5,8 @@
 package edu.odu.icat.graphicsinterface;
 
 import edu.odu.icat.analytics.AnalyticsEngine;
+import edu.odu.icat.controller.Control;
+import edu.odu.icat.service.*;
 
 import javax.swing.*;
 import java.awt.*;
@@ -18,6 +20,7 @@ import java.awt.print.PrinterException;
 import java.awt.print.PrinterJob;
 import java.io.File;
 import java.util.List;
+
 
 
 public class WorkSpace extends JFrame implements Printable{
@@ -157,7 +160,7 @@ public class WorkSpace extends JFrame implements Printable{
         newPanel.setLayout(new BoxLayout(newPanel, BoxLayout.Y_AXIS));
 
         final JTextPane titlePane = new JTextPane();
-        titlePane.setSize( titlePane.getPreferredSize() );
+        titlePane.setSize(titlePane.getPreferredSize());
         newPanel.add(titlePane, newPanel);
         titlePane.setText("Title");
         titlePane.addMouseListener(new MouseAdapter() {
@@ -242,6 +245,7 @@ public class WorkSpace extends JFrame implements Printable{
             {
                 File openFils = fc.getSelectedFile();
                 // load the file here
+                Control.getInstance().loadProject(openFils.getAbsolutePath());
 
             }
         }
@@ -286,12 +290,12 @@ public class WorkSpace extends JFrame implements Printable{
 
         public void actionPerformed(ActionEvent e)
         {
+            ProjectDAO psaver = new ProjectDAO();
            // JOptionPane.showMessageDialog(WorkSpace.this, "No Files Found.");
             if (fc.showSaveDialog(WorkSpace.this) == JFileChooser.APPROVE_OPTION)
             {
                 File saveFils = fc.getSelectedFile();
-                // save the file here
-
+                psaver.saveProject(saveFils.getAbsolutePath(), edu.odu.icat.controller.Control.getInstance().getCurrentProject());
             }
         }
     }
@@ -302,12 +306,12 @@ public class WorkSpace extends JFrame implements Printable{
 
         public void actionPerformed(ActionEvent e)
         {
-            //JOptionPane.showMessageDialog(WorkSpace.this, "No Files Found.");
+            ProjectDAO psaver = new ProjectDAO();
+            // JOptionPane.showMessageDialog(WorkSpace.this, "No Files Found.");
             if (fc.showSaveDialog(WorkSpace.this) == JFileChooser.APPROVE_OPTION)
             {
                 File saveFils = fc.getSelectedFile();
-                // save the file here
-
+                psaver.saveProject(saveFils.getAbsolutePath(), edu.odu.icat.controller.Control.getInstance().getCurrentProject());
             }
         }
     }

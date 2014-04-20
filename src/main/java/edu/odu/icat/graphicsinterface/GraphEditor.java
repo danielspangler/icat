@@ -17,6 +17,7 @@ import com.mxgraph.util.mxPoint;
 import com.mxgraph.util.mxUtils;
 import com.mxgraph.view.mxCellState;
 import com.mxgraph.view.mxGraph;
+import edu.odu.icat.model.Force;
 import org.w3c.dom.Document;
 
 import javax.swing.*;
@@ -275,6 +276,7 @@ public class GraphEditor extends BasicGraphEditor
 				return edge;
 			}
 
+            System.out.println("createEdge: source = " + source + ", target=" + target);
 			return super.createEdge(parent, id, value, source, target, style);
 		}
 

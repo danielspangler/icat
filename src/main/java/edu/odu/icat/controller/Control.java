@@ -17,8 +17,8 @@ public class Control {
     private Project currentProject;
     private ProjectDAO projectDAO = new ProjectDAO();
     private List<String> entityClassifications = Arrays.asList("Problem", "Stakeholder", "Objective", "Attribute", "Resource");
-
-    //private Entity entity = new Entity("Entity", "Type");
+    private int defaultForceWeight = 1;
+    private int defaultEntityClassificationIndex = 1;
 
     public static Control getInstance() {
         return ourInstance;
@@ -66,9 +66,10 @@ public class Control {
     }
 
     public String getDefaultEntityClassification() {
-        return entityClassifications.get(1);
+        return entityClassifications.get(defaultEntityClassificationIndex);
     }
 
-
-
+    public int getDefaultForceWeight() {
+        return defaultForceWeight;
+    }
 }

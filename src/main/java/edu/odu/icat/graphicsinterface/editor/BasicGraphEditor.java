@@ -2,6 +2,8 @@ package edu.odu.icat.graphicsinterface.editor;
 
 import com.mxgraph.layout.hierarchical.mxHierarchicalLayout;
 import com.mxgraph.layout.*;
+import com.mxgraph.model.mxCell;
+import com.mxgraph.model.mxGraphModel;
 import com.mxgraph.swing.handler.mxKeyboardHandler;
 import com.mxgraph.swing.handler.mxRubberband;
 import com.mxgraph.swing.mxGraphComponent;
@@ -11,11 +13,15 @@ import com.mxgraph.util.*;
 import com.mxgraph.util.mxEventSource.mxIEventListener;
 import com.mxgraph.util.mxUndoableEdit.mxUndoableChange;
 import com.mxgraph.view.mxGraph;
+import edu.odu.icat.controller.Control;
+import edu.odu.icat.model.Entity;
+import edu.odu.icat.model.Force;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
 
 public class BasicGraphEditor extends JPanel
@@ -134,6 +140,43 @@ public class BasicGraphEditor extends JPanel
 
         // Updates the modified flag if the graph model changes
         graph.getModel().addListener(mxEvent.CHANGE, changeTracker);
+        mxIEventListener l = new mxIEventListener() {
+            @Override
+            public void invoke(Object sender, mxEventObject evt) {
+                List changes = (List)evt.getProperties().get("changes");
+                // we have changes, now let's figure out what changed
+                if (changes!=null) {
+                    List<mxGraphModel.mxTerminalChange> terminalChanges = new ArrayList<mxGraphModel.mxTerminalChange>();
+                    for (Object change : changes) {
+                        if (change instanceof mxGraphModel.mxTerminalChange) {
+                            terminalChanges.add((mxGraphModel.mxTerminalChange) change);
+                        }
+                    }
+                    if (terminalChanges.size()==2) {
+                        // there were two changes, this means we are doing an insert
+                        // NOTE: if there is a feature to swap direction, then we may need to account for that here as it may
+                        //       result in a similar change set
+                        Entity sourceEntity = null;
+                        Entity destEntity = null;
+                        if (terminalChanges.get(0).isSource()) {
+                            sourceEntity = (Entity)((mxCell)terminalChanges.get(0).getTerminal()).getValue();
+                            destEntity = (Entity)((mxCell)terminalChanges.get(1).getTerminal()).getValue();
+                        } else {
+                            sourceEntity = (Entity)((mxCell)terminalChanges.get(1).getTerminal()).getValue();
+                            destEntity = (Entity)((mxCell)terminalChanges.get(0).getTerminal()).getValue();
+                        }
+                        Force force = new Force(sourceEntity, destEntity, Control.getInstance().getDefaultForceWeight());
+                        Control.getInstance().getCurrentProject().addForce(force);
+                    } else if (terminalChanges.size()==1) {
+                        // there was one change, so this is a change of one end of the edge
+
+                    }
+                }
+
+                System.out.println(evt.getName());
+            }
+        };
+        graph.getModel().addListener(mxEvent.CHANGE, l);
 
         // Adds the command history to the model and view
         graph.getModel().addListener(mxEvent.UNDO, undoHandler);

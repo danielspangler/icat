@@ -6,6 +6,7 @@ package edu.odu.icat.graphicsinterface;
 
 import edu.odu.icat.controller.Control;
 
+
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
@@ -18,7 +19,6 @@ import java.io.IOException;
 //import com.jgoodies.forms.layout.FormLayout;
 //import com.jgoodies.forms.layout.ColumnSpec;
 //import com.jgoodies.forms.layout.RowSpec;
-
 
 public class Dashboard extends JFrame {
 
@@ -57,7 +57,8 @@ public class Dashboard extends JFrame {
 		sl_contentPane.putConstraint(SpringLayout.EAST, btnNewButton, 170, SpringLayout.WEST, contentPane);
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-			WorkSpace Ws = new WorkSpace();	
+			WorkSpace Ws = new WorkSpace();
+
 			Ws.setVisible(true);
                 Control controller = Control.getInstance();
                 controller.createProject();

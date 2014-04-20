@@ -96,7 +96,7 @@ public class EditorActions
             if (graph != null)
             {
                 mxPoint pt = getEditor(e).mouseClickLoc;
-                Entity entity = new Entity("Name" + defaultIndex, Control.getInstance().getDefaultEntityClassification());
+                Entity entity = new Entity("Name " + defaultIndex, Control.getInstance().getDefaultEntityClassification());
                 Control.getInstance().getCurrentProject().addEntity(entity);
                 entity.setLocation(new Location(pt.getX(), pt.getY()));
                 graph.insertVertex(graph.getDefaultParent(), null, entity, pt.getX(),pt.getY(), 80,

@@ -21,17 +21,22 @@ public abstract class AnalyticsAlgorithm implements  Runnable
     {
         protected JCheckBox visibilityCheck;
         protected JCheckBox controllabilityCheck;
+
         protected JPanel FilterContainer;
         protected JScrollPane AlgorithmOutputArea;
-        protected JList DataList;
-        protected DefaultListModel Data;
+
         protected JButton ExportButton;
         protected JButton PrintButton;
 
+        protected JTable ReportTable;
+        protected ReportTableModel ReportData;
+
         public AlgorithmDialogBox()
         {
+
+            //Filter Selection
+
             FilterContainer = new JPanel();
-            //this.setIconImage(Toolkit.getDefaultToolkit().getImage("src/main/resources/logo.png"));
             FilterContainer.setLayout(new BoxLayout(FilterContainer, BoxLayout.PAGE_AXIS));
             FilterContainer.add(Box.createRigidArea(new Dimension(0,10)));
             FilterContainer.setBorder(BorderFactory.createEmptyBorder(10,10,10,10));
@@ -41,16 +46,20 @@ public abstract class AnalyticsAlgorithm implements  Runnable
             FilterContainer.add(visibilityCheck);
             controllabilityCheck = new JCheckBox("Controllability");
             FilterContainer.add(controllabilityCheck);
-            FilterContainer.add(new JSeparator());
+            //FilterContainer.add(new JSeparator());
 
-            Data = new DefaultListModel();
-            DataList = new JList(Data); //data has type Object[]
-            DataList.setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
-            DataList.setLayoutOrientation(JList.HORIZONTAL_WRAP);
-            DataList.setVisibleRowCount(-1);
+            //Algorithm Output
 
-            AlgorithmOutputArea = new JScrollPane(DataList);
-            AlgorithmOutputArea.setPreferredSize(new Dimension(250, 80));
+            String[] columnHeaders = { "Name" , "Classification" , "AlgorithmData" };
+            ReportTable = new JTable(new ReportTableModel());
+            ReportData = (ReportTableModel) ReportTable.getModel();
+
+            ReportTable.setPreferredScrollableViewportSize(new Dimension(500, 70));
+            ReportTable.setFillsViewportHeight(true);
+            ReportTable.getTableHeader().setReorderingAllowed(false);
+            JScrollPane AlgorithmOutputArea = new JScrollPane(ReportTable);
+
+            //Area for Buttons
 
             JPanel ButtonsArea = new JPanel();
             ButtonsArea.setLayout(new BoxLayout(ButtonsArea, BoxLayout.LINE_AXIS));
@@ -62,7 +71,6 @@ public abstract class AnalyticsAlgorithm implements  Runnable
             ButtonsArea.add(PrintButton);
             ButtonsArea.add(Box.createRigidArea(new Dimension(5, 0)));
 
-
             ExportButton = new JButton("Export");
             ExportButton.setEnabled(false);
             ButtonsArea.add(ExportButton);
@@ -73,7 +81,7 @@ public abstract class AnalyticsAlgorithm implements  Runnable
             RunButton.addActionListener(new RunAction());
             ButtonsArea.add(Box.createRigidArea(new Dimension(5, 0)));
 
-            JButton CancelButton = new JButton("Cancel");
+            JButton CancelButton = new JButton("Clear");
             CancelButton.addActionListener(new QuitAction());
             ButtonsArea.add(CancelButton);
 
@@ -100,24 +108,25 @@ public abstract class AnalyticsAlgorithm implements  Runnable
             return controllabilityCheck.isSelected();
         }
 
-        public void addEntityToReport(Entity entity)
+        public void addEntityToReport(Entity entity, int Degree)
         {
-            Data.addElement(entity);
-            AlgorithmOutputArea.repaint();
+            ReportData.add(entity, Degree);
         }
 
         //-------Action listener for load button
         class RunAction implements ActionListener {
             public void actionPerformed(ActionEvent e) {
+                AlgorithmDialogBox.this.ReportData.removeAll();
                 PrintButton.setEnabled(true);
                 ExportButton.setEnabled(true);
+                AnalyticsAlgorithm.this.run();
             }
         }
 
         //--------Action listener for exit button
         class QuitAction implements ActionListener {
             public void actionPerformed(ActionEvent e) {
-                //AlgorithmDialogBox.this.dispose();
+                AlgorithmDialogBox.this.ReportData.removeAll();
             }
         }
 

@@ -17,8 +17,10 @@ import com.mxgraph.util.mxPoint;
 import com.mxgraph.util.mxUtils;
 import com.mxgraph.view.mxCellState;
 import com.mxgraph.view.mxGraph;
-import edu.odu.icat.model.Force;
 import org.w3c.dom.Document;
+import edu.odu.icat.model.Force;
+import com.mxgraph.util.*;
+
 
 import javax.swing.*;
 import java.awt.*;
@@ -33,6 +35,7 @@ public class GraphEditor extends BasicGraphEditor
 	 * 
 	 */
 	private static final long serialVersionUID = -4601740824088314699L;
+    public mxRectangle Rect = new mxRectangle(0,0,2500,2500);
 
 	/**
 	 * Holds the shared number formatter.
@@ -63,6 +66,8 @@ public class GraphEditor extends BasicGraphEditor
 		final mxGraph graph = graphComponent.getGraph();
         graphOutline.setVisible(false);
         graph.setAllowDanglingEdges(false);
+        graph.setMinimumGraphSize(Rect);
+      //  graph.setMaximumGraphBounds(Rect);
 	}
 
 	/**

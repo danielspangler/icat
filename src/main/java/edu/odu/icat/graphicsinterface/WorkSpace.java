@@ -4,33 +4,31 @@
  */
 package edu.odu.icat.graphicsinterface;
 
-import com.mxgraph.swing.mxGraphComponent;
-import edu.odu.icat.graphicsinterface.GraphEditor;
-import edu.odu.icat.analytics.AnalyticsAlgorithm;
 import edu.odu.icat.analytics.AnalyticsEngine;
+import edu.odu.icat.controller.Control;
+import edu.odu.icat.service.*;
+import edu.odu.icat.model.Entity;
 
-import java.awt.BorderLayout;
-import java.awt.EventQueue;
+import com.mxgraph.model.mxCell;
 
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
-import javax.swing.JScrollPane;
-import javax.swing.JToolBar;
-import javax.swing.JScrollBar;
-
-import java.awt.*;
-import java.awt.event.*;
 import javax.swing.*;
-
-import java.awt.print.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.print.PageFormat;
+import java.awt.print.Printable;
+import java.awt.print.PrinterException;
+import java.awt.print.PrinterJob;
+import java.io.File;
 import java.util.List;
 
 
 public class WorkSpace extends JFrame implements Printable{
 
 
-    protected JPanel graphComponent;
+    protected GraphEditor graphComponent;
 
     private JPanel contentPane;
     private JPanel attributePane;
@@ -77,8 +75,22 @@ public class WorkSpace extends JFrame implements Printable{
         split.setBorder(null);
 
         add(split, BorderLayout.CENTER);
-
         MenuButtons();
+
+        graphComponent.getGraphComponent().getGraphControl().addMouseListener(new MouseAdapter() {
+            @Override
+            public void mousePressed(MouseEvent e) {
+                super.mousePressed(e);
+                Object cell = graphComponent.getGraphComponent().getCellAt(e.getX(), e.getY());
+
+                if (cell != null && cell instanceof mxCell)
+                {
+                    Entity entity =(Entity) ((mxCell) cell).getValue();
+                    updateAttributePane(entityAttributes(entity));
+                }
+            }
+        });
+
 	}
 
     private JPopupMenu m_popup = new JPopupMenu();
@@ -143,6 +155,8 @@ public class WorkSpace extends JFrame implements Printable{
         quitItem.addActionListener(new QuitAction());
         printItem.addActionListener(new PrintAction());
         exportItem.addActionListener(new ExportAction());
+        saveItem.addActionListener(new SaveAction());
+        saveAsItem.addActionListener(new SaveAsAction());
 
         setJMenuBar(menubar);
 
@@ -151,17 +165,18 @@ public class WorkSpace extends JFrame implements Printable{
         setLocationRelativeTo(null);  // Center window
     }
 
-    public void updateAttributePane(JPanel newPanel)
+    public void updateAttributePane(JComponent newComponent)
     {
-        split.setLeftComponent(newPanel);
+        split.setLeftComponent(newComponent);
     }
 
-    //kirbs stuff
-    public void entitiesPane(JPanel newPanel)
+    public JPanel entityAttributes(Entity entity)
     {
+        JPanel newPanel = new JPanel();
         newPanel.setLayout(new BoxLayout(newPanel, BoxLayout.Y_AXIS));
 
         final JTextPane titlePane = new JTextPane();
+        titlePane.setSize( titlePane.getPreferredSize() );
         newPanel.add(titlePane, newPanel);
         titlePane.setText("Title");
         titlePane.addMouseListener(new MouseAdapter() {
@@ -171,27 +186,38 @@ public class WorkSpace extends JFrame implements Printable{
             }
         });
 
-        JMenuItem attribute = new JMenuItem("Attribute");
-        JMenuItem problem = new JMenuItem("Problem");
-        JMenuItem resource = new JMenuItem("Resource");
-        JMenuItem stakeholder = new JMenuItem("Stakeholder");
-        JMenuItem objective = new JMenuItem("Objective");
+        newPanel.add(Box.createVerticalGlue());
 
         JMenuBar bar = new JMenuBar();
         JMenu entityTypeMenu = new JMenu("Type");
         bar.add(entityTypeMenu);
-        entityTypeMenu.add(attribute);
-        entityTypeMenu.add(objective);
-        entityTypeMenu.add(problem);
-        entityTypeMenu.add(resource);
-        entityTypeMenu.add(stakeholder);
-        newPanel.add(bar, newPanel);
 
-        JTextField metaDataTextArea = new JTextField(20);
-        newPanel.add(metaDataTextArea, newPanel);
+        for(String s: edu.odu.icat.controller.Control.getInstance().getEntityClassifications())
+        {
+            entityTypeMenu.add(new JMenuItem(s));
+        }
+
+        newPanel.add(bar);
+        newPanel.add(Box.createVerticalGlue());
+        JTextField metaDataTextArea = new JTextField("",20);
+        newPanel.add(metaDataTextArea);
+
+        newPanel.add(Box.createVerticalGlue());
+
+        JCheckBox noncontrolCheckBox = new JCheckBox("Non-Controllable");
+        JCheckBox nonvisibleCheckBox = new JCheckBox("Non-Visible");
+
+        newPanel.add(nonvisibleCheckBox);
+        newPanel.add(noncontrolCheckBox);
+
+        newPanel.add(new JSeparator());
 
         JButton deleteButton = new JButton("Delete");
         newPanel.add(deleteButton, newPanel);
+
+        setVisible(true);
+
+        return newPanel;
     }
 
     public int print(Graphics g, PageFormat pf, int page) throws
@@ -226,8 +252,18 @@ public class WorkSpace extends JFrame implements Printable{
 
     //-------Action listener for load button
     class LoadAction implements ActionListener {
-        public void actionPerformed(ActionEvent e) {
-            JOptionPane.showMessageDialog(WorkSpace.this, "No Files Found.");
+        JFileChooser fc = new JFileChooser();
+
+        public void actionPerformed(ActionEvent e)
+        {
+            //JOptionPane.showMessageDialog(WorkSpace.this, "No Files Found.");
+            if (fc.showOpenDialog(WorkSpace.this) == JFileChooser.APPROVE_OPTION)
+            {
+                File openFils = fc.getSelectedFile();
+                // load the file here
+                Control.getInstance().loadProject(openFils.getAbsolutePath());
+
+            }
         }
     }
 
@@ -264,6 +300,37 @@ public class WorkSpace extends JFrame implements Printable{
 
     }
 
+    //-------Action listener for save button
+    class SaveAction implements ActionListener {
+        JFileChooser fc = new JFileChooser();
+
+        public void actionPerformed(ActionEvent e)
+        {
+            ProjectDAO psaver = new ProjectDAO();
+           // JOptionPane.showMessageDialog(WorkSpace.this, "No Files Found.");
+            if (fc.showSaveDialog(WorkSpace.this) == JFileChooser.APPROVE_OPTION)
+            {
+                File saveFils = fc.getSelectedFile();
+                psaver.saveProject(saveFils.getAbsolutePath(), edu.odu.icat.controller.Control.getInstance().getCurrentProject());
+            }
+        }
+    }
+
+    //-------Action listener for save as button
+    class SaveAsAction implements ActionListener {
+        JFileChooser fc = new JFileChooser();
+
+        public void actionPerformed(ActionEvent e)
+        {
+            ProjectDAO psaver = new ProjectDAO();
+            // JOptionPane.showMessageDialog(WorkSpace.this, "No Files Found.");
+            if (fc.showSaveDialog(WorkSpace.this) == JFileChooser.APPROVE_OPTION)
+            {
+                File saveFils = fc.getSelectedFile();
+                psaver.saveProject(saveFils.getAbsolutePath(), edu.odu.icat.controller.Control.getInstance().getCurrentProject());
+            }
+        }
+    }
 
 
 }

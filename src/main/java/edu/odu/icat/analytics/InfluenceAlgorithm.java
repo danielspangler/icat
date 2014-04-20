@@ -1,6 +1,7 @@
 package edu.odu.icat.analytics;
 
-import edu.odu.icat.model.Entity;
+import edu.odu.icat.model.*;
+import edu.odu.icat.controller.*;
 
 import java.util.*;
 
@@ -24,46 +25,64 @@ public class InfluenceAlgorithm extends AnalyticsAlgorithm
 
     public void run()
 	{
+        List<Force> forces = Control.getInstance().getCurrentProject().getForces();
+        List<Entity> entities = Control.getInstance().getCurrentProject().getEntities();
+
+        Map<Entity, Integer> EntityWeights = new HashMap<Entity, Integer>();
 
 
-        List<Entity> OutputData = new ArrayList<Entity>();
-        OutputData.add(new Entity("Brandon", "Problem"));  //Lol
-        OutputData.add(new Entity("Stephen", "Resource"));
-        OutputData.add(new Entity("Kirby", "Stakeholder"));
-        OutputData.add(new Entity("Abdul", "Objective"));
-        OutputData.add(new Entity("Chris", "Resource"));
-        OutputData.add(new Entity("Daniel", "Stakeholder"));
-        OutputData.add(new Entity("Daniel", "Stakeholder"));
-        OutputData.add(new Entity("Daniel", "Stakeholder"));
-        OutputData.add(new Entity("Daniel", "Stakeholder"));
-        OutputData.add(new Entity("Daniel", "Stakeholder"));
+        EntityWeights.put(new Entity("Brandon", "Problem"), 3);  //Lol
+        EntityWeights.put(new Entity("Stephen", "Resource"), 0);
+        EntityWeights.put(new Entity("Kirby", "Stakeholder"), 2);
+        EntityWeights.put(new Entity("Abdul", "Objective"), 3);
+        EntityWeights.put(new Entity("Chris", "Resource"), 1);
+        EntityWeights.put(new Entity("Daniel", "Stakeholder"), 5);
+        EntityWeights.put(new Entity("Daniel", "Stakeholder"), 8);
+        EntityWeights.put(new Entity("Daniel", "Stakeholder"), 3);
+        EntityWeights.put(new Entity("Daniel", "Stakeholder"), 1);
+        EntityWeights.put(new Entity("Daniel", "Stakeholder"), 4);
+        
+        for(Entity e: entities)     //Initialize
+        {
+            EntityWeights.put(e, 0);
+        }
 
+        for(Force f: forces)
+        {
+            if(!dialog.getVisibility() || (f.getOrigin().isVisible() && f.getDestination().isVisible()))    //if filter off, both EntityWeights must be visible
+            if(!dialog.getControllability() || (f.getDestination().isControllable()))                       //if filter off, destination must be controllable
+            {
+                Integer i = EntityWeights.get(f.getOrigin());
+                i+= f.getWeight();
+                EntityWeights.put(f.getOrigin(), i);
+            }
+        }
 
-//        for(Entity e: OutputData)
-//        adb.addEntityToReport(e);
-//        JOptionPane.showMessageDialog(new JFrame(), "Algorithm finished");
-//
-//        System.out.println(adb.getVisibility());
-//        System.out.println(adb.getControllability());
+        ValueComparator sort = new ValueComparator(EntityWeights);
+        Map<Entity, Integer> SortedEntites = new TreeMap<Entity, Integer>(sort);
+        SortedEntites.putAll(EntityWeights);
 
-		// Influence Algorithm in n^2 time
-		//
-		// Algorithm:  Influence Algorithm
-		// Input: ICAT Data Model with n vertices and m edges
-		// Output: Sorted List L of Entity-Influence pairs
-		// 1.	L <- Ø
-		// 2. 	for i <- 1 to n
-		// 3. 		v1 <- vi
-		// 4.		vsum <- 0
-		// 5.		for j <- 1 to n
-		// 6.			v2 <- vj
-		// 7.			if edge (v1, v2) exists
-		// 8.				vsum <- vsum + weight of edge
-		// 9.			end if
-		// 10.		end for
-		// 11.		Let p <- pair (v1, sum)
-		// 12.		Append p to L
-		// 13.	end for
-		// 14.  Sort L by sum
+        for(java.util.Map.Entry<Entity, Integer> e : SortedEntites.entrySet())
+        {
+            dialog.addEntityToReport(e.getKey(), e.getValue());
+        }
+
 	}
+
+    class ValueComparator implements Comparator<Entity> {
+
+        Map<Entity, Integer> base;
+        public ValueComparator(Map<Entity, Integer> base) {
+            this.base = base;
+        }
+
+        // Note: this comparator imposes orderings that are inconsistent with equals.
+        public int compare(Entity a, Entity b) {
+            if (base.get(a) >= base.get(b)) {
+                return -1;
+            } else {
+                return 1;
+            } // returning 0 would merge keys
+        }
+    }
 }

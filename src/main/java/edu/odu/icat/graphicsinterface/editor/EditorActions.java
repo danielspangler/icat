@@ -26,7 +26,7 @@ import com.mxgraph.util.png.mxPngEncodeParam;
 import com.mxgraph.util.png.mxPngImageEncoder;
 import com.mxgraph.util.png.mxPngTextDecoder;
 import com.mxgraph.view.mxGraph;
-import edu.odu.icat.contoller.Control;
+import edu.odu.icat.controller.Control;
 import edu.odu.icat.model.Entity;
 import edu.odu.icat.model.Location;
 import org.w3c.dom.Document;
@@ -104,6 +104,23 @@ public class EditorActions
             }
         }
 
+    }
+
+    public static class DeleteVertexAction extends AbstractAction
+    {
+        public void actionPerformed(ActionEvent e)
+        {
+            mxGraph graph = getEditor(e).getGraphComponent().getGraph();
+            if (graph != null) {
+                Object[] cells = graph.removeCells();
+
+                for (int i = 0; i < cells.length; i++)
+                {
+                    mxCell cell = (mxCell) cells[i];
+                    Control.getInstance().getCurrentProject().removeEntity((Entity) cell.getValue());
+                }
+            }
+        }
     }
 
     public static class TestAction extends AbstractAction {

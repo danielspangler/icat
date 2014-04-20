@@ -3,6 +3,8 @@ package edu.odu.icat.model;
 import static com.google.common.base.Preconditions.*;
 import static com.google.common.base.Strings.*;
 
+import edu.odu.icat.controller.Control;
+
 /**
  * Represents an Entity in a problem domain.
  */
@@ -12,6 +14,8 @@ public class Entity extends Base {
     private String classification;
     private Location location;
     private String notes;
+    private boolean controllable;
+    private boolean visible;
 
     /** DO NOT USE: this is only for serialization purposes **/
     Entity(){}
@@ -19,6 +23,8 @@ public class Entity extends Base {
     public Entity(String name, String classification) {
         setName(name);
         setClassification(classification);
+        setVisible(true);
+        setControllable(true);
     }
 
     public String getName() {
@@ -53,6 +59,22 @@ public class Entity extends Base {
 
     public void setNotes(String notes) {
         this.notes = notes;
+    }
+
+    public boolean isControllable() {
+        return controllable;
+    }
+
+    public void setControllable(boolean controllable) {
+        this.controllable = controllable;
+    }
+
+    public boolean isVisible() {
+        return visible;
+    }
+
+    public void setVisible(boolean visible) {
+        this.visible = visible;
     }
 
     @Override

@@ -16,10 +16,19 @@ public class ModelView extends JFrame{
     protected JTable EntityViewTable;
     protected EntityViewTableModel EntityViewData;
 
+    protected JTable ForceViewTable;
+    protected ForceViewTableModel ForceViewData;
+
     protected JButton RefreshButton;
 
     public ModelView()
     {
+        JPanel TablePanel = new JPanel();
+        TablePanel.setLayout(new BoxLayout(TablePanel, BoxLayout.Y_AXIS));
+        TablePanel.setBorder(BorderFactory.createEmptyBorder(0, 10, 10, 10));
+        TablePanel.add(Box.createVerticalGlue());
+
+
         EntityViewTable = new JTable(new EntityViewTableModel());
         EntityViewData = (EntityViewTableModel) EntityViewTable.getModel();
 
@@ -28,8 +37,24 @@ public class ModelView extends JFrame{
         EntityViewTable.getTableHeader().setReorderingAllowed(false);
         JScrollPane EntityViewPane = new JScrollPane(EntityViewTable);
 
+
+        TablePanel.add(new JLabel("Entities"));
+        TablePanel.add(EntityViewPane);
+        TablePanel.add(new JSeparator());
+
+        ForceViewTable = new JTable(new ForceViewTableModel());
+        ForceViewData = (ForceViewTableModel) ForceViewTable.getModel();
+
+        ForceViewTable.setPreferredScrollableViewportSize(new Dimension(500, 70));
+        ForceViewTable.setFillsViewportHeight(true);
+        ForceViewTable.getTableHeader().setReorderingAllowed(false);
+        JScrollPane ForceViewPane = new JScrollPane(ForceViewTable);
+
+        TablePanel.add(new JLabel("Forces"));
+        TablePanel.add(ForceViewPane);
+
         setLayout(new BorderLayout());
-        add(EntityViewPane, BorderLayout.CENTER);
+        add(TablePanel, BorderLayout.CENTER);
 
         JPanel ButtonsArea = new JPanel();
         ButtonsArea.setLayout(new BoxLayout(ButtonsArea, BoxLayout.LINE_AXIS));
@@ -47,6 +72,13 @@ public class ModelView extends JFrame{
                 {
                     EntityViewData.add(e);
                 }
+
+                ForceViewData.removeAll();
+
+                for(Force f: Control.getInstance().getCurrentProject().getForces())
+                {
+                    ForceViewData.add(f);
+                }
             }
         });
 
@@ -54,6 +86,8 @@ public class ModelView extends JFrame{
 
         add(ButtonsArea, BorderLayout.SOUTH);
 
+        pack();
+        setTitle("ICAT Data Model View");
         setVisible(true);
     }
 }

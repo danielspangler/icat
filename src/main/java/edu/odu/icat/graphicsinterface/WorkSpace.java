@@ -195,6 +195,10 @@ public class WorkSpace extends JFrame implements Printable{
             return NO_SUCH_PAGE;
         }
 
+
+//        graphComponent.getGraphComponent().getGraph();
+//        graphComponent.getGraphComponent().print(g);
+
         /* User (0,0) is typically outside the imageable area, so we must
          * translate by the X and Y values in the PageFormat to avoid clipping
          */

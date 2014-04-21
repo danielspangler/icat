@@ -12,7 +12,6 @@ import javax.swing.table.*;
 public class ReportTableModel extends AbstractTableModel {
     private String[] columnNames = {"Name", "Classification", "Degree"};
 
-
     private List<Entity> reportEntities;
     private List<Integer> entityDegrees;
 
@@ -59,6 +58,12 @@ public class ReportTableModel extends AbstractTableModel {
         {
             remove(reportEntities.get(i));
         }
+    }
+
+    public void setReportDataHeader(String degree)
+    {
+        columnNames[2] = degree;
+        fireTableStructureChanged();
     }
 
     public Object getValueAt(int rowIndex, int columnIndex) {

@@ -13,16 +13,25 @@ public class InfluenceAlgorithm extends AnalyticsAlgorithm
         dialog = new AlgorithmDialogBox();
     }
 
+    @Override
     public String getName()
     {
         return "Influence Algorithm";
     }
 
+    @Override
+    public String getReportOutputHeader()
+    {
+        return "Influence";
+    }
+
+    @Override
     public AlgorithmDialogBox getAlgorithmDialogBox()
     {
         return dialog;
     }
 
+    @Override
     public void run()
 	{
         List<Force> forces = Control.getInstance().getCurrentProject().getForces();

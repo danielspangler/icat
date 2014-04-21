@@ -14,19 +14,28 @@ public class ProminenceAlgorithm extends AnalyticsAlgorithm
 {
     public ProminenceAlgorithm()
     {
-        dialog = new ProminenceAlgorithmDialogBox();
+        dialog = new AlgorithmDialogBox();
     }
 
+    @Override
     public String getName()
     {
         return "Prominence Algorithm";
     }
 
+    @Override
+    public String getReportOutputHeader()
+    {
+        return "Prominence";
+    }
+
+    @Override
     public AlgorithmDialogBox getAlgorithmDialogBox()
     {
         return dialog;
     }
 
+    @Override
     public void run()
     {
         java.util.List<Force> forces = Control.getInstance().getCurrentProject().getForces();
@@ -76,18 +85,6 @@ public class ProminenceAlgorithm extends AnalyticsAlgorithm
             } else {
                 return 1;
             } // returning 0 would merge keys
-        }
-    }
-
-    public class ProminenceAlgorithmDialogBox extends AnalyticsAlgorithm.AlgorithmDialogBox
-    {
-        protected  JCheckBox SomeotherCriteria;
-        public ProminenceAlgorithmDialogBox()
-        {
-            super();
-            SomeotherCriteria = new JCheckBox("Hello");
-            FilterContainer.add(SomeotherCriteria, BorderLayout.CENTER);
-            setVisible(true);
         }
     }
 }

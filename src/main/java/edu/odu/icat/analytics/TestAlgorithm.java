@@ -6,16 +6,25 @@ import java.awt.*;
 
 public class TestAlgorithm extends AnalyticsAlgorithm
 {
+    @Override
     public String getName()
     {
         return "Test Algorithm";
     }
 
+    @Override
+    public String getReportOutputHeader()
+    {
+        return "Amazingness";
+    }
+
+    @Override
     public AlgorithmDialogBox getAlgorithmDialogBox()
     {
         return new TestAlgorithmDialogBox();
     }
 
+    @Override
     public void run()
     {
         new TestAlgorithmDialogBox();

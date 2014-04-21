@@ -58,7 +58,6 @@ public class Dashboard extends JFrame {
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 			WorkSpace Ws = new WorkSpace();
-
 			Ws.setVisible(true);
                 Control controller = Control.getInstance();
                 controller.createProject();

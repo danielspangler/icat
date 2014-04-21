@@ -6,10 +6,7 @@ package edu.odu.icat.graphicsinterface;
 
 import edu.odu.icat.analytics.AnalyticsEngine;
 import edu.odu.icat.controller.Control;
-import edu.odu.icat.service.*;
-import edu.odu.icat.model.Entity;
-
-import com.mxgraph.model.mxCell;
+import edu.odu.icat.service.ProjectDAO;
 
 import javax.swing.*;
 import java.awt.*;
@@ -28,7 +25,7 @@ import java.util.List;
 public class WorkSpace extends JFrame implements Printable{
 
 
-    protected GraphEditor graphComponent;
+    protected JPanel graphComponent;
 
     private JPanel contentPane;
     private JPanel attributePane;
@@ -75,22 +72,8 @@ public class WorkSpace extends JFrame implements Printable{
         split.setBorder(null);
 
         add(split, BorderLayout.CENTER);
+        updateAttributePane(entityAttributes());
         MenuButtons();
-
-        graphComponent.getGraphComponent().getGraphControl().addMouseListener(new MouseAdapter() {
-            @Override
-            public void mousePressed(MouseEvent e) {
-                super.mousePressed(e);
-                Object cell = graphComponent.getGraphComponent().getCellAt(e.getX(), e.getY());
-
-                if (cell != null && cell instanceof mxCell)
-                {
-                    Entity entity =(Entity) ((mxCell) cell).getValue();
-                    updateAttributePane(entityAttributes(entity));
-                }
-            }
-        });
-
 	}
 
     private JPopupMenu m_popup = new JPopupMenu();
@@ -170,13 +153,12 @@ public class WorkSpace extends JFrame implements Printable{
         split.setLeftComponent(newComponent);
     }
 
-    public JPanel entityAttributes(Entity entity)
+    public JPanel entityAttributes()
     {
         JPanel newPanel = new JPanel();
         newPanel.setLayout(new BoxLayout(newPanel, BoxLayout.Y_AXIS));
 
         final JTextPane titlePane = new JTextPane();
-        titlePane.setSize( titlePane.getPreferredSize() );
         newPanel.add(titlePane, newPanel);
         titlePane.setText("Title");
         titlePane.addMouseListener(new MouseAdapter() {
@@ -185,8 +167,6 @@ public class WorkSpace extends JFrame implements Printable{
                 titlePane.setText("");
             }
         });
-
-        newPanel.add(Box.createVerticalGlue());
 
         JMenuBar bar = new JMenuBar();
         JMenu entityTypeMenu = new JMenu("Type");
@@ -197,25 +177,13 @@ public class WorkSpace extends JFrame implements Printable{
             entityTypeMenu.add(new JMenuItem(s));
         }
 
-        newPanel.add(bar);
-        newPanel.add(Box.createVerticalGlue());
-        JTextField metaDataTextArea = new JTextField("",20);
-        newPanel.add(metaDataTextArea);
+        newPanel.add(bar, newPanel);
 
-        newPanel.add(Box.createVerticalGlue());
-
-        JCheckBox noncontrolCheckBox = new JCheckBox("Non-Controllable");
-        JCheckBox nonvisibleCheckBox = new JCheckBox("Non-Visible");
-
-        newPanel.add(nonvisibleCheckBox);
-        newPanel.add(noncontrolCheckBox);
-
-        newPanel.add(new JSeparator());
+        JTextField metaDataTextArea = new JTextField(20);
+        newPanel.add(metaDataTextArea, newPanel);
 
         JButton deleteButton = new JButton("Delete");
         newPanel.add(deleteButton, newPanel);
-
-        setVisible(true);
 
         return newPanel;
     }
@@ -300,14 +268,14 @@ public class WorkSpace extends JFrame implements Printable{
 
     }
 
-    //-------Action listener for save button
+    //--------Action listener for Save button
     class SaveAction implements ActionListener {
         JFileChooser fc = new JFileChooser();
 
         public void actionPerformed(ActionEvent e)
         {
             ProjectDAO psaver = new ProjectDAO();
-           // JOptionPane.showMessageDialog(WorkSpace.this, "No Files Found.");
+            // JOptionPane.showMessageDialog(WorkSpace.this, "No Files Found.");
             if (fc.showSaveDialog(WorkSpace.this) == JFileChooser.APPROVE_OPTION)
             {
                 File saveFils = fc.getSelectedFile();

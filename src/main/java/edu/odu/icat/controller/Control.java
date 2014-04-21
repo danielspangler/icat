@@ -31,7 +31,7 @@ public class Control {
 
     private Control() {
         createProject();
-        loadProject("currentProject");
+        //loadProject("currentProject");
     }
 
 
@@ -63,7 +63,7 @@ public class Control {
      * Create a new project (a single instance)
      */
     public void createProject(){
-        currentProject = new Project("Untitled Project", "This is test", "Dr. Patric Hester ©");
+        currentProject = new Project("Untitled Project", "This is test", "Dr. Patric Hester ©.");
         projectDAO.saveProject("ICAT", currentProject);
     }
 

@@ -1,5 +1,7 @@
 package edu.odu.icat.controller;
 
+import edu.odu.icat.testingdashboard.ModelView;
+
 import com.mxgraph.model.mxCell;
 import com.mxgraph.model.mxGraphModel;
 import com.mxgraph.util.mxEventObject;
@@ -31,7 +33,7 @@ public class Control {
 
     private Control() {
         createProject();
-        //loadProject("currentProject");
+        new ModelView();
     }
 
 
@@ -57,19 +59,17 @@ public class Control {
     public void loadProject(String project)
     {
         currentProject = projectDAO.getProject(project);
+        //We need to make the Diagram reflect data model on load
+        //Also reset default naming
     }
 
     /**
      * Create a new project (a single instance)
      */
     public void createProject(){
-        currentProject = new Project("Untitled Project", "This is test", "Dr. Patric Hester ©.");
+        currentProject = new Project("Untitled Project", "This is test", "Dr. Patric Hester ©");
         projectDAO.saveProject("ICAT", currentProject);
     }
-
-//    public void saveProject(){
-//        projectDAO.saveProject("ToUpdate", currentProject);
-//    }
 
     public List<String> getEntityClassifications() {
         return entityClassifications;

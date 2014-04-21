@@ -140,43 +140,7 @@ public class BasicGraphEditor extends JPanel
 
         // Updates the modified flag if the graph model changes
         graph.getModel().addListener(mxEvent.CHANGE, changeTracker);
-        mxIEventListener l = new mxIEventListener() {
-            @Override
-            public void invoke(Object sender, mxEventObject evt) {
-                List changes = (List)evt.getProperties().get("changes");
-                // we have changes, now let's figure out what changed
-                if (changes!=null) {
-                    List<mxGraphModel.mxTerminalChange> terminalChanges = new ArrayList<mxGraphModel.mxTerminalChange>();
-                    for (Object change : changes) {
-                        if (change instanceof mxGraphModel.mxTerminalChange) {
-                            terminalChanges.add((mxGraphModel.mxTerminalChange) change);
-                        }
-                    }
-                    if (terminalChanges.size()==2) {
-                        // there were two changes, this means we are doing an insert
-                        // NOTE: if there is a feature to swap direction, then we may need to account for that here as it may
-                        //       result in a similar change set
-                        Entity sourceEntity = null;
-                        Entity destEntity = null;
-                        if (terminalChanges.get(0).isSource()) {
-                            sourceEntity = (Entity)((mxCell)terminalChanges.get(0).getTerminal()).getValue();
-                            destEntity = (Entity)((mxCell)terminalChanges.get(1).getTerminal()).getValue();
-                        } else {
-                            sourceEntity = (Entity)((mxCell)terminalChanges.get(1).getTerminal()).getValue();
-                            destEntity = (Entity)((mxCell)terminalChanges.get(0).getTerminal()).getValue();
-                        }
-                        Force force = new Force(sourceEntity, destEntity, Control.getInstance().getDefaultForceWeight());
-                        Control.getInstance().getCurrentProject().addForce(force);
-                    } else if (terminalChanges.size()==1) {
-                        // there was one change, so this is a change of one end of the edge
-
-                    }
-                }
-
-                System.out.println(evt.getName());
-            }
-        };
-        graph.getModel().addListener(mxEvent.CHANGE, l);
+        graph.getModel().addListener(mxEvent.CHANGE, Control.getInstance().getGraphEventListener());
 
         // Adds the command history to the model and view
         graph.getModel().addListener(mxEvent.UNDO, undoHandler);

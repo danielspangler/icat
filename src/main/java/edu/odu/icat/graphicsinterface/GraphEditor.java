@@ -146,6 +146,7 @@ public class GraphEditor extends BasicGraphEditor
 	 */
 	public static class CustomGraph extends mxGraph
 	{
+
 		/**
 		 * Holds the edge to be used as a template for inserting new edges.
 		 */
@@ -280,7 +281,6 @@ public class GraphEditor extends BasicGraphEditor
 
 				return edge;
 			}
-
             System.out.println("createEdge: source = " + source + ", target=" + target);
 			return super.createEdge(parent, id, value, source, target, style);
 		}

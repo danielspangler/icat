@@ -67,9 +67,9 @@ public class Control {
         projectDAO.saveProject("ICAT", currentProject);
     }
 
-    public void saveProject(){
-        projectDAO.saveProject("ToUpdate", currentProject);
-    }
+//    public void saveProject(){
+//        projectDAO.saveProject("ToUpdate", currentProject);
+//    }
 
     public List<String> getEntityClassifications() {
         return entityClassifications;

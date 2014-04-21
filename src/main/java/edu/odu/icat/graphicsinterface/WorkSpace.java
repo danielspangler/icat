@@ -6,7 +6,10 @@ package edu.odu.icat.graphicsinterface;
 
 import edu.odu.icat.analytics.AnalyticsEngine;
 import edu.odu.icat.controller.Control;
-import edu.odu.icat.service.ProjectDAO;
+import edu.odu.icat.service.*;
+import edu.odu.icat.model.Entity;
+
+import com.mxgraph.model.mxCell;
 
 import javax.swing.*;
 import java.awt.*;
@@ -25,36 +28,36 @@ import java.util.List;
 public class WorkSpace extends JFrame implements Printable{
 
 
-    protected JPanel graphComponent;
+    protected GraphEditor graphComponent;
 
     private JPanel contentPane;
     private JPanel attributePane;
     private JSplitPane split;
 
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					WorkSpace frame = new WorkSpace();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
+    /**
+     * Launch the application.
+     */
+    public static void main(String[] args) {
+        EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                try {
+                    WorkSpace frame = new WorkSpace();
+                    frame.setVisible(true);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+    }
 
-	/**
-	 * Create the frame.
-	 */
-	public WorkSpace() {
-		setTitle("Workspace");
+    /**
+     * Create the frame.
+     */
+    public WorkSpace() {
+        setTitle("Workspace");
         this.setIconImage(Toolkit.getDefaultToolkit().getImage("src/main/resources/logo.png"));
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 850, 600);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setBounds(100, 100, 850, 600);
 
 
 
@@ -72,12 +75,26 @@ public class WorkSpace extends JFrame implements Printable{
         split.setBorder(null);
 
         add(split, BorderLayout.CENTER);
-        updateAttributePane(entityAttributes());
         MenuButtons();
-	}
+
+        graphComponent.getGraphComponent().getGraphControl().addMouseListener(new MouseAdapter() {
+            @Override
+            public void mousePressed(MouseEvent e) {
+                super.mousePressed(e);
+                Object cell = graphComponent.getGraphComponent().getCellAt(e.getX(), e.getY());
+
+                if (cell != null && cell instanceof mxCell)
+                {
+                    Entity entity =(Entity) ((mxCell) cell).getValue();
+                    updateAttributePane(entityAttributes(entity));
+                }
+            }
+        });
+
+    }
 
     private JPopupMenu m_popup = new JPopupMenu();
-    
+
     public void MenuButtons() {
 
 
@@ -93,45 +110,45 @@ public class WorkSpace extends JFrame implements Printable{
             reportsMenu.add(temp);
             temp.addActionListener(new ActionListener() {
                 public void actionPerformed(ActionEvent e) {
-                   updateAttributePane(AnalyticsEngine.getInstance().getAlgorithmDialog(name));
+                    updateAttributePane(AnalyticsEngine.getInstance().getAlgorithmDialog(name));
                 }
             });
         }
 
         JMenuItem saveItem = new JMenuItem("Save");
-            saveItem.setMnemonic('S');
-            saveItem.setAccelerator(KeyStroke.getKeyStroke("control S"));
+        saveItem.setMnemonic('S');
+        saveItem.setAccelerator(KeyStroke.getKeyStroke("control S"));
         JMenuItem saveAsItem = new JMenuItem("Save As");
-            saveAsItem.setMnemonic('A');
-            saveAsItem.setAccelerator(KeyStroke.getKeyStroke("control A"));
+        saveAsItem.setMnemonic('A');
+        saveAsItem.setAccelerator(KeyStroke.getKeyStroke("control A"));
         JMenuItem loadItem = new JMenuItem("Load");
-            loadItem.setMnemonic('L');
-            loadItem.setAccelerator(KeyStroke.getKeyStroke("control L"));
+        loadItem.setMnemonic('L');
+        loadItem.setAccelerator(KeyStroke.getKeyStroke("control L"));
         JMenuItem exportItem = new JMenuItem("Export");
-            exportItem.setMnemonic('E');
-            exportItem.setAccelerator(KeyStroke.getKeyStroke("control E"));
+        exportItem.setMnemonic('E');
+        exportItem.setAccelerator(KeyStroke.getKeyStroke("control E"));
         JMenuItem printItem = new JMenuItem("Print");
-            printItem.setMnemonic('P');
-            printItem.setAccelerator(KeyStroke.getKeyStroke("control P")); 
+        printItem.setMnemonic('P');
+        printItem.setAccelerator(KeyStroke.getKeyStroke("control P"));
         JMenuItem quitItem = new JMenuItem("Exit");
-            quitItem.setMnemonic('X');
-            quitItem.setAccelerator(KeyStroke.getKeyStroke("control X"));
+        quitItem.setMnemonic('X');
+        quitItem.setAccelerator(KeyStroke.getKeyStroke("control X"));
 
         //Build  menubar, menus, and add menuitems.
         JMenuBar menubar = new JMenuBar();  // Create new menu bar
-            JMenu fileMenu = new JMenu("File"); // Create new menu
-                fileMenu.setMnemonic('F');
-                menubar.add(fileMenu);      // Add menu to the menubar
-                fileMenu.add(saveItem);     // Add menu item to the menu
-                fileMenu.add(saveAsItem);
-                fileMenu.add(loadItem);
-                fileMenu.add(exportItem);
-                fileMenu.add(printItem);
-                fileMenu.addSeparator();    // Add separator line to menu
-                fileMenu.add(quitItem);
+        JMenu fileMenu = new JMenu("File"); // Create new menu
+        fileMenu.setMnemonic('F');
+        menubar.add(fileMenu);      // Add menu to the menubar
+        fileMenu.add(saveItem);     // Add menu item to the menu
+        fileMenu.add(saveAsItem);
+        fileMenu.add(loadItem);
+        fileMenu.add(exportItem);
+        fileMenu.add(printItem);
+        fileMenu.addSeparator();    // Add separator line to menu
+        fileMenu.add(quitItem);
 
-                fileMenu.setMnemonic('R');
-                menubar.add(reportsMenu);
+        fileMenu.setMnemonic('R');
+        menubar.add(reportsMenu);
 
         //Add listeners to menu items
         loadItem.addActionListener(new LoadAction());
@@ -153,12 +170,13 @@ public class WorkSpace extends JFrame implements Printable{
         split.setLeftComponent(newComponent);
     }
 
-    public JPanel entityAttributes()
+    public JPanel entityAttributes(Entity entity)
     {
         JPanel newPanel = new JPanel();
         newPanel.setLayout(new BoxLayout(newPanel, BoxLayout.Y_AXIS));
 
         final JTextPane titlePane = new JTextPane();
+        titlePane.setSize( titlePane.getPreferredSize() );
         newPanel.add(titlePane, newPanel);
         titlePane.setText("Title");
         titlePane.addMouseListener(new MouseAdapter() {
@@ -167,6 +185,8 @@ public class WorkSpace extends JFrame implements Printable{
                 titlePane.setText("");
             }
         });
+
+        newPanel.add(Box.createVerticalGlue());
 
         JMenuBar bar = new JMenuBar();
         JMenu entityTypeMenu = new JMenu("Type");
@@ -177,13 +197,25 @@ public class WorkSpace extends JFrame implements Printable{
             entityTypeMenu.add(new JMenuItem(s));
         }
 
-        newPanel.add(bar, newPanel);
+        newPanel.add(bar);
+        newPanel.add(Box.createVerticalGlue());
+        JTextField metaDataTextArea = new JTextField("",20);
+        newPanel.add(metaDataTextArea);
 
-        JTextField metaDataTextArea = new JTextField(20);
-        newPanel.add(metaDataTextArea, newPanel);
+        newPanel.add(Box.createVerticalGlue());
+
+        JCheckBox noncontrolCheckBox = new JCheckBox("Non-Controllable");
+        JCheckBox nonvisibleCheckBox = new JCheckBox("Non-Visible");
+
+        newPanel.add(nonvisibleCheckBox);
+        newPanel.add(noncontrolCheckBox);
+
+        newPanel.add(new JSeparator());
 
         JButton deleteButton = new JButton("Delete");
         newPanel.add(deleteButton, newPanel);
+
+        setVisible(true);
 
         return newPanel;
     }
@@ -272,7 +304,7 @@ public class WorkSpace extends JFrame implements Printable{
 
     }
 
-    //--------Action listener for Save button
+    //-------Action listener for save button
     class SaveAction implements ActionListener {
         JFileChooser fc = new JFileChooser();
 

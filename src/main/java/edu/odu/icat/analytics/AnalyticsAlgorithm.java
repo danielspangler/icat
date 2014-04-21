@@ -50,7 +50,6 @@ public abstract class AnalyticsAlgorithm implements  Runnable
 
             //Algorithm Output
 
-            String[] columnHeaders = { "Name" , "Classification" , "AlgorithmData" };
             ReportTable = new JTable(new ReportTableModel());
             ReportData = (ReportTableModel) ReportTable.getModel();
 

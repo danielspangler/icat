@@ -29,18 +29,6 @@ public class InfluenceAlgorithm extends AnalyticsAlgorithm
         List<Entity> entities = Control.getInstance().getCurrentProject().getEntities();
 
         Map<Entity, Integer> EntityWeights = new HashMap<Entity, Integer>();
-
-
-        EntityWeights.put(new Entity("Brandon", "Problem"), 3);  //Lol
-        EntityWeights.put(new Entity("Stephen", "Resource"), 0);
-        EntityWeights.put(new Entity("Kirby", "Stakeholder"), 2);
-        EntityWeights.put(new Entity("Abdul", "Objective"), 3);
-        EntityWeights.put(new Entity("Chris", "Resource"), 1);
-        EntityWeights.put(new Entity("Daniel", "Stakeholder"), 5);
-        EntityWeights.put(new Entity("Daniel", "Stakeholder"), 8);
-        EntityWeights.put(new Entity("Daniel", "Stakeholder"), 3);
-        EntityWeights.put(new Entity("Daniel", "Stakeholder"), 1);
-        EntityWeights.put(new Entity("Daniel", "Stakeholder"), 4);
         
         for(Entity e: entities)     //Initialize
         {

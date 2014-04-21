@@ -84,17 +84,19 @@ public class EditorActions
 
     public static class NewVertexAction extends AbstractAction
     {
+        private static int defaultIndex = 0;
         /**
          *
          */
         public void actionPerformed(ActionEvent e)
         {
+            defaultIndex++;
             mxGraph graph = getEditor(e).getGraphComponent().getGraph();
 
             if (graph != null)
             {
                 mxPoint pt = getEditor(e).mouseClickLoc;
-                Entity entity = new Entity("Name", Control.getInstance().getDefaultEntityClassification());
+                Entity entity = new Entity("Name " + defaultIndex, Control.getInstance().getDefaultEntityClassification());
                 Control.getInstance().getCurrentProject().addEntity(entity);
                 entity.setLocation(new Location(pt.getX(), pt.getY()));
                 graph.insertVertex(graph.getDefaultParent(), null, entity, pt.getX(),pt.getY(), 80,

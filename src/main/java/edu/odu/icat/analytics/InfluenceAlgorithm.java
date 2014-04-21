@@ -25,32 +25,25 @@ public class InfluenceAlgorithm extends AnalyticsAlgorithm
 
     public void run()
 	{
-        System.out.println("Running " + getName());
-
-        List<Entity> OutputData = new ArrayList<Entity>();
-        OutputData.add(new Entity("Brandon", "Problem"));  //Lol
-        OutputData.add(new Entity("Stephen", "Resource"));
-        OutputData.add(new Entity("Kirby", "Stakeholder"));
-        OutputData.add(new Entity("Abdul", "Objective"));
-        OutputData.add(new Entity("Chris", "Resource"));
-        OutputData.add(new Entity("Daniel", "Stakeholder"));
-        OutputData.add(new Entity("Daniel", "Stakeholder"));
-        OutputData.add(new Entity("Daniel", "Stakeholder"));
-        OutputData.add(new Entity("Daniel", "Stakeholder"));
-        OutputData.add(new Entity("Daniel", "Stakeholder"));
-
-        for(Entity e: OutputData)
-            dialog.addEntityToReport(e);
-
-        Control controller = Control.getInstance();
-        List<Force> forces = controller.getCurrentProject().getForces();
-        List<Entity> entities = controller.getCurrentProject().getEntities();
+        List<Force> forces = Control.getInstance().getCurrentProject().getForces();
+        List<Entity> entities = Control.getInstance().getCurrentProject().getEntities();
 
         Map<Entity, Integer> EntityWeights = new HashMap<Entity, Integer>();
 
-        for(Entity e: entities)
-        {
 
+        EntityWeights.put(new Entity("Brandon", "Problem"), 3);  //Lol
+        EntityWeights.put(new Entity("Stephen", "Resource"), 0);
+        EntityWeights.put(new Entity("Kirby", "Stakeholder"), 2);
+        EntityWeights.put(new Entity("Abdul", "Objective"), 3);
+        EntityWeights.put(new Entity("Chris", "Resource"), 1);
+        EntityWeights.put(new Entity("Daniel", "Stakeholder"), 5);
+        EntityWeights.put(new Entity("Daniel", "Stakeholder"), 8);
+        EntityWeights.put(new Entity("Daniel", "Stakeholder"), 3);
+        EntityWeights.put(new Entity("Daniel", "Stakeholder"), 1);
+        EntityWeights.put(new Entity("Daniel", "Stakeholder"), 4);
+        
+        for(Entity e: entities)     //Initialize
+        {
             EntityWeights.put(e, 0);
         }
 
@@ -67,10 +60,11 @@ public class InfluenceAlgorithm extends AnalyticsAlgorithm
 
         ValueComparator sort = new ValueComparator(EntityWeights);
         Map<Entity, Integer> SortedEntites = new TreeMap<Entity, Integer>(sort);
+        SortedEntites.putAll(EntityWeights);
 
-        for(Entity e : SortedEntites.keySet())
+        for(java.util.Map.Entry<Entity, Integer> e : SortedEntites.entrySet())
         {
-            dialog.addEntityToReport(e);
+            dialog.addEntityToReport(e.getKey(), e.getValue());
         }
 
 	}

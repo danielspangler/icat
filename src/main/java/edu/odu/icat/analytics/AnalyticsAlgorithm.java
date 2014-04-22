@@ -13,6 +13,8 @@ public abstract class AnalyticsAlgorithm implements  Runnable
 
     public abstract String getName();
 
+    public abstract String getReportOutputHeader();
+
     public abstract AlgorithmDialogBox getAlgorithmDialogBox();
 
     public abstract void run();
@@ -33,13 +35,20 @@ public abstract class AnalyticsAlgorithm implements  Runnable
 
         public AlgorithmDialogBox()
         {
+            //Title Area
+            JLabel Title = new JLabel(AnalyticsAlgorithm.this.getName());
+
+            JPanel AlgorithmArea = new JPanel();
+            AlgorithmArea.setLayout(new BoxLayout(AlgorithmArea, BoxLayout.Y_AXIS));
+            AlgorithmArea.setBorder(BorderFactory.createEmptyBorder(0, 10, 10, 10));
+            AlgorithmArea.add(Box.createVerticalGlue());
 
             //Filter Selection
 
             FilterContainer = new JPanel();
             FilterContainer.setLayout(new BoxLayout(FilterContainer, BoxLayout.PAGE_AXIS));
             FilterContainer.add(Box.createRigidArea(new Dimension(0,10)));
-            FilterContainer.setBorder(BorderFactory.createEmptyBorder(10,10,10,10));
+            FilterContainer.setBorder(BorderFactory.createEmptyBorder(5,5,5,5));
 
             FilterContainer.add(new JLabel("Algorithm Filters"));
             visibilityCheck = new JCheckBox("Visibility");
@@ -48,16 +57,21 @@ public abstract class AnalyticsAlgorithm implements  Runnable
             FilterContainer.add(controllabilityCheck);
             //FilterContainer.add(new JSeparator());
 
+            AlgorithmArea.add(FilterContainer);
+            AlgorithmArea.add(new JSeparator());
+
             //Algorithm Output
             String[] columnHeaders = { "Name" , "Classification" , "AlgorithmData" };
             ReportTable = new JTable(new ReportTableModel());
             ReportData = (ReportTableModel) ReportTable.getModel();
+            ReportData.setReportDataHeader(AnalyticsAlgorithm.this.getReportOutputHeader());
 
             ReportTable.setPreferredScrollableViewportSize(new Dimension(500, 70));
             ReportTable.setFillsViewportHeight(true);
             ReportTable.getTableHeader().setReorderingAllowed(false);
             JScrollPane AlgorithmOutputArea = new JScrollPane(ReportTable);
 
+            AlgorithmArea.add(AlgorithmOutputArea);
             //Area for Buttons
 
             JPanel ButtonsArea = new JPanel();
@@ -85,15 +99,12 @@ public abstract class AnalyticsAlgorithm implements  Runnable
             ButtonsArea.add(CancelButton);
 
             setLayout(new BorderLayout());
-            //getContentPane().
-            add(FilterContainer, BorderLayout.NORTH);
-            //getContentPane().
-            add(AlgorithmOutputArea, BorderLayout.CENTER);
-            //getContentPane().
+
+            add(Title, BorderLayout.NORTH);
+            add(AlgorithmArea, BorderLayout.CENTER);
             add(ButtonsArea, BorderLayout.SOUTH);
 
             setPreferredSize(new Dimension(400, 300));
-
             setVisible(true);
         }
 

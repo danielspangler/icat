@@ -173,22 +173,65 @@ public class WorkSpace extends JFrame implements Printable{
     public JPanel entityAttributes(Entity entity)
     {
         JPanel newPanel = new JPanel();
-        newPanel.setLayout(new BoxLayout(newPanel, BoxLayout.Y_AXIS));
 
-        final JTextPane titlePane = new JTextPane();
-        titlePane.setSize( titlePane.getPreferredSize() );
-        newPanel.add(titlePane, newPanel);
-        titlePane.setText("Title");
+        //Sets the Minimum Size of the Panel to 300 wide by 500 high
+        newPanel.setMinimumSize(new Dimension(300,500));
+
+        //Sets the Panel layout to a SpringLayout
+        SpringLayout layout = new SpringLayout();
+        newPanel.setLayout(layout);
+
+        final JTextField titlePane = new JTextField("",10); //Creates a textfield to enter a title
+        JTextField metaDataTextArea = new JTextField("",25); //Creates a textfield to enter Metadata
+        final JLabel Name = new JLabel("Title:"); //Creates a label called Title:
+        final JLabel Notes = new JLabel("Notes:"); //Creates a label called Notes:
+        JMenuBar bar = new JMenuBar(); //Creates a menu bar called bar
+        JCheckBox noncontrolCheckBox = new JCheckBox("Non-Controllable"); //Creates a checkbox for controlable entities.
+        JCheckBox nonvisibleCheckBox = new JCheckBox("Non-Visible"); //Creates a checkbox for visible entities.
+        JButton deleteButton = new JButton("Delete"); //Creates a button in order to delete entity data.
+
+        //This constraint places the name 5 over from the top left corner of the Panel
+        layout.putConstraint(SpringLayout.WEST,Name,5,SpringLayout.WEST, newPanel);
+        layout.putConstraint(SpringLayout.NORTH,Name,5,SpringLayout.NORTH, newPanel);
+
+        //This Constraint puts the titlePane 5 over from the Name Label and 5 under the Panel top y value
+        layout.putConstraint(SpringLayout.WEST,titlePane,5,SpringLayout.EAST, Name);
+        layout.putConstraint(SpringLayout.NORTH,titlePane,5,SpringLayout.NORTH, newPanel);
+
+        //This constraint puts the menubar 5 over from the titlePane and 5 under the panels top y value
+        layout.putConstraint(SpringLayout.WEST,bar,5,SpringLayout.EAST,titlePane);
+        layout.putConstraint(SpringLayout.NORTH,bar,5,SpringLayout.NORTH,newPanel);
+
+        //This constraint puts Notes label 5 from the west portion of the Panel but 30 units under the Name Label
+        layout.putConstraint(SpringLayout.WEST,Notes,5,SpringLayout.WEST,newPanel);
+        layout.putConstraint(SpringLayout.SOUTH,Notes,30,SpringLayout.SOUTH,Name);
+
+        //This constraint puts the MedadataTextArea 5 from the west portion of the Panel and 50 units under the titlePane.
+        layout.putConstraint(SpringLayout.WEST,metaDataTextArea,5,SpringLayout.WEST,newPanel);
+        layout.putConstraint(SpringLayout.SOUTH,metaDataTextArea,50,SpringLayout.SOUTH,titlePane);
+
+        //This constraint puts the control box 25 units from the west portion of the Panel and 75 units under the titlePane
+        layout.putConstraint(SpringLayout.WEST,noncontrolCheckBox,25,SpringLayout.WEST,newPanel);
+        layout.putConstraint(SpringLayout.SOUTH,noncontrolCheckBox,75,SpringLayout.SOUTH,titlePane);
+
+        //This constraint puts the visible box 25 units from the west portion of the Panel and 100 units under the titlePane
+        layout.putConstraint(SpringLayout.WEST,nonvisibleCheckBox,25,SpringLayout.WEST,newPanel);
+        layout.putConstraint(SpringLayout.SOUTH,nonvisibleCheckBox,100,SpringLayout.SOUTH,titlePane);
+
+        //This constraint puts the delete button 25 units from the west portion of the Panel and 150 units under the titlePane
+        layout.putConstraint(SpringLayout.WEST,deleteButton,25,SpringLayout.WEST,newPanel);
+        layout.putConstraint(SpringLayout.SOUTH,deleteButton,150,SpringLayout.SOUTH,titlePane);
+
+
+/* Not Using this Anymore.
         titlePane.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
                 titlePane.setText("");
             }
-        });
+        });*/
 
-        newPanel.add(Box.createVerticalGlue());
 
-        JMenuBar bar = new JMenuBar();
         JMenu entityTypeMenu = new JMenu("Type");
         bar.add(entityTypeMenu);
 
@@ -197,22 +240,13 @@ public class WorkSpace extends JFrame implements Printable{
             entityTypeMenu.add(new JMenuItem(s));
         }
 
+        newPanel.add(Name);
+        newPanel.add(titlePane);
         newPanel.add(bar);
-        newPanel.add(Box.createVerticalGlue());
-        JTextField metaDataTextArea = new JTextField("",20);
+        newPanel.add(Notes);
         newPanel.add(metaDataTextArea);
-
-        newPanel.add(Box.createVerticalGlue());
-
-        JCheckBox noncontrolCheckBox = new JCheckBox("Non-Controllable");
-        JCheckBox nonvisibleCheckBox = new JCheckBox("Non-Visible");
-
         newPanel.add(nonvisibleCheckBox);
         newPanel.add(noncontrolCheckBox);
-
-        newPanel.add(new JSeparator());
-
-        JButton deleteButton = new JButton("Delete");
         newPanel.add(deleteButton, newPanel);
 
         setVisible(true);

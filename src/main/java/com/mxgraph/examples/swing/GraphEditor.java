@@ -31,13 +31,17 @@ import com.mxgraph.util.mxEventObject;
 import com.mxgraph.util.mxEventSource.mxIEventListener;
 import com.mxgraph.util.mxPoint;
 import com.mxgraph.util.mxResources;
+import com.mxgraph.util.mxRectangle;
 import com.mxgraph.util.mxUtils;
 import com.mxgraph.view.mxCellState;
 import com.mxgraph.view.mxGraph;
 
+
 public class GraphEditor extends BasicGraphEditor
 {
-	/**
+    mxRectangle Rect = new mxRectangle();
+
+    /**
 	 * 
 	 */
 	private static final long serialVersionUID = -4601740824088314699L;
@@ -59,7 +63,7 @@ public class GraphEditor extends BasicGraphEditor
 
 	public GraphEditor()
 	{
-		this("mxGraph Editor", new CustomGraphComponent(new CustomGraph()));
+		this("ICAT Editor", new CustomGraphComponent(new CustomGraph()));
 	}
 
 	/**
@@ -68,9 +72,12 @@ public class GraphEditor extends BasicGraphEditor
 	public GraphEditor(String appTitle, mxGraphComponent component)
 	{
 		super(appTitle, component);
+        Rect.setRect(0,0,2500,2500);
 		final mxGraph graph = graphComponent.getGraph();
         graphOutline.setVisible(false);
-       // graphComponent.setPageVisible(true);
+        graph.setAllowDanglingEdges(false);
+        graph.setMinimumGraphSize(Rect);
+        //graphComponent.setPageVisible(true);
 	}
 
 	/**

@@ -49,7 +49,7 @@ public abstract class AnalyticsAlgorithm implements  Runnable
             //FilterContainer.add(new JSeparator());
 
             //Algorithm Output
-
+            String[] columnHeaders = { "Name" , "Classification" , "AlgorithmData" };
             ReportTable = new JTable(new ReportTableModel());
             ReportData = (ReportTableModel) ReportTable.getModel();
 

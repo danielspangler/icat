@@ -6,6 +6,7 @@ package edu.odu.icat.graphicsinterface;
 
 import edu.odu.icat.analytics.AnalyticsEngine;
 import edu.odu.icat.controller.Control;
+import edu.odu.icat.graphicsinterface.editor.EditorActions;
 import edu.odu.icat.service.*;
 import edu.odu.icat.model.Entity;
 
@@ -25,7 +26,7 @@ import java.io.File;
 import java.util.List;
 
 
-public class WorkSpace extends JFrame implements Printable{
+public class WorkSpace extends JFrame {
 
 
     protected GraphEditor graphComponent;
@@ -220,20 +221,17 @@ public class WorkSpace extends JFrame implements Printable{
         return newPanel;
     }
 
+    /*
     public int print(Graphics g, PageFormat pf, int page) throws
             PrinterException {
 
-        if (page > 0) { /* We have only one page, and 'page' is zero-based */
-            return NO_SUCH_PAGE;
-        }
+        if (page > 0) {return NO_SUCH_PAGE; }
 
 
 //        graphComponent.getGraphComponent().getGraph();
 //        graphComponent.getGraphComponent().print(g);
 
-        /* User (0,0) is typically outside the imageable area, so we must
-         * translate by the X and Y values in the PageFormat to avoid clipping
-         */
+
         Graphics2D g2d = (Graphics2D)g;
 
         java.awt.geom.AffineTransform originalTransform = g2d.getTransform();
@@ -245,14 +243,15 @@ public class WorkSpace extends JFrame implements Printable{
         g2d.translate(pf.getImageableX(), pf.getImageableY());
         g2d.scale(scale, scale);
 
-        /* Now print the window and its visible contents */
         graphComponent.getComponent(0).printAll(g2d);
 
         g2d.setTransform(originalTransform);
 
-        /* tell the caller that this page is part of the printed document */
+        // tell the caller that this page is part of the printed document
         return PAGE_EXISTS;
     }
+    */
+
 
     //-------Action listener for load button
     class LoadAction implements ActionListener {
@@ -281,16 +280,9 @@ public class WorkSpace extends JFrame implements Printable{
     //--------Action listener for print button
     class PrintAction implements ActionListener
     {
-        public void actionPerformed(ActionEvent e) {
-            PrinterJob job = PrinterJob.getPrinterJob();
-            job.setPrintable(WorkSpace.this);
-            if (job.printDialog()) {
-                try {
-                    job.print();
-                } catch (PrinterException ex) {
-              /* The job did not successfully complete */
-                }
-            }
+        public void actionPerformed(ActionEvent e)
+        {
+            EditorActions.PrintAction.printComp(graphComponent.getGraphComponent());
         }
     }
 

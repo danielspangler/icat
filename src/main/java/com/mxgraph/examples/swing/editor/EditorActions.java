@@ -518,6 +518,30 @@ public class EditorActions
 				}
 			}
 		}
+		
+		public static void printComp(mxGraphComponent mxgc)
+		{
+			PrinterJob pj = PrinterJob.getPrinterJob();
+			if (pj.printDialog())
+			{
+				PageFormat pf = mxgc.getPageFormat();
+				Paper paper = new Paper();
+				double margin = 36;
+				paper.setImageableArea(margin, margin, paper.getWidth()
+						- margin * 2, paper.getHeight() - margin * 2);
+				pf.setPaper(paper);
+				pj.setPrintable(mxgc, pf);
+
+				try
+				{
+					pj.print();
+				}
+				catch (PrinterException e2)
+				{
+					System.out.println(e2);
+				}
+			}			
+		}
 	}
 
 	/**

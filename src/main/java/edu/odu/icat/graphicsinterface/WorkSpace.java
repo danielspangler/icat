@@ -83,6 +83,11 @@ public class WorkSpace extends JFrame {
                     Entity entity =(Entity) ((mxCell) cell).getValue();
                     updateAttributePane(entityAttributes(entity));
                 }
+                else 
+                {
+                	updateAttributePane(new JLabel("Nothing Selected");
+                }
+                
             }
         });
 

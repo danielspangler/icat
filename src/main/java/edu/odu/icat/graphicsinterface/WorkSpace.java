@@ -4,24 +4,18 @@
  */
 package edu.odu.icat.graphicsinterface;
 
+import com.mxgraph.model.mxCell;
 import edu.odu.icat.analytics.AnalyticsEngine;
 import edu.odu.icat.controller.Control;
 import edu.odu.icat.graphicsinterface.editor.EditorActions;
-import edu.odu.icat.service.*;
 import edu.odu.icat.model.Entity;
-
-import com.mxgraph.model.mxCell;
-
+import edu.odu.icat.service.ProjectDAO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.print.PageFormat;
-import java.awt.print.Printable;
-import java.awt.print.PrinterException;
-import java.awt.print.PrinterJob;
 import java.io.File;
 import java.util.List;
 

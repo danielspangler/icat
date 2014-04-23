@@ -91,7 +91,7 @@ public class WorkSpace extends JFrame {
                 }
                 else 
                 {
-                	updateAttributePane(new JLabel("Nothing Selected");
+                	updateAttributePane(new JLabel("Nothing Selected"));
                 }
                 
             }

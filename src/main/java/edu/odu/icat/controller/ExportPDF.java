@@ -10,10 +10,10 @@ import java.io.FileOutputStream;
 /**This is just a rough draft. Waiting for Mr.Overachiever finishes the Analytic Engine*/
 
 public class ExportPDF {
-    public void CreatePDF (String fileName){
+    public void CreatePDF (){
         Document document = new Document(PageSize.A4);
         try {
-            PdfWriter.getInstance(document, new FileOutputStream(fileName));
+            PdfWriter.getInstance(document, new FileOutputStream("ICAT.pdf"));
             document.open();
             document.newPage();
             Font font = FontFactory.getFont("Times-Roman", 12, Font.BOLD);
@@ -21,7 +21,7 @@ public class ExportPDF {
 
             //Paragraph paragraph = new Paragraph();
             document.add(new Paragraph("If you're reading this, then you're in the wrong place!", font1));
-
+            document.add(new Paragraph("Dr. Hester is Awesome :)", font));
 ////
 ////            PdfPTable table = new PdfPTable(2); /*Number of Columns*/
 ////

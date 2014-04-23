@@ -7,7 +7,7 @@ package edu.odu.icat.graphicsinterface;
 import com.mxgraph.model.mxCell;
 import edu.odu.icat.analytics.AnalyticsEngine;
 import edu.odu.icat.controller.Control;
-import edu.odu.icat.graphicsinterface.editor.EditorActions;
+import edu.odu.icat.controller.ExportPDF;
 import edu.odu.icat.model.Entity;
 import edu.odu.icat.service.ProjectDAO;
 
@@ -316,7 +316,7 @@ public class WorkSpace extends JFrame {
     {
         public void actionPerformed(ActionEvent e)
         {
-            EditorActions.PrintAction.printComp(graphComponent.getGraphComponent());
+            //EditorActions.PrintAction.printComp(graphComponent.getGraphComponent());
         }
     }
 
@@ -325,7 +325,8 @@ public class WorkSpace extends JFrame {
     {
         public void actionPerformed(ActionEvent e)
         {
-
+            ExportPDF exportPDF = new ExportPDF();
+            exportPDF.CreatePDF();
         }
 
     }
@@ -340,8 +341,8 @@ public class WorkSpace extends JFrame {
             // JOptionPane.showMessageDialog(WorkSpace.this, "No Files Found.");
             if (fc.showSaveDialog(WorkSpace.this) == JFileChooser.APPROVE_OPTION)
             {
-                File saveFils = fc.getSelectedFile();
-                psaver.saveProject(saveFils.getAbsolutePath(), edu.odu.icat.controller.Control.getInstance().getCurrentProject());
+                File saveFiles = fc.getSelectedFile();
+                psaver.saveProject(saveFiles.getAbsolutePath(), edu.odu.icat.controller.Control.getInstance().getCurrentProject());
             }
         }
     }

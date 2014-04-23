@@ -7,9 +7,9 @@ package edu.odu.icat.graphicsinterface;
 import com.mxgraph.model.mxCell;
 import edu.odu.icat.analytics.AnalyticsEngine;
 import edu.odu.icat.controller.Control;
-import edu.odu.icat.graphicsinterface.editor.EditorActions;
 import edu.odu.icat.model.Entity;
 import edu.odu.icat.service.ProjectDAO;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -85,7 +85,7 @@ public class WorkSpace extends JFrame {
                 }
                 else 
                 {
-                	updateAttributePane(new JLabel("Nothing Selected");
+                	updateAttributePane(new JLabel("Nothing Selected"));
                 }
                 
             }
@@ -315,7 +315,7 @@ public class WorkSpace extends JFrame {
     {
         public void actionPerformed(ActionEvent e)
         {
-            EditorActions.PrintAction.printComp(graphComponent.getGraphComponent());
+            //EditorActions.PrintAction.printComp(graphComponent.getGraphComponent());
         }
     }
 

@@ -4,19 +4,21 @@
  */
 package edu.odu.icat.graphicsinterface;
 
-import com.mxgraph.examples.swing.editor.EditorActions;
-import com.mxgraph.model.mxCell;
 import edu.odu.icat.analytics.AnalyticsEngine;
 import edu.odu.icat.controller.Control;
+import edu.odu.icat.graphicsinterface.editor.EditorActions;
+import edu.odu.icat.service.*;
 import edu.odu.icat.model.Entity;
-import edu.odu.icat.service.ProjectDAO;
+
+import com.mxgraph.model.mxCell;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
+import java.awt.event.*;
+import java.awt.print.PageFormat;
+import java.awt.print.Printable;
+import java.awt.print.PrinterException;
+import java.awt.print.PrinterJob;
 import java.io.File;
 import java.util.List;
 
@@ -30,30 +32,30 @@ public class WorkSpace extends JFrame {
     private JPanel attributePane;
     private JSplitPane split;
 
-    /**
-     * Launch the application.
-     */
-    public static void main(String[] args) {
-        EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                try {
-                    WorkSpace frame = new WorkSpace();
-                    frame.setVisible(true);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-        });
-    }
+	/**
+	 * Launch the application.
+	 */
+	public static void main(String[] args) {
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					WorkSpace frame = new WorkSpace();
+					frame.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}
 
-    /**
-     * Create the frame.
-     */
-    public WorkSpace() {
-        setTitle("Workspace");
+	/**
+	 * Create the frame.
+	 */
+	public WorkSpace() {
+		setTitle("Workspace");
         this.setIconImage(Toolkit.getDefaultToolkit().getImage("src/main/resources/logo.png"));
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setBounds(100, 100, 850, 600);
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setBounds(100, 100, 850, 600);
 
 
 
@@ -86,16 +88,17 @@ public class WorkSpace extends JFrame {
                 }
                 else 
                 {
-                	updateAttributePane(new JLabel("Nothing Selected"));
+                    attributePane = new JPanel();
+                    attributePane.add(new JLabel("Nothing Selected"));
+                    attributePane.setMinimumSize(new Dimension(300,500));
+                	updateAttributePane(attributePane);
                 }
                 
             }
         });
 
-    }
-
-    private JPopupMenu m_popup = new JPopupMenu();
-
+	}
+    
     public void MenuButtons() {
 
 
@@ -111,45 +114,45 @@ public class WorkSpace extends JFrame {
             reportsMenu.add(temp);
             temp.addActionListener(new ActionListener() {
                 public void actionPerformed(ActionEvent e) {
-                    updateAttributePane(AnalyticsEngine.getInstance().getAlgorithmDialog(name));
+                   updateAttributePane(AnalyticsEngine.getInstance().getAlgorithmDialog(name));
                 }
             });
         }
 
         JMenuItem saveItem = new JMenuItem("Save");
-        saveItem.setMnemonic('S');
-        saveItem.setAccelerator(KeyStroke.getKeyStroke("control S"));
+            saveItem.setMnemonic('S');
+            saveItem.setAccelerator(KeyStroke.getKeyStroke("control S"));
         JMenuItem saveAsItem = new JMenuItem("Save As");
-        saveAsItem.setMnemonic('A');
-        saveAsItem.setAccelerator(KeyStroke.getKeyStroke("control A"));
+            saveAsItem.setMnemonic('A');
+            saveAsItem.setAccelerator(KeyStroke.getKeyStroke("control A"));
         JMenuItem loadItem = new JMenuItem("Load");
-        loadItem.setMnemonic('L');
-        loadItem.setAccelerator(KeyStroke.getKeyStroke("control L"));
+            loadItem.setMnemonic('L');
+            loadItem.setAccelerator(KeyStroke.getKeyStroke("control L"));
         JMenuItem exportItem = new JMenuItem("Export");
-        exportItem.setMnemonic('E');
-        exportItem.setAccelerator(KeyStroke.getKeyStroke("control E"));
+            exportItem.setMnemonic('E');
+            exportItem.setAccelerator(KeyStroke.getKeyStroke("control E"));
         JMenuItem printItem = new JMenuItem("Print");
-        printItem.setMnemonic('P');
-        printItem.setAccelerator(KeyStroke.getKeyStroke("control P"));
+            printItem.setMnemonic('P');
+            printItem.setAccelerator(KeyStroke.getKeyStroke("control P")); 
         JMenuItem quitItem = new JMenuItem("Exit");
-        quitItem.setMnemonic('X');
-        quitItem.setAccelerator(KeyStroke.getKeyStroke("control X"));
+            quitItem.setMnemonic('X');
+            quitItem.setAccelerator(KeyStroke.getKeyStroke("control X"));
 
         //Build  menubar, menus, and add menuitems.
         JMenuBar menubar = new JMenuBar();  // Create new menu bar
-        JMenu fileMenu = new JMenu("File"); // Create new menu
-        fileMenu.setMnemonic('F');
-        menubar.add(fileMenu);      // Add menu to the menubar
-        fileMenu.add(saveItem);     // Add menu item to the menu
-        fileMenu.add(saveAsItem);
-        fileMenu.add(loadItem);
-        fileMenu.add(exportItem);
-        fileMenu.add(printItem);
-        fileMenu.addSeparator();    // Add separator line to menu
-        fileMenu.add(quitItem);
+            JMenu fileMenu = new JMenu("File"); // Create new menu
+                fileMenu.setMnemonic('F');
+                menubar.add(fileMenu);      // Add menu to the menubar
+                fileMenu.add(saveItem);     // Add menu item to the menu
+                fileMenu.add(saveAsItem);
+                fileMenu.add(loadItem);
+                fileMenu.add(exportItem);
+                fileMenu.add(printItem);
+                fileMenu.addSeparator();    // Add separator line to menu
+                fileMenu.add(quitItem);
 
-        fileMenu.setMnemonic('R');
-        menubar.add(reportsMenu);
+                fileMenu.setMnemonic('R');
+                menubar.add(reportsMenu);
 
         //Add listeners to menu items
         loadItem.addActionListener(new LoadAction());
@@ -171,7 +174,7 @@ public class WorkSpace extends JFrame {
         split.setLeftComponent(newComponent);
     }
 
-    public JPanel entityAttributes(Entity entity)
+    public JPanel entityAttributes(final Entity entity)
     {
         JPanel newPanel = new JPanel();
 
@@ -183,7 +186,9 @@ public class WorkSpace extends JFrame {
         newPanel.setLayout(layout);
 
         final JTextField titlePane = new JTextField("",10); //Creates a textfield to enter a title
+        titlePane.setText(entity.getName());
         JTextField metaDataTextArea = new JTextField("",25); //Creates a textfield to enter Metadata
+        metaDataTextArea.setText(entity.getNotes());
         final JLabel Name = new JLabel("Title:"); //Creates a label called Title:
         final JLabel Notes = new JLabel("Notes:"); //Creates a label called Notes:
         JMenuBar bar = new JMenuBar(); //Creates a menu bar called bar
@@ -224,15 +229,6 @@ public class WorkSpace extends JFrame {
         layout.putConstraint(SpringLayout.SOUTH,deleteButton,150,SpringLayout.SOUTH,titlePane);
 
 
-/* Not Using this Anymore.
-        titlePane.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                titlePane.setText("");
-            }
-        });*/
-
-
         JMenu entityTypeMenu = new JMenu("Type");
         bar.add(entityTypeMenu);
 
@@ -248,12 +244,38 @@ public class WorkSpace extends JFrame {
         newPanel.add(metaDataTextArea);
         newPanel.add(nonvisibleCheckBox);
         newPanel.add(noncontrolCheckBox);
-        newPanel.add(deleteButton, newPanel);
+        newPanel.add(deleteButton);
 
-        setVisible(true);
+        newPanel.setVisible(true);
+
+        KeyListener keyListener = new KeyListener() {
+            public void keyTyped(KeyEvent e) {
+
+            }
+
+            public void keyPressed(KeyEvent e) {
+
+            }
+
+            public void keyReleased(KeyEvent e) {
+                int key = e.getKeyCode();
+                if(e.getSource()==titlePane)
+                {
+                    if(key==KeyEvent.VK_ENTER)
+                    {
+                        String entityName = titlePane.getText();
+                        entity.setName(entityName);
+                    }
+                }
+            }
+        };
+
+        titlePane.addKeyListener(keyListener);
 
         return newPanel;
     }
+
+
 
     /*
     public int print(Graphics g, PageFormat pf, int page) throws
@@ -316,7 +338,7 @@ public class WorkSpace extends JFrame {
     {
         public void actionPerformed(ActionEvent e)
         {
-            EditorActions.PrintAction.printComp(graphComponent.getGraphComponent());
+            //EditorActions.PrintAction.printComp(graphComponent.getGraphComponent());
         }
     }
 
@@ -325,14 +347,7 @@ public class WorkSpace extends JFrame {
     {
         public void actionPerformed(ActionEvent e)
         {
-//            ExportPDF exportPDF = new ExportPDF();
-//            exportPDF.CreatePDF();
-//            JFileChooser fc = new JFileChooser();
-//            if (fc.showOpenDialog(/***/) == JFileChooser.APPROVE_OPTION)
-//            {
-//                File saveFiles = fc.getSelectedFile();
-//                exportPDF.CreatePDF();
-//            }
+
         }
 
     }
@@ -344,11 +359,11 @@ public class WorkSpace extends JFrame {
         public void actionPerformed(ActionEvent e)
         {
             ProjectDAO psaver = new ProjectDAO();
-            // JOptionPane.showMessageDialog(WorkSpace.this, "No Files Found.");
+           // JOptionPane.showMessageDialog(WorkSpace.this, "No Files Found.");
             if (fc.showSaveDialog(WorkSpace.this) == JFileChooser.APPROVE_OPTION)
             {
-                File saveFiles = fc.getSelectedFile();
-                psaver.saveProject(saveFiles.getAbsolutePath(), edu.odu.icat.controller.Control.getInstance().getCurrentProject());
+                File saveFils = fc.getSelectedFile();
+                psaver.saveProject(saveFils.getAbsolutePath(), edu.odu.icat.controller.Control.getInstance().getCurrentProject());
             }
         }
     }
@@ -363,8 +378,8 @@ public class WorkSpace extends JFrame {
             // JOptionPane.showMessageDialog(WorkSpace.this, "No Files Found.");
             if (fc.showSaveDialog(WorkSpace.this) == JFileChooser.APPROVE_OPTION)
             {
-                File saveFiles = fc.getSelectedFile();
-                psaver.saveProject(saveFiles.getAbsolutePath(), edu.odu.icat.controller.Control.getInstance().getCurrentProject());
+                File saveFils = fc.getSelectedFile();
+                psaver.saveProject(saveFils.getAbsolutePath(), edu.odu.icat.controller.Control.getInstance().getCurrentProject());
             }
         }
     }

@@ -4,10 +4,10 @@
  */
 package edu.odu.icat.graphicsinterface;
 
+import com.mxgraph.examples.swing.editor.EditorActions;
 import com.mxgraph.model.mxCell;
 import edu.odu.icat.analytics.AnalyticsEngine;
 import edu.odu.icat.controller.Control;
-import edu.odu.icat.controller.ExportPDF;
 import edu.odu.icat.model.Entity;
 import edu.odu.icat.service.ProjectDAO;
 
@@ -316,7 +316,7 @@ public class WorkSpace extends JFrame {
     {
         public void actionPerformed(ActionEvent e)
         {
-            //EditorActions.PrintAction.printComp(graphComponent.getGraphComponent());
+            EditorActions.PrintAction.printComp(graphComponent.getGraphComponent());
         }
     }
 
@@ -325,8 +325,14 @@ public class WorkSpace extends JFrame {
     {
         public void actionPerformed(ActionEvent e)
         {
-            ExportPDF exportPDF = new ExportPDF();
-            exportPDF.CreatePDF();
+//            ExportPDF exportPDF = new ExportPDF();
+//            exportPDF.CreatePDF();
+//            JFileChooser fc = new JFileChooser();
+//            if (fc.showOpenDialog(/***/) == JFileChooser.APPROVE_OPTION)
+//            {
+//                File saveFiles = fc.getSelectedFile();
+//                exportPDF.CreatePDF();
+//            }
         }
 
     }

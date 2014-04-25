@@ -4,21 +4,16 @@
  */
 package edu.odu.icat.graphicsinterface;
 
+import com.mxgraph.model.mxCell;
 import edu.odu.icat.analytics.AnalyticsEngine;
 import edu.odu.icat.controller.Control;
 import edu.odu.icat.graphicsinterface.editor.EditorActions;
-import edu.odu.icat.service.*;
 import edu.odu.icat.model.Entity;
-
-import com.mxgraph.model.mxCell;
+import edu.odu.icat.service.ProjectDAO;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
-import java.awt.print.PageFormat;
-import java.awt.print.Printable;
-import java.awt.print.PrinterException;
-import java.awt.print.PrinterJob;
 import java.io.File;
 import java.util.List;
 
@@ -309,9 +304,9 @@ public class WorkSpace extends JFrame {
             //JOptionPane.showMessageDialog(WorkSpace.this, "No Files Found.");
             if (fc.showOpenDialog(WorkSpace.this) == JFileChooser.APPROVE_OPTION)
             {
-                File openFils = fc.getSelectedFile();
+                File openFiles = fc.getSelectedFile();
                 // load the file here
-                Control.getInstance().loadProject(openFils.getAbsolutePath());
+                Control.getInstance().loadProject(openFiles.getAbsolutePath());
 
             }
         }
@@ -362,8 +357,8 @@ public class WorkSpace extends JFrame {
            // JOptionPane.showMessageDialog(WorkSpace.this, "No Files Found.");
             if (fc.showSaveDialog(WorkSpace.this) == JFileChooser.APPROVE_OPTION)
             {
-                File saveFils = fc.getSelectedFile();
-                psaver.saveProject(saveFils.getAbsolutePath(), edu.odu.icat.controller.Control.getInstance().getCurrentProject());
+                File saveFiles = fc.getSelectedFile();
+                psaver.saveProject(saveFiles.getAbsolutePath(), edu.odu.icat.controller.Control.getInstance().getCurrentProject());
             }
         }
     }
@@ -378,8 +373,8 @@ public class WorkSpace extends JFrame {
             // JOptionPane.showMessageDialog(WorkSpace.this, "No Files Found.");
             if (fc.showSaveDialog(WorkSpace.this) == JFileChooser.APPROVE_OPTION)
             {
-                File saveFils = fc.getSelectedFile();
-                psaver.saveProject(saveFils.getAbsolutePath(), edu.odu.icat.controller.Control.getInstance().getCurrentProject());
+                File saveFiles = fc.getSelectedFile();
+                psaver.saveProject(saveFiles.getAbsolutePath(), edu.odu.icat.controller.Control.getInstance().getCurrentProject());
             }
         }
     }

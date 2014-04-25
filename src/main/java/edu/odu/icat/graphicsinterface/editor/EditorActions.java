@@ -504,6 +504,19 @@ public class EditorActions
 				}
 			}
 		}
+
+        public static void formatPage(mxGraphComponent gc)
+        {
+            PrinterJob pj = PrinterJob.getPrinterJob();
+            PageFormat format = pj.pageDialog(gc.getPageFormat());
+
+            if (format != null)
+            {
+                gc.setPageFormat(format);
+                gc.zoomAndCenter();
+            }
+        }
+
 	}
 
 	/**
@@ -544,6 +557,33 @@ public class EditorActions
 				}
 			}
 		}
+        public static void printComp(mxGraphComponent gc)
+        {
+            PrinterJob pj = PrinterJob.getPrinterJob();
+
+            if (pj.printDialog())
+            {
+                PageFormat pf = gc.getPageFormat();
+                Paper paper = new Paper();
+                /*
+                double margin = 18;
+                paper.setImageableArea(margin, margin, paper.getWidth()
+                        - margin * 2, paper.getHeight() - margin * 2);
+                */
+                pf.setPaper(paper);
+                pj.setPrintable(gc, pf);
+
+                try
+                {
+                    pj.print();
+                }
+                catch (PrinterException e2)
+                {
+                    System.out.println(e2);
+                }
+            }
+
+        }
 	}
 
 	/**

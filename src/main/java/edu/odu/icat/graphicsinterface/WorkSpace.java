@@ -131,6 +131,9 @@ public class WorkSpace extends JFrame {
         JMenuItem exportItem = new JMenuItem("Export");
             exportItem.setMnemonic('E');
             exportItem.setAccelerator(KeyStroke.getKeyStroke("control E"));
+        JMenuItem pageItem = new JMenuItem("Page Setup");
+            pageItem.setMnemonic('I');
+            pageItem.setAccelerator(KeyStroke.getKeyStroke("control I"));
         JMenuItem printItem = new JMenuItem("Print");
             printItem.setMnemonic('P');
             printItem.setAccelerator(KeyStroke.getKeyStroke("control P")); 
@@ -147,6 +150,7 @@ public class WorkSpace extends JFrame {
                 fileMenu.add(saveAsItem);
                 fileMenu.add(loadItem);
                 fileMenu.add(exportItem);
+                fileMenu.add(pageItem);
                 fileMenu.add(printItem);
                 fileMenu.addSeparator();    // Add separator line to menu
                 fileMenu.add(quitItem);
@@ -158,6 +162,7 @@ public class WorkSpace extends JFrame {
         loadItem.addActionListener(new LoadAction());
         quitItem.addActionListener(new QuitAction());
         printItem.addActionListener(new PrintAction());
+        pageItem.addActionListener(new PageSetupAction());
         exportItem.addActionListener(new ExportAction());
         saveItem.addActionListener(new SaveAction());
         saveAsItem.addActionListener(new SaveAsAction());
@@ -291,39 +296,6 @@ public class WorkSpace extends JFrame {
     }
 
 
-
-    /*
-    public int print(Graphics g, PageFormat pf, int page) throws
-            PrinterException {
-
-        if (page > 0) {return NO_SUCH_PAGE; }
-
-
-//        graphComponent.getGraphComponent().getGraph();
-//        graphComponent.getGraphComponent().print(g);
-
-
-        Graphics2D g2d = (Graphics2D)g;
-
-        java.awt.geom.AffineTransform originalTransform = g2d.getTransform();
-
-        double scaleX = pf.getImageableWidth() / graphComponent.getComponent(0).getWidth();
-        double scaleY = pf.getImageableHeight() / graphComponent.getComponent(0).getHeight();
-        // Maintain aspect ratio
-        double scale = Math.min(scaleX, scaleY);
-        g2d.translate(pf.getImageableX(), pf.getImageableY());
-        g2d.scale(scale, scale);
-
-        graphComponent.getComponent(0).printAll(g2d);
-
-        g2d.setTransform(originalTransform);
-
-        // tell the caller that this page is part of the printed document
-        return PAGE_EXISTS;
-    }
-    */
-
-
     //-------Action listener for load button
     class LoadAction implements ActionListener {
         JFileChooser fc = new JFileChooser();
@@ -353,7 +325,16 @@ public class WorkSpace extends JFrame {
     {
         public void actionPerformed(ActionEvent e)
         {
-            //EditorActions.PrintAction.printComp(graphComponent.getGraphComponent());
+            EditorActions.PrintAction.printComp(graphComponent.getGraphComponent());
+        }
+    }
+
+    //--------Action listener for print format button
+    class PageSetupAction implements ActionListener
+    {
+        public void actionPerformed(ActionEvent e)
+        {
+            EditorActions.PageSetupAction.formatPage(graphComponent.getGraphComponent());
         }
     }
 

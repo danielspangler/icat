@@ -75,7 +75,12 @@ public class Control {
         return entityClassifications;
     }
 
-    public String getDefaultEntityClassification(int i) {
+    public String getDefaultEntityClassification() {
+
+        return entityClassifications.get(defaultEntityClassificationIndex);
+    }
+
+    public String getEnitySpecificClassification(int i){
 
         return entityClassifications.get(i);
     }

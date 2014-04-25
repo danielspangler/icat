@@ -237,16 +237,14 @@ public class WorkSpace extends JFrame {
         final JMenu entityTypeMenu = new JMenu("Type");
         bar.add(entityTypeMenu);
 
-        //String a = [];
+        JMenuItem Problem = new JMenuItem(edu.odu.icat.controller.Control.getInstance().getEnitySpecificClassification(0));
+        JMenuItem Stakeholder = new JMenuItem(edu.odu.icat.controller.Control.getInstance().getEnitySpecificClassification(1));
+
+        JMenuItem Objectives = new JMenuItem(edu.odu.icat.controller.Control.getInstance().getEnitySpecificClassification(2));
+        JMenuItem Resources = new JMenuItem(edu.odu.icat.controller.Control.getInstance().getEnitySpecificClassification(3));
+        JMenuItem IDK = new JMenuItem(edu.odu.icat.controller.Control.getInstance().getEnitySpecificClassification(4));
 
 
-        for(String s: edu.odu.icat.controller.Control.getInstance().getEntityClassifications())
-        {
-            //entityTypeMenu.add(new JMenuItem(s));
-
-            JMenuItem Problem = new JMenuItem(edu.odu.icat.controller.Control.getInstance().getDefaultEntityClassification());
-            //JMenuItem Stakeholder = new JMenuItem(s);
-        }
 
         entityTypeMenu.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {

@@ -4,6 +4,7 @@
  */
 package edu.odu.icat.graphicsinterface;
 
+import com.sun.xml.internal.ws.addressing.ProblemAction;
 import edu.odu.icat.analytics.AnalyticsEngine;
 import edu.odu.icat.controller.Control;
 import edu.odu.icat.graphicsinterface.editor.EditorActions;
@@ -239,18 +240,20 @@ public class WorkSpace extends JFrame {
 
         JMenuItem Problem = new JMenuItem(edu.odu.icat.controller.Control.getInstance().getEnitySpecificClassification(0));
         JMenuItem Stakeholder = new JMenuItem(edu.odu.icat.controller.Control.getInstance().getEnitySpecificClassification(1));
+        JMenuItem Objective = new JMenuItem(edu.odu.icat.controller.Control.getInstance().getEnitySpecificClassification(2));
+        JMenuItem Attribute = new JMenuItem(edu.odu.icat.controller.Control.getInstance().getEnitySpecificClassification(3));
+        JMenuItem Resource = new JMenuItem(edu.odu.icat.controller.Control.getInstance().getEnitySpecificClassification(4));
 
-        JMenuItem Objectives = new JMenuItem(edu.odu.icat.controller.Control.getInstance().getEnitySpecificClassification(2));
-        JMenuItem Resources = new JMenuItem(edu.odu.icat.controller.Control.getInstance().getEnitySpecificClassification(3));
-        JMenuItem IDK = new JMenuItem(edu.odu.icat.controller.Control.getInstance().getEnitySpecificClassification(4));
+        entityTypeMenu.add(Problem);
+        entityTypeMenu.add(Stakeholder);
+        entityTypeMenu.add(Objective);
+        entityTypeMenu.add(Attribute);
+        entityTypeMenu.add(Resource);
+
+        Problem.addActionListener(new ProblemAction());
 
 
 
-        entityTypeMenu.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                //if()
-            }
-        });
 
         newPanel.add(Name);
         newPanel.add(titlePane);
@@ -299,6 +302,17 @@ public class WorkSpace extends JFrame {
         return newPanel;
     }
 
+
+    //-------Action listener for Problem Attribute
+    class ProblemAction implements ActionListener {
+        public void actionPerformed(ActionEvent e)
+        {
+            //if
+            {
+
+            }
+        }
+    }
 
     //-------Action listener for load button
     class LoadAction implements ActionListener {

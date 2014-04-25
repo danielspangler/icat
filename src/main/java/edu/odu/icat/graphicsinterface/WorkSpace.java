@@ -187,7 +187,7 @@ public class WorkSpace extends JFrame {
 
         final JTextField titlePane = new JTextField("",10); //Creates a textfield to enter a title
         titlePane.setText(entity.getName());
-        JTextField metaDataTextArea = new JTextField("",25); //Creates a textfield to enter Metadata
+        final JTextField metaDataTextArea = new JTextField("",25); //Creates a textfield to enter Metadata
         metaDataTextArea.setText(entity.getNotes());
         final JLabel Name = new JLabel("Title:"); //Creates a label called Title:
         final JLabel Notes = new JLabel("Notes:"); //Creates a label called Notes:
@@ -229,13 +229,19 @@ public class WorkSpace extends JFrame {
         layout.putConstraint(SpringLayout.SOUTH,deleteButton,150,SpringLayout.SOUTH,titlePane);
 
 
-        JMenu entityTypeMenu = new JMenu("Type");
+        final JMenu entityTypeMenu = new JMenu("Type");
         bar.add(entityTypeMenu);
 
         for(String s: edu.odu.icat.controller.Control.getInstance().getEntityClassifications())
         {
             entityTypeMenu.add(new JMenuItem(s));
         }
+
+        entityTypeMenu.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                //if()
+            }
+        });
 
         newPanel.add(Name);
         newPanel.add(titlePane);
@@ -267,10 +273,19 @@ public class WorkSpace extends JFrame {
                         entity.setName(entityName);
                     }
                 }
+                if(e.getSource()==metaDataTextArea)
+                {
+                    if(key==KeyEvent.VK_ENTER)
+                    {
+                        String metaDataText = metaDataTextArea.getText();
+                        entity.setNotes(metaDataText);
+                    }
+                }
             }
         };
 
         titlePane.addKeyListener(keyListener);
+        metaDataTextArea.addKeyListener(keyListener);
 
         return newPanel;
     }

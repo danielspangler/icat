@@ -93,6 +93,7 @@ public abstract class AnalyticsAlgorithm implements  Runnable
 
             ExportButton = new JButton("Export");
             ExportButton.setEnabled(false);
+            ExportButton.addActionListener(new ExportAction());
             ButtonsArea.add(ExportButton);
             ButtonsArea.add(Box.createRigidArea(new Dimension(5, 0)));
 
@@ -139,6 +140,16 @@ public abstract class AnalyticsAlgorithm implements  Runnable
                 } catch (PrinterException e1) {
 
                 }
+            }
+        }
+
+        //-------Export listener for load button
+        class ExportAction implements ActionListener {
+            public void actionPerformed(ActionEvent e) {
+                AlgorithmDialogBox.this.ReportData.removeAll();
+                PrintButton.setEnabled(true);
+                ExportButton.setEnabled(true);
+                AnalyticsAlgorithm.this.run();
             }
         }
 

@@ -68,14 +68,18 @@ public class ExportPDF {
         }
     }
 
-    public void CentralityReport(String reportType){
+    public void CentralityReport(String reportType, String header){
         Document document = new Document(PageSize.A4);
         try{
             PdfWriter pdfWriter = PdfWriter.getInstance(document, new FileOutputStream(".pdf"));
             document.open();
-            Phrase [] header = new Phrase[2];
+            Phrase [] Header = new Phrase[2];
             /** Current page number **/
             int pageNumber;
+
+            Header [0] = new Phrase(header);
+
+            pageNumber = 1;
 
         }catch (Exception e){
             e.printStackTrace();

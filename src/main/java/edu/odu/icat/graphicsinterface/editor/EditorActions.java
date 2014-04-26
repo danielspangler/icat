@@ -99,8 +99,9 @@ public class EditorActions
                 Entity entity = new Entity("Name " + defaultIndex, Control.getInstance().getDefaultEntityClassification());
                 Control.getInstance().getCurrentProject().addEntity(entity);
                 entity.setLocation(new Location(pt.getX(), pt.getY()));
-                graph.insertVertex(graph.getDefaultParent(), null, entity, pt.getX(),pt.getY(), 80,
-                        30);
+                graph.insertVertex(graph.getDefaultParent(), null,entity, pt.getX(), pt.getY(),100,100,"shape=ellipse");
+               // graph.insertVertex(graph.getDefaultParent(), null, entity, pt.getX(),pt.getY(), 80,
+                        //30);
             }
         }
 

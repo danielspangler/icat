@@ -204,7 +204,19 @@ public class WorkSpace extends JFrame {
         final JLabel Notes = new JLabel("Notes:"); //Creates a label called Notes:
         final JMenuBar bar = new JMenuBar(); //Creates a menu bar called bar
         final JCheckBox noncontrolCheckBox = new JCheckBox("Non-Controllable"); //Creates a checkbox for controlable entities.
+        if(entity.isControllable())
+        {
+            noncontrolCheckBox.setSelected(false);
+        }
+        else
+            noncontrolCheckBox.setSelected(true);
         final JCheckBox nonvisibleCheckBox = new JCheckBox("Non-Visible"); //Creates a checkbox for visible entities.
+        if(entity.isVisible())
+        {
+            nonvisibleCheckBox.setSelected(false);
+        }
+        else
+            nonvisibleCheckBox.setSelected(true);
         final JButton deleteButton = new JButton("Delete"); //Creates a button in order to delete entity data.
 
         //This constraint places the name 5 over from the top left corner of the Panel
@@ -381,6 +393,7 @@ public class WorkSpace extends JFrame {
                 com.mxgraph.model.mxGraphModel graphModel = (com.mxgraph.model.mxGraphModel)graph.getModel();
                 graphModel.beginUpdate();
                 try {
+                    graphModel.clear();
                     Project project = Control.getInstance().getCurrentProject();
                     if (project!=null) {
                         Map<Entity, Object> internalCells = new HashMap<Entity, Object>();
@@ -436,17 +449,9 @@ public class WorkSpace extends JFrame {
 
     //-------Action listener for save button
     class SaveAction implements ActionListener {
-        JFileChooser fc = new JFileChooser();
-
         public void actionPerformed(ActionEvent e)
         {
-            ProjectDAO psaver = new ProjectDAO();
-           // JOptionPane.showMessageDialog(WorkSpace.this, "No Files Found.");
-            if (fc.showSaveDialog(WorkSpace.this) == JFileChooser.APPROVE_OPTION)
-            {
-                File saveFiles = fc.getSelectedFile();
-                psaver.saveProject(saveFiles.getAbsolutePath(), edu.odu.icat.controller.Control.getInstance().getCurrentProject());
-            }
+                Control.getInstance().saveCurrent();
         }
     }
 
@@ -457,14 +462,13 @@ public class WorkSpace extends JFrame {
 
         public void actionPerformed(ActionEvent e)
         {
-            ProjectDAO psaver = new ProjectDAO();
             // JOptionPane.showMessageDialog(WorkSpace.this, "No Files Found.");
 
             fc.setFileFilter(filter);
             if (fc.showSaveDialog(WorkSpace.this) == JFileChooser.APPROVE_OPTION)
             {
                 File saveFiles = fc.getSelectedFile();
-                psaver.saveProject(saveFiles.getAbsolutePath(), edu.odu.icat.controller.Control.getInstance().getCurrentProject());
+                Control.getInstance().saveCurrentAs(saveFiles.getAbsolutePath());
             }
         }
     }

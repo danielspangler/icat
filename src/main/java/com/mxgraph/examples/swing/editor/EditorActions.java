@@ -15,6 +15,7 @@ import java.awt.print.PrinterJob;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.io.File;
+import com.mxgraph.util.*;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.FilenameFilter;
@@ -97,13 +98,18 @@ public class EditorActions
          */
         public void actionPerformed(ActionEvent e)
         {
+
             mxGraph graph = getEditor(e).getGraphComponent().getGraph();
 
             if (graph != null)
             {
                 Point pt = getEditor(e).mouseClickLoc;
-                graph.insertVertex(graph.getDefaultParent(), null, "",pt.x,pt.y, 80,
-                        30);
+                graph.setCellStyle("Rounded");
+                graph.insertVertex(graph.getDefaultParent(), null,"", pt.x, pt.y,100,100,"shape=ellipse;perimeter=100;fillColor=green");
+
+                //(graph.getDefaultParent(), null, "",pt.x,pt.y, 80,
+                 //       30,"shape=ellipse");
+
             }
         }
 

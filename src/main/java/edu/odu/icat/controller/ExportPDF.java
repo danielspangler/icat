@@ -1,12 +1,8 @@
 package edu.odu.icat.controller;
 
 import com.itextpdf.text.*;
-import com.itextpdf.text.Font;
-import com.itextpdf.text.pdf.PdfContentByte;
-import com.itextpdf.text.pdf.PdfTemplate;
 import com.itextpdf.text.pdf.PdfWriter;
 
-import java.awt.*;
 import java.io.FileOutputStream;
 /**
  * Export Centrality Reports into PDF files
@@ -50,23 +46,6 @@ public class ExportPDF {
 
     }
 
-    public void JpanelPDF(){
-        Document document = new Document(PageSize.A4);
-        try{
-            PdfWriter pdfWriter = PdfWriter.getInstance(document, new FileOutputStream("ICATPanel.pdf"));
-            document.open();
-            PdfContentByte contentByte = pdfWriter.getDirectContent();
-            PdfTemplate template = contentByte.createTemplate(500, 500);
-            Graphics2D graphics2D = template.createGraphics(500, 500);
-            
-
-            graphics2D.dispose();
-            contentByte.addTemplate(template, 30, 300);
-
-        } catch (Exception e){
-            e.printStackTrace();
-        }
-    }
 
     public void CentralityReport(String reportType, String header){
         Document document = new Document(PageSize.A4);

@@ -12,6 +12,8 @@ import edu.odu.icat.model.Entity;
 import edu.odu.icat.service.ProjectDAO;
 
 import javax.swing.*;
+import javax.swing.filechooser.FileFilter;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import java.awt.*;
 import java.awt.event.*;
 import java.io.File;
@@ -299,6 +301,7 @@ public class WorkSpace extends JFrame {
     class LoadAction implements ActionListener {
         JFileChooser fc = new JFileChooser();
 
+
         public void actionPerformed(ActionEvent e)
         {
             //JOptionPane.showMessageDialog(WorkSpace.this, "No Files Found.");
@@ -342,7 +345,8 @@ public class WorkSpace extends JFrame {
     {
         public void actionPerformed(ActionEvent e)
         {
-
+            //ExportPDF exportPDF = new ExportPDF();
+            //exportPDF.JpanelPDF();
         }
 
     }
@@ -367,13 +371,22 @@ public class WorkSpace extends JFrame {
     class SaveAsAction implements ActionListener {
         JFileChooser fc = new JFileChooser();
 
+
         public void actionPerformed(ActionEvent e)
         {
+            FileFilter filter = new FileNameExtensionFilter("ICAT File type ", "icat", "ICAT");
+            fc.addChoosableFileFilter(filter);
             ProjectDAO psaver = new ProjectDAO();
             // JOptionPane.showMessageDialog(WorkSpace.this, "No Files Found.");
             if (fc.showSaveDialog(WorkSpace.this) == JFileChooser.APPROVE_OPTION)
             {
                 File saveFiles = fc.getSelectedFile();
+                //check that fileName has the .icat extension
+                if (!saveFiles.getPath().toLowerCase().endsWith(".icat"));
+                {
+                    //if not then add .icat to the fileName
+                    saveFiles = new File(saveFiles.getPath() + ".icat");
+                }
                 psaver.saveProject(saveFiles.getAbsolutePath(), edu.odu.icat.controller.Control.getInstance().getCurrentProject());
             }
         }

@@ -5,7 +5,10 @@
 package edu.odu.icat.graphicsinterface;
 
 import com.mxgraph.model.mxCell;
+import com.mxgraph.swing.mxGraphComponent;
 import com.mxgraph.util.mxConstants;
+import com.mxgraph.util.png.mxPngEncodeParam;
+import com.mxgraph.util.png.mxPngImageEncoder;
 import com.mxgraph.view.mxGraph;
 import edu.odu.icat.analytics.AnalyticsEngine;
 import edu.odu.icat.controller.Control;
@@ -13,6 +16,7 @@ import edu.odu.icat.graphicsinterface.editor.EditorActions;
 import edu.odu.icat.model.Entity;
 import edu.odu.icat.model.Force;
 import edu.odu.icat.model.Project;
+import sun.awt.resources.awt;
 
 import javax.swing.*;
 import javax.swing.filechooser.FileFilter;
@@ -20,10 +24,13 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 import java.awt.*;
 import java.awt.event.*;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.util.HashMap;
 import java.util.Hashtable;
 import java.util.List;
 import java.util.Map;
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
 
 //import edu.odu.icat.controller.Utils;
 //import javafx.scene.control.Cell;
@@ -138,7 +145,7 @@ public class WorkSpace extends JFrame {
         JMenuItem loadItem = new JMenuItem("Load");
             loadItem.setMnemonic('L');
             loadItem.setAccelerator(KeyStroke.getKeyStroke("control L"));
-        JMenuItem exportItem = new JMenuItem("Export");
+        JMenuItem exportItem = new JMenuItem("Export As Image");
             exportItem.setMnemonic('E');
             exportItem.setAccelerator(KeyStroke.getKeyStroke("control E"));
         JMenuItem pageItem = new JMenuItem("Page Setup");
@@ -500,8 +507,40 @@ public class WorkSpace extends JFrame {
     //--------Action listener for export button
     class ExportAction implements ActionListener
     {
+        JFileChooser ei = new JFileChooser();
+        FileFilter filter = new FileNameExtensionFilter("PNG Files", "png");
+
         public void actionPerformed(ActionEvent e)
         {
+            mxGraphComponent gc = graphComponent.getGraphComponent();
+
+            gc.setSize(gc.getPreferredSize());
+            gc.addNotify();
+            gc.doLayout();
+
+            BufferedImage bi = new BufferedImage(gc.getSize().width, gc.getSize().height, BufferedImage.TYPE_INT_ARGB);
+            
+
+            //BufferedImage crop = bi.getSubimage(rect.x, rect.y, rect.width, rect.height);
+
+            Graphics g = bi.createGraphics();
+
+            gc.paintAll(g);
+            g.dispose();
+
+            ei.setFileFilter(filter);
+            ei.setDialogTitle("Export");
+            ei.setDialogType(JFileChooser.CUSTOM_DIALOG);
+
+            if (ei.showSaveDialog(WorkSpace.this) == JFileChooser.APPROVE_OPTION)
+            {
+                File outFile = ei.getSelectedFile();
+                if (!outFile.getPath().toLowerCase().endsWith(".png"))
+                {
+                    outFile = new File (outFile.getPath()+ ".png");
+                }
+                try{ImageIO.write(bi,"png", outFile);}catch (Exception x) {}
+            }
 
         }
 

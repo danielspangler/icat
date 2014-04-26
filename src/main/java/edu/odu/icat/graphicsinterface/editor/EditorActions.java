@@ -57,6 +57,9 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 
+
+import com.mxgraph.util.png.mxPngImageEncoder;
+
 /**
  *
  */
@@ -584,11 +587,11 @@ public class EditorActions
             {
                 PageFormat pf = gc.getPageFormat();
                 Paper paper = new Paper();
-                /*
+
                 double margin = 18;
                 paper.setImageableArea(margin, margin, paper.getWidth()
                         - margin * 2, paper.getHeight() - margin * 2);
-                */
+
                 pf.setPaper(paper);
                 pj.setPrintable(gc, pf);
 

@@ -7,6 +7,7 @@ package edu.odu.icat.graphicsinterface;
 import com.mxgraph.model.mxCell;
 import com.mxgraph.util.mxConstants;
 import com.mxgraph.view.mxGraph;
+import com.sun.org.apache.xalan.internal.xsltc.runtime.StringValueHandler;
 import edu.odu.icat.analytics.AnalyticsEngine;
 import edu.odu.icat.controller.Control;
 import edu.odu.icat.graphicsinterface.editor.EditorActions;
@@ -91,10 +92,11 @@ public class WorkSpace extends JFrame {
                 {
                     Object obj = ((mxCell)cell).getValue();
                     if(obj instanceof Entity)
-                        updateAttributePane(entityAttributes((mxCell)cell));
+                        updateAttributePane(entityAttributes(graphComponent, (mxCell)cell));
                     else if(obj instanceof edu.odu.icat.model.Force)
                     {
-                        updateAttributePane(new JLabel("You have selected a Force"));
+                        System.out.println("You have selected a force");
+                        updateAttributePane(forceAttributes((mxCell)cell));
                     }
                 }
                 else 
@@ -189,12 +191,59 @@ public class WorkSpace extends JFrame {
         split.setLeftComponent(newComponent);
     }
 
-    public JPanel forceAttributes(final Force force)
+    public JPanel forceAttributes(final mxCell cell)
     {
-        return new JPanel();
-    }
+        final mxGraph graph = graphComponent.getGraphComponent().getGraph();
 
-    public JPanel entityAttributes(final mxCell cell)
+        final Force force = (Force)(cell.getValue());
+        //final mxGraph graph = editor.getGraphComponent().getGraph();
+        final JPanel newPanel = new JPanel();
+        //Sets the Minimum Size of the Panel to 300 wide by 500 high
+        newPanel.setMinimumSize(new Dimension(WorkSpace.MINIMUM_PANEL_SIZE,500));
+
+        final SpringLayout layout = new SpringLayout();
+        newPanel.setLayout(layout);
+
+        final JLabel Notes = new JLabel("Notes:");
+        final JTextField notesField = new JTextField("",20);
+        final JLabel Weight = new JLabel("Weight:");
+        final String[] ForceWeights = {"1","2","3","4","5"};
+        final JComboBox ForceBox = new JComboBox(ForceWeights);
+        ForceBox.setSelectedItem(force.getWeight());
+        ForceBox.addActionListener(new ActionListener() {
+                                       public void actionPerformed(ActionEvent actionEvent) {
+                                           JComboBox cb = (JComboBox) actionEvent.getSource();
+                                           force.setWeight(Integer.parseInt((String) cb.getSelectedItem()));
+                                           graph.setCellStyles(mxConstants.STYLE_STROKEWIDTH, (String)cb.getSelectedItem(), new Object[]{cell});
+                                       }
+                                   });
+
+
+            //This constraint places the name 5 over from the top left corner of the Panel
+            layout.putConstraint(SpringLayout.WEST,Notes,5,SpringLayout.WEST,newPanel);
+            layout.putConstraint(SpringLayout.NORTH,Notes,5,SpringLayout.NORTH,newPanel);
+
+            //This Constraint puts the titlePane 5 over from the Name Label and 5 under the Panel top y value
+            layout.putConstraint(SpringLayout.WEST,notesField,5,SpringLayout.EAST,Notes);
+            layout.putConstraint(SpringLayout.NORTH,notesField,5,SpringLayout.NORTH,newPanel);
+
+            //This constraint puts the menubar 5 over from the titlePane and 5 under the panels top y value
+            layout.putConstraint(SpringLayout.WEST,ForceBox,5,SpringLayout.EAST,notesField);
+            layout.putConstraint(SpringLayout.NORTH,ForceBox,5,SpringLayout.NORTH,newPanel);
+
+        //This constraint puts Notes label 5 from the west portion of the Panel but 30 units under the Name Label
+        layout.putConstraint(SpringLayout.WEST,Weight,5,SpringLayout.WEST,newPanel);
+        layout.putConstraint(SpringLayout.SOUTH,Weight,30,SpringLayout.SOUTH,newPanel);
+
+            newPanel.add(Notes);
+            newPanel.add(notesField);
+            newPanel.add(ForceBox);
+            newPanel.add(Weight);
+
+            return newPanel;
+        }
+
+    public JPanel entityAttributes(final GraphEditor editor, final mxCell cell)
     {
         final mxGraph graph = graphComponent.getGraphComponent().getGraph();
 
@@ -304,7 +353,7 @@ public class WorkSpace extends JFrame {
                     graph.setCellStyles(mxConstants.STYLE_FONTCOLOR, "black", new Object[]{cell});
                 }
 
-                graphComponent.getGraphComponent().refresh();
+                editor.getGraphComponent().refresh();
 
             }
         });
@@ -383,7 +432,7 @@ public class WorkSpace extends JFrame {
                         String entityName = titlePane.getText();
                         entity.setName(entityName);
                         cell.setId(entityName);
-                        graphComponent.getGraphComponent().refresh();
+                        editor.getGraphComponent().refresh();
 
                     }
                 }

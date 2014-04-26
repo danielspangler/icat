@@ -430,7 +430,11 @@ public class WorkSpace extends JFrame {
     class SaveAction implements ActionListener {
         public void actionPerformed(ActionEvent e)
         {
+            try {
                 Control.getInstance().saveCurrent();
+            } catch (IllegalStateException e1){
+                new SaveAsAction().actionPerformed((e));
+            }
         }
     }
 

@@ -70,7 +70,7 @@ public class Control {
     }
 
     public void saveCurrent() {
-        if (!Strings.isNullOrEmpty(currentProjectPath)  && currentProject!=null) {
+        if (!Strings.isNullOrEmpty(currentProjectPath)  && currentProject != null) {
             projectDAO.saveProject(currentProjectPath, currentProject);
         } else {
             throw new IllegalStateException("Could not find currentProjectPath or currentProject");

@@ -201,7 +201,6 @@ public class WorkSpace extends JFrame {
         final Entity entity = (Entity)(cell.getValue());
         //final mxGraph graph = editor.getGraphComponent().getGraph();
         final JPanel newPanel = new JPanel();
-
         //Sets the Minimum Size of the Panel to 300 wide by 500 high
         newPanel.setMinimumSize(new Dimension(WorkSpace.MINIMUM_PANEL_SIZE,500));
 

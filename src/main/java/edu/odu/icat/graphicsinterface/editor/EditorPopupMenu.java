@@ -24,7 +24,7 @@ public class EditorPopupMenu extends JPopupMenu
 
         //add(editor.bind("Test", new EditorActions.TestAction()));
         add(editor.bind(mxResources.get("newVertex"), new NewVertexAction()));
-        
+
         addSeparator();
 
         add(editor.bind(mxResources.get("zoomIn"), mxGraphActions.getZoomInAction()));

@@ -40,12 +40,17 @@ public class EditorKeyboardHandler extends mxKeyboardHandler
 			map.put(KeyStroke.getKeyStroke("control N"), "new");
 			map.put(KeyStroke.getKeyStroke("control O"), "open");
 
-			map.put(KeyStroke.getKeyStroke("control Z"), "undo");
-			map.put(KeyStroke.getKeyStroke("control Y"), "redo");
-			map
-					.put(KeyStroke.getKeyStroke("control shift V"),
-							"selectVertices");
+			//map.put(KeyStroke.getKeyStroke("control Z"), "undo");
+			//map.put(KeyStroke.getKeyStroke("control Y"), "redo");
+			//map
+			//		.put(KeyStroke.getKeyStroke("control shift V"),
+			//				"selectVertices");
 			map.put(KeyStroke.getKeyStroke("control shift E"), "selectEdges");
+            map.remove(KeyStroke.getKeyStroke("control V"));
+            map.remove(KeyStroke.getKeyStroke("control C"));
+            map.remove(KeyStroke.getKeyStroke("control X"));
+            map.remove(KeyStroke.getKeyStroke("DELETE"));
+            map.put(KeyStroke.getKeyStroke("DELETE"), "delete");
 		}
 
 		return map;
@@ -66,6 +71,7 @@ public class EditorKeyboardHandler extends mxKeyboardHandler
 		map.put("redo", new EditorActions.HistoryAction(false));
 		map.put("selectVertices", mxGraphActions.getSelectVerticesAction());
 		map.put("selectEdges", mxGraphActions.getSelectEdgesAction());
+        map.put("delete", new EditorActions.DeleteVertexAction());
 
 		return map;
 	}

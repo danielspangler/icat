@@ -84,8 +84,13 @@ public class WorkSpace extends JFrame {
 
                 if (cell != null && cell instanceof mxCell)
                 {
-                    Entity entity =(Entity) ((mxCell) cell).getValue();
-                    updateAttributePane(entityAttributes(entity));
+                    Object obj = ((mxCell)cell).getValue();
+                    if(obj instanceof Entity)
+                        updateAttributePane(entityAttributes((Entity)obj));
+                    else if(obj instanceof edu.odu.icat.model.Force)
+                    {
+                        updateAttributePane(new JLabel("You have selected a Force"));
+                    }
                 }
                 else 
                 {
@@ -94,7 +99,6 @@ public class WorkSpace extends JFrame {
                     attributePane.setMinimumSize(new Dimension(300,500));
                 	updateAttributePane(attributePane);
                 }
-                
             }
         });
 
@@ -343,7 +347,7 @@ public class WorkSpace extends JFrame {
     {
         public void actionPerformed(ActionEvent e)
         {
-            EditorActions.PrintAction.printComp(graphComponent.getGraphComponent());
+//            EditorActions.PrintAction.printComp(graphComponent.getGraphComponent());
         }
     }
 

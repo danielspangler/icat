@@ -64,9 +64,9 @@ public class ProminenceAlgorithm extends AnalyticsAlgorithm
         Map<Entity, Integer> SortedEntites = new TreeMap<Entity, Integer>(sort);
         SortedEntites.putAll(EntityWeights);
 
-        for(Entity e : SortedEntites.keySet())
+        for(java.util.Map.Entry<Entity, Integer> e : SortedEntites.entrySet())
         {
-            dialog.addEntityToReport(e,0);
+            dialog.addEntityToReport(e.getKey(), e.getValue());
         }
 
     }

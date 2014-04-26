@@ -6,6 +6,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.print.PrinterException;
 
 public abstract class AnalyticsAlgorithm implements  Runnable
 {
@@ -50,18 +51,19 @@ public abstract class AnalyticsAlgorithm implements  Runnable
             FilterContainer.add(Box.createRigidArea(new Dimension(0,10)));
             FilterContainer.setBorder(BorderFactory.createEmptyBorder(5,5,5,5));
 
+
             FilterContainer.add(new JLabel("Algorithm Filters"));
             visibilityCheck = new JCheckBox("Visibility");
             FilterContainer.add(visibilityCheck);
             controllabilityCheck = new JCheckBox("Controllability");
             FilterContainer.add(controllabilityCheck);
+            FilterContainer.setAlignmentY(Component.BOTTOM_ALIGNMENT);
             //FilterContainer.add(new JSeparator());
 
             AlgorithmArea.add(FilterContainer);
             AlgorithmArea.add(new JSeparator());
 
             //Algorithm Output
-            String[] columnHeaders = { "Name" , "Classification" , "AlgorithmData" };
             ReportTable = new JTable(new ReportTableModel());
             ReportData = (ReportTableModel) ReportTable.getModel();
             ReportData.setReportDataHeader(AnalyticsAlgorithm.this.getReportOutputHeader());
@@ -69,8 +71,12 @@ public abstract class AnalyticsAlgorithm implements  Runnable
             ReportTable.setPreferredScrollableViewportSize(new Dimension(500, 70));
             ReportTable.setFillsViewportHeight(true);
             ReportTable.getTableHeader().setReorderingAllowed(false);
+
+            ReportTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+
             JScrollPane AlgorithmOutputArea = new JScrollPane(ReportTable);
 
+            AlgorithmOutputArea.setAlignmentY(Component.BOTTOM_ALIGNMENT);
             AlgorithmArea.add(AlgorithmOutputArea);
             //Area for Buttons
 
@@ -81,6 +87,7 @@ public abstract class AnalyticsAlgorithm implements  Runnable
 
             PrintButton = new JButton("Print");
             PrintButton.setEnabled(false);
+            PrintButton.addActionListener(new PrintAction());
             ButtonsArea.add(PrintButton);
             ButtonsArea.add(Box.createRigidArea(new Dimension(5, 0)));
 
@@ -121,6 +128,18 @@ public abstract class AnalyticsAlgorithm implements  Runnable
         public void addEntityToReport(Entity entity, int Degree)
         {
             ReportData.add(entity, Degree);
+        }
+
+        //-------Action listener for Print button
+        class PrintAction implements ActionListener {
+            public void actionPerformed(ActionEvent e) {
+
+                try {
+                    AlgorithmDialogBox.this.ReportTable.print();
+                } catch (PrinterException e1) {
+
+                }
+            }
         }
 
         //-------Action listener for load button

@@ -4,16 +4,22 @@
  */
 package edu.odu.icat.graphicsinterface;
 
-import com.mxgraph.model.mxCell;
+import com.sun.xml.internal.ws.addressing.ProblemAction;
 import edu.odu.icat.analytics.AnalyticsEngine;
 import edu.odu.icat.controller.Control;
 import edu.odu.icat.graphicsinterface.editor.EditorActions;
+import edu.odu.icat.service.*;
 import edu.odu.icat.model.Entity;
-import edu.odu.icat.service.ProjectDAO;
+
+import com.mxgraph.model.mxCell;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.awt.print.PageFormat;
+import java.awt.print.Printable;
+import java.awt.print.PrinterException;
+import java.awt.print.PrinterJob;
 import java.io.File;
 import java.util.List;
 
@@ -78,10 +84,15 @@ public class WorkSpace extends JFrame {
 
                 if (cell != null && cell instanceof mxCell)
                 {
-                    Entity entity =(Entity) ((mxCell) cell).getValue();
-                    updateAttributePane(entityAttributes(entity));
+                    Object obj = ((mxCell)cell).getValue();
+                    if(obj instanceof Entity)
+                        updateAttributePane(entityAttributes((Entity)obj));
+                    else if(obj instanceof edu.odu.icat.model.Force)
+                    {
+                        updateAttributePane(new JLabel("You have selected a Force"));
+                    }
                 }
-                else
+                else 
                 {
                     attributePane = new JPanel();
                     attributePane.add(new JLabel("Nothing Selected"));
@@ -93,7 +104,7 @@ public class WorkSpace extends JFrame {
         });
 
 	}
-
+    
     public void MenuButtons() {
 
 
@@ -131,7 +142,7 @@ public class WorkSpace extends JFrame {
             pageItem.setAccelerator(KeyStroke.getKeyStroke("control I"));
         JMenuItem printItem = new JMenuItem("Print");
             printItem.setMnemonic('P');
-            printItem.setAccelerator(KeyStroke.getKeyStroke("control P"));
+            printItem.setAccelerator(KeyStroke.getKeyStroke("control P")); 
         JMenuItem quitItem = new JMenuItem("Exit");
             quitItem.setMnemonic('X');
             quitItem.setAccelerator(KeyStroke.getKeyStroke("control X"));

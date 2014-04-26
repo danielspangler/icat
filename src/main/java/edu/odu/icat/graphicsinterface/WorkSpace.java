@@ -103,7 +103,7 @@ public class WorkSpace extends JFrame {
                     else if(obj instanceof edu.odu.icat.model.Force)
                     {
                         System.out.println("You have selected a force");
-                        updateAttributePane(forceAttributes((mxCell)cell));
+                        updateAttributePane(forceAttributes(((mxCell)cell), graphComponent));
                     }
                 }
                 else 
@@ -198,7 +198,7 @@ public class WorkSpace extends JFrame {
         split.setLeftComponent(newComponent);
     }
 
-    public JPanel forceAttributes(final mxCell cell)
+    public JPanel forceAttributes(final mxCell cell, final GraphEditor editor)
     {
         final mxGraph graph = graphComponent.getGraphComponent().getGraph();
 
@@ -213,6 +213,7 @@ public class WorkSpace extends JFrame {
 
         final JLabel Notes = new JLabel("Notes:");
         final JTextArea notesField = new JTextArea(4,20);
+        notesField.setText(force.getNotes());
         final JLabel Weight = new JLabel("Weight:");
         final String[] ForceWeights = {"1","2","3","4","5"};
         final JComboBox ForceBox = new JComboBox(ForceWeights);
@@ -246,6 +247,29 @@ public class WorkSpace extends JFrame {
             newPanel.add(notesField);
             newPanel.add(ForceBox);
             newPanel.add(Weight);
+
+
+        //-------Key listeners for notesField
+        KeyListener keyListener = new KeyListener() {
+            public void keyTyped(KeyEvent e) {
+
+            }
+
+            public void keyPressed(KeyEvent e) {
+
+            }
+
+            public void keyReleased(KeyEvent e) {
+                int key = e.getKeyCode();
+                if(e.getSource()==notesField)
+                {
+                    String forceNotes = notesField.getText();
+                    force.setNotes(forceNotes);
+                }
+            }
+        };
+
+        notesField.addKeyListener(keyListener);
 
             return newPanel;
         }

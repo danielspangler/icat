@@ -430,7 +430,6 @@ public class WorkSpace extends JFrame {
 
                     String entityName = titlePane.getText();
                     entity.setName(entityName);
-                    cell.setId(entityName);
                     editor.getGraphComponent().refresh();
 
 

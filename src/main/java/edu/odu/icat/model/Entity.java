@@ -32,7 +32,7 @@ public class Entity extends Base {
     }
 
     public void setName(String name) {
-        checkArgument(!isNullOrEmpty(name), "The Entity name may not be empty");
+        //checkArgument(!isNullOrEmpty(name), "The Entity name may not be empty");
         this.name = name;
     }
 

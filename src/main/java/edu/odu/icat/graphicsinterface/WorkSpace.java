@@ -99,6 +99,7 @@ public class WorkSpace extends JFrame {
                     attributePane.setMinimumSize(new Dimension(300,500));
                 	updateAttributePane(attributePane);
                 }
+
             }
         });
 
@@ -186,13 +187,13 @@ public class WorkSpace extends JFrame {
 
     public JPanel entityAttributes(final Entity entity)
     {
-        JPanel newPanel = new JPanel();
+        final JPanel newPanel = new JPanel();
 
         //Sets the Minimum Size of the Panel to 300 wide by 500 high
         newPanel.setMinimumSize(new Dimension(300,500));
 
         //Sets the Panel layout to a SpringLayout
-        SpringLayout layout = new SpringLayout();
+        final SpringLayout layout = new SpringLayout();
         newPanel.setLayout(layout);
 
         final JTextField titlePane = new JTextField("",10); //Creates a textfield to enter a title
@@ -201,10 +202,10 @@ public class WorkSpace extends JFrame {
         metaDataTextArea.setText(entity.getNotes());
         final JLabel Name = new JLabel("Title:"); //Creates a label called Title:
         final JLabel Notes = new JLabel("Notes:"); //Creates a label called Notes:
-        JMenuBar bar = new JMenuBar(); //Creates a menu bar called bar
-        JCheckBox noncontrolCheckBox = new JCheckBox("Non-Controllable"); //Creates a checkbox for controlable entities.
-        JCheckBox nonvisibleCheckBox = new JCheckBox("Non-Visible"); //Creates a checkbox for visible entities.
-        JButton deleteButton = new JButton("Delete"); //Creates a button in order to delete entity data.
+        final JMenuBar bar = new JMenuBar(); //Creates a menu bar called bar
+        final JCheckBox noncontrolCheckBox = new JCheckBox("Non-Controllable"); //Creates a checkbox for controlable entities.
+        final JCheckBox nonvisibleCheckBox = new JCheckBox("Non-Visible"); //Creates a checkbox for visible entities.
+        final JButton deleteButton = new JButton("Delete"); //Creates a button in order to delete entity data.
 
         //This constraint places the name 5 over from the top left corner of the Panel
         layout.putConstraint(SpringLayout.WEST,Name,5,SpringLayout.WEST, newPanel);
@@ -254,10 +255,43 @@ public class WorkSpace extends JFrame {
         entityTypeMenu.add(Attribute);
         entityTypeMenu.add(Resource);
 
-        Problem.addActionListener(new ProblemAction());
+        //-------Action listener for Problem classification
+        Problem.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                entity.setClassification("Problem");
+            }
+        });
 
+        //-------Action listener for Stakeholder classification
+        Stakeholder.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                entity.setClassification("Stakeholder");
+            }
+        });
 
+        //-------Action listener for Objective classification
+        Objective.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                entity.setClassification("Objective");
+            }
+        });
 
+        //-------Action listener for Attribute classification
+        Attribute.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                entity.setClassification("Attribute");
+            }
+        });
+
+        //-------Action listener for Resource classification
+        Resource.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                entity.setClassification("Resource");
+            }
+        });
+
+        //-------Action listener for Non-Controllable CheckBox
+        
 
         newPanel.add(Name);
         newPanel.add(titlePane);
@@ -270,6 +304,7 @@ public class WorkSpace extends JFrame {
 
         newPanel.setVisible(true);
 
+        //-------Key listeners for name and metadata
         KeyListener keyListener = new KeyListener() {
             public void keyTyped(KeyEvent e) {
 
@@ -307,16 +342,6 @@ public class WorkSpace extends JFrame {
     }
 
 
-    //-------Action listener for Problem Attribute
-    class ProblemAction implements ActionListener {
-        public void actionPerformed(ActionEvent e)
-        {
-            //if
-            {
-
-            }
-        }
-    }
 
     //-------Action listener for load button
     class LoadAction implements ActionListener {
@@ -347,7 +372,7 @@ public class WorkSpace extends JFrame {
     {
         public void actionPerformed(ActionEvent e)
         {
-//            EditorActions.PrintAction.printComp(graphComponent.getGraphComponent());
+            EditorActions.PrintAction.printComp(graphComponent.getGraphComponent());
         }
     }
 
@@ -380,8 +405,8 @@ public class WorkSpace extends JFrame {
            // JOptionPane.showMessageDialog(WorkSpace.this, "No Files Found.");
             if (fc.showSaveDialog(WorkSpace.this) == JFileChooser.APPROVE_OPTION)
             {
-                File saveFils = fc.getSelectedFile();
-                psaver.saveProject(saveFils.getAbsolutePath(), edu.odu.icat.controller.Control.getInstance().getCurrentProject());
+                File saveFiles = fc.getSelectedFile();
+                psaver.saveProject(saveFiles.getAbsolutePath(), edu.odu.icat.controller.Control.getInstance().getCurrentProject());
             }
         }
     }
@@ -396,8 +421,8 @@ public class WorkSpace extends JFrame {
             // JOptionPane.showMessageDialog(WorkSpace.this, "No Files Found.");
             if (fc.showSaveDialog(WorkSpace.this) == JFileChooser.APPROVE_OPTION)
             {
-                File saveFils = fc.getSelectedFile();
-                psaver.saveProject(saveFils.getAbsolutePath(), edu.odu.icat.controller.Control.getInstance().getCurrentProject());
+                File saveFiles = fc.getSelectedFile();
+                psaver.saveProject(saveFiles.getAbsolutePath(), edu.odu.icat.controller.Control.getInstance().getCurrentProject());
             }
         }
     }

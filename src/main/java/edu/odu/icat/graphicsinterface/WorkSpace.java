@@ -398,6 +398,7 @@ public class WorkSpace extends JFrame {
                 com.mxgraph.model.mxGraphModel graphModel = (com.mxgraph.model.mxGraphModel)graph.getModel();
                 graphModel.beginUpdate();
                 try {
+                    graphModel.clear();
                     Project project = Control.getInstance().getCurrentProject();
                     if (project!=null) {
                         Map<Entity, Object> internalCells = new HashMap<Entity, Object>();
@@ -453,17 +454,9 @@ public class WorkSpace extends JFrame {
 
     //-------Action listener for save button
     class SaveAction implements ActionListener {
-        JFileChooser fc = new JFileChooser();
-
         public void actionPerformed(ActionEvent e)
         {
-            ProjectDAO psaver = new ProjectDAO();
-           // JOptionPane.showMessageDialog(WorkSpace.this, "No Files Found.");
-            if (fc.showSaveDialog(WorkSpace.this) == JFileChooser.APPROVE_OPTION)
-            {
-                File saveFiles = fc.getSelectedFile();
-                psaver.saveProject(saveFiles.getAbsolutePath(), edu.odu.icat.controller.Control.getInstance().getCurrentProject());
-            }
+                Control.getInstance().saveCurrent();
         }
     }
 
@@ -473,12 +466,11 @@ public class WorkSpace extends JFrame {
 
         public void actionPerformed(ActionEvent e)
         {
-            ProjectDAO psaver = new ProjectDAO();
             // JOptionPane.showMessageDialog(WorkSpace.this, "No Files Found.");
             if (fc.showSaveDialog(WorkSpace.this) == JFileChooser.APPROVE_OPTION)
             {
                 File saveFiles = fc.getSelectedFile();
-                psaver.saveProject(saveFiles.getAbsolutePath(), edu.odu.icat.controller.Control.getInstance().getCurrentProject());
+                Control.getInstance().saveCurrentAs(saveFiles.getAbsolutePath());
             }
         }
     }

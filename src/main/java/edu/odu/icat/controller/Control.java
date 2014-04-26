@@ -1,5 +1,6 @@
 package edu.odu.icat.controller;
 
+import com.google.common.base.Strings;
 import edu.odu.icat.testingdashboard.ModelView;
 
 import com.mxgraph.model.mxCell;
@@ -13,6 +14,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import static com.google.common.base.Preconditions.checkArgument;
+
 /**
  * Controller will interact with whatever
  */
@@ -21,6 +24,7 @@ public class Control {
     private static Control ourInstance = new Control();
 
     private Project currentProject;
+    private String currentProjectPath;
     private ProjectDAO projectDAO = new ProjectDAO();
     private List<String> entityClassifications = Arrays.asList("Problem", "Stakeholder", "Objective", "Attribute", "Resource");
     private int defaultForceWeight = 1;
@@ -56,11 +60,30 @@ public class Control {
         return new ArrayList<Force>(currentProject.getForces());
     }
 
-    public void loadProject(String project)
+    public void saveCurrent() {
+        if (!Strings.isNullOrEmpty(currentProjectPath)  && currentProject!=null) {
+            projectDAO.saveProject(currentProjectPath, currentProject);
+        } else {
+            throw new IllegalStateException("Could not find currentProjectPath or currentProject");
+        }
+    }
+
+    public void saveCurrentAs(String newPath) {
+        checkArgument(!Strings.isNullOrEmpty(newPath), "The path argument must be provided");
+        if (currentProject!=null) {
+            currentProjectPath = newPath;
+            projectDAO.saveProject(newPath, currentProject);
+        } else {
+            throw new IllegalStateException("Could not find the currentProject");
+        }
+    }
+
+    public Project loadProject(String projectPath)
     {
-        currentProject = projectDAO.getProject(project);
-        //We need to make the Diagram reflect data model on load
-        //Also reset default naming
+        checkArgument(!Strings.isNullOrEmpty(projectPath), "The project path must be provided");
+        currentProject = projectDAO.getProject(projectPath);
+        currentProjectPath = projectPath;
+        return currentProject;
     }
 
     /**

@@ -405,9 +405,9 @@ public class WorkSpace extends JFrame {
             fc.setFileFilter(filter);
             if (fc.showOpenDialog(WorkSpace.this) == JFileChooser.APPROVE_OPTION)
             {
-                File openFils = fc.getSelectedFile();
+                File openFiles = fc.getSelectedFile();
                 // load the file here
-                Control.getInstance().loadProject(openFils.getAbsolutePath());
+                Control.getInstance().loadProject(openFiles.getAbsolutePath());
 
                 com.mxgraph.view.mxGraph graph = WorkSpace.this.graphComponent.getGraphComponent().getGraph();
                 com.mxgraph.model.mxGraphModel graphModel = (com.mxgraph.model.mxGraphModel)graph.getModel();

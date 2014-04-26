@@ -5,18 +5,14 @@
 package edu.odu.icat.graphicsinterface;
 
 import com.mxgraph.model.mxCell;
-import com.mxgraph.swing.mxGraphComponent;
 import com.mxgraph.util.mxConstants;
 import com.mxgraph.view.mxGraph;
 import edu.odu.icat.analytics.AnalyticsEngine;
 import edu.odu.icat.controller.Control;
-//import edu.odu.icat.controller.Utils;
 import edu.odu.icat.graphicsinterface.editor.EditorActions;
 import edu.odu.icat.model.Entity;
 import edu.odu.icat.model.Force;
 import edu.odu.icat.model.Project;
-//import javafx.scene.control.Cell;
-
 
 import javax.swing.*;
 import javax.swing.filechooser.FileFilter;
@@ -27,6 +23,9 @@ import java.io.File;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+//import edu.odu.icat.controller.Utils;
+//import javafx.scene.control.Cell;
 
 
 public class WorkSpace extends JFrame {
@@ -478,6 +477,11 @@ public class WorkSpace extends JFrame {
             if (fc.showSaveDialog(WorkSpace.this) == JFileChooser.APPROVE_OPTION)
             {
                 File saveFiles = fc.getSelectedFile();
+                /**Check for the icat extension*/
+                if (!saveFiles.getPath().toLowerCase().endsWith(".icat"))
+                {
+                    saveFiles = new File (saveFiles.getPath()+ ".icat");
+                }
                 Control.getInstance().saveCurrentAs(saveFiles.getAbsolutePath());
             }
         }

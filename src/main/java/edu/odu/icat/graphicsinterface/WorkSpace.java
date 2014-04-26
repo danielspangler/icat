@@ -10,6 +10,9 @@ import edu.odu.icat.controller.Control;
 import edu.odu.icat.graphicsinterface.editor.EditorActions;
 import edu.odu.icat.service.*;
 import edu.odu.icat.model.Entity;
+import edu.odu.icat.model.Force;
+import edu.odu.icat.model.Project;
+import edu.odu.icat.service.ProjectDAO;
 
 import com.mxgraph.model.mxCell;
 
@@ -21,7 +24,9 @@ import java.awt.print.Printable;
 import java.awt.print.PrinterException;
 import java.awt.print.PrinterJob;
 import java.io.File;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 
 public class WorkSpace extends JFrame {
@@ -356,6 +361,24 @@ public class WorkSpace extends JFrame {
                 // load the file here
                 Control.getInstance().loadProject(openFils.getAbsolutePath());
 
+                com.mxgraph.view.mxGraph graph = WorkSpace.this.graphComponent.getGraphComponent().getGraph();
+                com.mxgraph.model.mxGraphModel graphModel = (com.mxgraph.model.mxGraphModel)graph.getModel();
+                graphModel.beginUpdate();
+                try {
+                    Project project = Control.getInstance().getCurrentProject();
+                    if (project!=null) {
+                        Map<Entity, Object> internalCells = new HashMap<Entity, Object>();
+                        for (Entity entity : project.getEntities()) {
+                            internalCells.put(entity, graph.insertVertex(graph.getDefaultParent(), null, entity, entity.getLocation().getX(), entity.getLocation().getY(), 80, 30));
+                        }
+                        for (Force force : project.getForces()) {
+                            graph.insertEdge(graph.getDefaultParent(), null, force, internalCells.get(force.getOrigin()), internalCells.get(force.getDestination()));
+                        }
+                    }
+
+                } finally {
+                    graphModel.endUpdate();
+                }
             }
         }
     }

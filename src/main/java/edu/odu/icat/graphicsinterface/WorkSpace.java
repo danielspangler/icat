@@ -10,6 +10,7 @@ import com.mxgraph.util.mxConstants;
 import com.mxgraph.util.png.mxPngEncodeParam;
 import com.mxgraph.util.png.mxPngImageEncoder;
 import com.mxgraph.view.mxGraph;
+import com.sun.org.apache.xalan.internal.xsltc.runtime.StringValueHandler;
 import edu.odu.icat.analytics.AnalyticsEngine;
 import edu.odu.icat.controller.Control;
 import edu.odu.icat.graphicsinterface.editor.EditorActions;
@@ -101,7 +102,8 @@ public class WorkSpace extends JFrame {
                         updateAttributePane(entityAttributes(graphComponent, (mxCell)cell));
                     else if(obj instanceof edu.odu.icat.model.Force)
                     {
-                        updateAttributePane(new JLabel("You have selected a Force"));
+                        System.out.println("You have selected a force");
+                        updateAttributePane(forceAttributes((mxCell)cell));
                     }
                 }
                 else 
@@ -196,10 +198,57 @@ public class WorkSpace extends JFrame {
         split.setLeftComponent(newComponent);
     }
 
-    public JPanel forceAttributes(final Force force)
+    public JPanel forceAttributes(final mxCell cell)
     {
-        return new JPanel();
-    }
+        final mxGraph graph = graphComponent.getGraphComponent().getGraph();
+
+        final Force force = (Force)(cell.getValue());
+        //final mxGraph graph = editor.getGraphComponent().getGraph();
+        final JPanel newPanel = new JPanel();
+        //Sets the Minimum Size of the Panel to 300 wide by 500 high
+        newPanel.setMinimumSize(new Dimension(WorkSpace.MINIMUM_PANEL_SIZE,500));
+
+        final SpringLayout layout = new SpringLayout();
+        newPanel.setLayout(layout);
+
+        final JLabel Notes = new JLabel("Notes:");
+        final JTextArea notesField = new JTextArea(4,20);
+        final JLabel Weight = new JLabel("Weight:");
+        final String[] ForceWeights = {"1","2","3","4","5"};
+        final JComboBox ForceBox = new JComboBox(ForceWeights);
+        ForceBox.setSelectedItem(Integer.toString(force.getWeight()));
+        ForceBox.addActionListener(new ActionListener() {
+                                       public void actionPerformed(ActionEvent actionEvent) {
+                                           JComboBox cb = (JComboBox) actionEvent.getSource();
+                                           force.setWeight(Integer.parseInt((String) cb.getSelectedItem()));
+                                           graph.setCellStyles(mxConstants.STYLE_STROKEWIDTH, (String)cb.getSelectedItem(), new Object[]{cell});
+                                       }
+                                   });
+
+
+            //This constraint places the name 5 over from the top left corner of the Panel
+            layout.putConstraint(SpringLayout.WEST,Notes,5,SpringLayout.WEST,newPanel);
+            layout.putConstraint(SpringLayout.NORTH,Notes,5,SpringLayout.NORTH,newPanel);
+
+            //This Constraint puts the titlePane 5 over from the Name Label and 5 under the Panel top y value
+            layout.putConstraint(SpringLayout.WEST,notesField,5,SpringLayout.EAST,Notes);
+            layout.putConstraint(SpringLayout.NORTH,notesField,5,SpringLayout.NORTH,newPanel);
+
+            //This constraint puts the menubar 5 over from the titlePane and 5 under the panels top y value
+            layout.putConstraint(SpringLayout.WEST,Weight,5,SpringLayout.WEST,newPanel);
+            layout.putConstraint(SpringLayout.SOUTH,Weight,75,SpringLayout.SOUTH,Notes);
+
+        //This constraint puts Notes label 5 from the west portion of the Panel but 30 units under the Name Label
+            layout.putConstraint(SpringLayout.WEST,ForceBox,45,SpringLayout.WEST,Weight);
+            layout.putConstraint(SpringLayout.SOUTH,ForceBox,75,SpringLayout.SOUTH,Notes);
+
+            newPanel.add(Notes);
+            newPanel.add(notesField);
+            newPanel.add(ForceBox);
+            newPanel.add(Weight);
+
+            return newPanel;
+        }
 
     public JPanel entityAttributes(final GraphEditor editor, final mxCell cell)
     {
@@ -280,25 +329,35 @@ public class WorkSpace extends JFrame {
                 JComboBox cb = (JComboBox) actionEvent.getSource();
                 entity.setClassification((String) cb.getSelectedItem());
                 //Change the color of the drawable entity
-                if (entity.getClassification() == "Problem") {
+                if (entity.getClassification().equals("Problem")) {
+                    graph.setCellStyles(mxConstants.STYLE_STROKECOLOR, "black", new Object[]{cell});
                     graph.setCellStyles(mxConstants.STYLE_GRADIENTCOLOR, "black", new Object[]{cell}); //changes the color to red
                     graph.setCellStyles(mxConstants.STYLE_FILLCOLOR, "black", new Object[]{cell}); //changes the color to red
+                    graph.setCellStyles(mxConstants.STYLE_FONTCOLOR, "white", new Object[]{cell});
                 }
-                if (entity.getClassification() == "Stakeholder") {
+                if (entity.getClassification().equals("Stakeholder")) {
+                    graph.setCellStyles(mxConstants.STYLE_STROKECOLOR, "blue", new Object[]{cell});
                     graph.setCellStyles(mxConstants.STYLE_GRADIENTCOLOR, "blue", new Object[]{cell}); //changes the color to red
                     graph.setCellStyles(mxConstants.STYLE_FILLCOLOR, "blue", new Object[]{cell}); //changes the color to red
+                    graph.setCellStyles(mxConstants.STYLE_FONTCOLOR, "white", new Object[]{cell});
                 }
-                if (entity.getClassification() == "Objective") {
+                if (entity.getClassification().equals("Objective")) {
+                    graph.setCellStyles(mxConstants.STYLE_STROKECOLOR, "orange", new Object[]{cell});
                     graph.setCellStyles(mxConstants.STYLE_GRADIENTCOLOR, "orange", new Object[]{cell}); //changes the color to red
                     graph.setCellStyles(mxConstants.STYLE_FILLCOLOR, "orange", new Object[]{cell}); //changes the color to red
+                    graph.setCellStyles(mxConstants.STYLE_FONTCOLOR, "black", new Object[]{cell});
                 }
-                if (entity.getClassification() == "Attribute") {
+                if (entity.getClassification().equals("Attribute")) {
+                    graph.setCellStyles(mxConstants.STYLE_STROKECOLOR, "green", new Object[]{cell});
                     graph.setCellStyles(mxConstants.STYLE_GRADIENTCOLOR, "green", new Object[]{cell}); //changes the color to red
                     graph.setCellStyles(mxConstants.STYLE_FILLCOLOR, "green", new Object[]{cell}); //changes the color to red
+                    graph.setCellStyles(mxConstants.STYLE_FONTCOLOR, "white", new Object[]{cell});
                 }
-                if (entity.getClassification() == "Resource") {
+                if (entity.getClassification().equals("Resource")) {
+                    graph.setCellStyles(mxConstants.STYLE_STROKECOLOR, "yellow", new Object[]{cell});
                     graph.setCellStyles(mxConstants.STYLE_GRADIENTCOLOR, "yellow", new Object[]{cell}); //changes the color to red
                     graph.setCellStyles(mxConstants.STYLE_FILLCOLOR, "yellow", new Object[]{cell}); //changes the color to red
+                    graph.setCellStyles(mxConstants.STYLE_FONTCOLOR, "black", new Object[]{cell});
                 }
 
                 editor.getGraphComponent().refresh();
@@ -312,13 +371,13 @@ public class WorkSpace extends JFrame {
             public void itemStateChanged(ItemEvent e) {
                 if(e.getStateChange() == ItemEvent.SELECTED)
                 {
-                    graph.setCellStyles(mxConstants.STYLE_STROKEWIDTH, "5");
+                    graph.setCellStyles(mxConstants.STYLE_STROKEWIDTH, "5", new Object[]{cell});
                     entity.setControllable(false);
                 }
                 else if (e.getStateChange() == ItemEvent.DESELECTED)
                 {
                     entity.setControllable(true);
-                    graph.setCellStyles(mxConstants.STYLE_STROKEWIDTH, "1");
+                    graph.setCellStyles(mxConstants.STYLE_STROKEWIDTH, "1", new Object[]{cell});
                 }
             }
         });
@@ -328,12 +387,12 @@ public class WorkSpace extends JFrame {
             public void itemStateChanged(ItemEvent e) {
                 if(e.getStateChange() == ItemEvent.SELECTED)
                 {
-                    graph.setCellStyles(mxConstants.STYLE_OPACITY, "50");
+                    graph.setCellStyles(mxConstants.STYLE_OPACITY, "50", new Object[]{cell});
                     entity.setVisible(false);
                 }
                 else if (e.getStateChange() == ItemEvent.DESELECTED)
                 {
-                    graph.setCellStyles(mxConstants.STYLE_OPACITY, "100");
+                    graph.setCellStyles(mxConstants.STYLE_OPACITY, "100", new Object[]{cell});
                     entity.setVisible(true);
                 }
             }
@@ -342,11 +401,17 @@ public class WorkSpace extends JFrame {
         //-------Action listener for Clear Button
         clearButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                titlePane.setText("");
+                String classification = Control.getInstance().getDefaultEntityClassification();
+                String newName = classification + "1";
+                titlePane.setText(newName);
                 metaDataTextArea.setText("");
                 noncontrolCheckBox.setSelected(false);
                 nonvisibleCheckBox.setSelected(false);
-                //need to change text in the model for title pane and metadata
+                entityTypeMenu.setSelectedItem(classification);
+                entity.setNotes("");
+                entity.setName(newName);
+                entity.setClassification(classification);
+                graph.refresh();
             }
         });
 
@@ -375,22 +440,17 @@ public class WorkSpace extends JFrame {
                 int key = e.getKeyCode();
                 if(e.getSource()==titlePane)
                 {
-                    if(key==KeyEvent.VK_ENTER)
-                    {
-                        String entityName = titlePane.getText();
-                        entity.setName(entityName);
-                        cell.setId(entityName);
-                        editor.getGraphComponent().refresh();
 
-                    }
+                    String entityName = titlePane.getText();
+                    entity.setName(entityName);
+                    editor.getGraphComponent().refresh();
+
+
                 }
                 if(e.getSource()==metaDataTextArea)
                 {
-                    if(key==KeyEvent.VK_ENTER)
-                    {
-                        String metaDataText = metaDataTextArea.getText();
-                        entity.setNotes(metaDataText);
-                    }
+                    String metaDataText = metaDataTextArea.getText();
+                    entity.setNotes(metaDataText);
                 }
             }
         };
@@ -432,43 +492,43 @@ public class WorkSpace extends JFrame {
                             Object graphEntity = graph.insertVertex(graph.getDefaultParent(), null, entity, entity.getLocation().getX(), entity.getLocation().getY(), 100, 100,"shape=ellipse");
                             Object[] entities = {graphEntity};
 
-                            System.out.println(entity.getClassification());
-
                             if(entity.getClassification().equals("Problem")) {
                                 graph.setCellStyles(mxConstants.STYLE_STROKECOLOR, "black", entities);
                                 graph.setCellStyles(mxConstants.STYLE_GRADIENTCOLOR, "black", entities); //changes the color to red
                                 graph.setCellStyles(mxConstants.STYLE_FILLCOLOR, "black", entities); //changes the color to red
+                                graph.setCellStyles(mxConstants.STYLE_FONTCOLOR, "white", entities);
                             }
                             if(entity.getClassification().equals("Stakeholder")) {
                                 graph.setCellStyles(mxConstants.STYLE_STROKECOLOR, "blue", entities);
                                 graph.setCellStyles(mxConstants.STYLE_GRADIENTCOLOR, "blue", entities); //changes the color to red
                                 graph.setCellStyles(mxConstants.STYLE_FILLCOLOR, "blue", entities); //changes the color to red
+                                graph.setCellStyles(mxConstants.STYLE_FONTCOLOR, "white", entities);
                             }
                             if(entity.getClassification().equals("Objective")) {
                                 graph.setCellStyles(mxConstants.STYLE_STROKECOLOR, "orange", entities);
                                 graph.setCellStyles(mxConstants.STYLE_GRADIENTCOLOR, "orange", entities); //changes the color to red
                                 graph.setCellStyles(mxConstants.STYLE_FILLCOLOR, "orange", entities); //changes the color to red
+                                graph.setCellStyles(mxConstants.STYLE_FONTCOLOR, "black", entities);
                             }
                             if(entity.getClassification().equals("Attribute")) {
                                 graph.setCellStyles(mxConstants.STYLE_STROKECOLOR, "green", entities);
                                 graph.setCellStyles(mxConstants.STYLE_GRADIENTCOLOR, "green", entities); //changes the color to red
                                 graph.setCellStyles(mxConstants.STYLE_FILLCOLOR, "green", entities); //changes the color to red
+                                graph.setCellStyles(mxConstants.STYLE_FONTCOLOR, "white", entities);
                             }
                             if(entity.getClassification().equals("Resource")) {
                                 graph.setCellStyles(mxConstants.STYLE_STROKECOLOR, "yellow", entities);
                                 graph.setCellStyles(mxConstants.STYLE_GRADIENTCOLOR, "yellow", entities); //changes the color to red
                                 graph.setCellStyles(mxConstants.STYLE_FILLCOLOR, "yellow", entities); //changes the color to red
+                                graph.setCellStyles(mxConstants.STYLE_FONTCOLOR, "black", entities);
                             }
-
-                            //graph.setCellStyles(mxConstants.STYLE_FILLCOLOR, "yellow", entities);
                             internalCells.put(entity, graphEntity);
-
-                            //graph.setCellStyles(mxConstants.STYLE_FILLCOLOR, "blue", new Object[]{cell});
-                            //editor.getGraphComponent().refresh();
+                            graphComponent.getGraphComponent().refresh();
 
                         }
                         for (Force force : project.getForces()) {
-                            graph.insertEdge(graph.getDefaultParent(), null, force, internalCells.get(force.getOrigin()), internalCells.get(force.getDestination()));
+                            Object insertedEdge = graph.insertEdge(graph.getDefaultParent(), null, force, internalCells.get(force.getOrigin()), internalCells.get(force.getDestination()));
+                            graph.setCellStyles(mxConstants.STYLE_STROKEWIDTH, Integer.toString(force.getWeight()), new Object[]{insertedEdge});
                         }
                     }
 

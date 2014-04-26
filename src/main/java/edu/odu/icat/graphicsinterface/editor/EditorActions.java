@@ -110,7 +110,8 @@ public class EditorActions
                 vertex=graph.insertVertex(graph.getDefaultParent(), null,entity, pt.getX(), pt.getY(),100,100,"shape=ellipse");
                 graph.setCellStyles(mxConstants.STYLE_GRADIENTCOLOR, "blue", new Object[]{vertex}); //changes the color to red
                 graph.setCellStyles(mxConstants.STYLE_FILLCOLOR, "blue", new Object[]{vertex}); //changes the color to red
-
+                graph.setCellStyles(mxConstants.STYLE_FONTCOLOR, "white", new Object[]{vertex});
+                graph.setCellStyles(mxConstants.STYLE_STROKECOLOR, "blue", new Object[]{vertex});
                 // graph.insertVertex(graph.getDefaultParent(), null, entity, pt.getX(),pt.getY(), 80,
                         //30);
             }

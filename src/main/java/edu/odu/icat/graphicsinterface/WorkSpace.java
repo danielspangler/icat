@@ -209,7 +209,19 @@ public class WorkSpace extends JFrame {
         final JLabel Notes = new JLabel("Notes:"); //Creates a label called Notes:
         final JMenuBar bar = new JMenuBar(); //Creates a menu bar called bar
         final JCheckBox noncontrolCheckBox = new JCheckBox("Non-Controllable"); //Creates a checkbox for controlable entities.
+        if(entity.isControllable())
+        {
+            noncontrolCheckBox.setSelected(false);
+        }
+        else
+            noncontrolCheckBox.setSelected(true);
         final JCheckBox nonvisibleCheckBox = new JCheckBox("Non-Visible"); //Creates a checkbox for visible entities.
+        if(entity.isVisible())
+        {
+            nonvisibleCheckBox.setSelected(false);
+        }
+        else
+            nonvisibleCheckBox.setSelected(true);
         final JButton deleteButton = new JButton("Delete"); //Creates a button in order to delete entity data.
 
         //This constraint places the name 5 over from the top left corner of the Panel

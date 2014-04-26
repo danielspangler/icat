@@ -15,7 +15,7 @@ import edu.odu.icat.graphicsinterface.editor.EditorActions;
 import edu.odu.icat.model.Entity;
 import edu.odu.icat.model.Force;
 import edu.odu.icat.model.Project;
-import javafx.scene.control.Cell;
+//import javafx.scene.control.Cell;
 
 
 import javax.swing.*;
@@ -196,8 +196,10 @@ public class WorkSpace extends JFrame {
 
     public JPanel entityAttributes(final GraphEditor editor, final mxCell cell)
     {
+        final mxGraph graph = graphComponent.getGraphComponent().getGraph();
+
         final Entity entity = (Entity)(cell.getValue());
-        final mxGraph graph = editor.getGraphComponent().getGraph();
+        //final mxGraph graph = editor.getGraphComponent().getGraph();
         final JPanel newPanel = new JPanel();
 
         //Sets the Minimum Size of the Panel to 300 wide by 500 high
@@ -292,9 +294,15 @@ public class WorkSpace extends JFrame {
         noncontrolCheckBox.addItemListener(new ItemListener() {
             public void itemStateChanged(ItemEvent e) {
                 if(e.getStateChange() == ItemEvent.SELECTED)
+                {
+                    graph.setCellStyles(mxConstants.STYLE_STROKEWIDTH, "5");
                     entity.setControllable(false);
+                }
                 else if (e.getStateChange() == ItemEvent.DESELECTED)
+                {
                     entity.setControllable(true);
+                    graph.setCellStyles(mxConstants.STYLE_STROKEWIDTH, "1");
+                }
             }
         });
 
@@ -302,9 +310,15 @@ public class WorkSpace extends JFrame {
         nonvisibleCheckBox.addItemListener(new ItemListener() {
             public void itemStateChanged(ItemEvent e) {
                 if(e.getStateChange() == ItemEvent.SELECTED)
+                {
+                    graph.setCellStyles(mxConstants.STYLE_OPACITY, "50");
                     entity.setVisible(false);
+                }
                 else if (e.getStateChange() == ItemEvent.DESELECTED)
+                {
+                    graph.setCellStyles(mxConstants.STYLE_OPACITY, "100");
                     entity.setVisible(true);
+                }
             }
         });
 
@@ -318,7 +332,6 @@ public class WorkSpace extends JFrame {
                 //need to change text in the model for title pane and metadata
             }
         });
-
 
         newPanel.add(Name);
         newPanel.add(titlePane);
@@ -370,8 +383,6 @@ public class WorkSpace extends JFrame {
 
         return newPanel;
     }
-
-
 
     //-------Action listener for load button
     class LoadAction implements ActionListener {

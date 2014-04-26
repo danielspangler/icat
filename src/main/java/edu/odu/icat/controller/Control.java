@@ -1,6 +1,7 @@
 package edu.odu.icat.controller;
 
 import com.google.common.base.Strings;
+import com.mxgraph.model.mxGeometry;
 import edu.odu.icat.service.ConfigurationDAO;
 import edu.odu.icat.testingdashboard.ModelView;
 
@@ -113,7 +114,7 @@ public class Control {
         return entityClassifications.get(defaultEntityClassificationIndex);
     }
 
-    public String getEnitySpecificClassification(int i){
+    public String getEntitySpecificClassification(int i){
 
         return entityClassifications.get(i);
     }
@@ -176,11 +177,11 @@ public class Control {
                     } else {
                         force.setDestination((Entity) ((mxCell) terminal.getTerminal()).getValue());
                     }
-                    System.out.println("Only one changed");
+                    //System.out.println("Only one changed");
                 }
             }
 
-            System.out.println(evt.getName());
+            //System.out.println(evt.getName());
         }
     };
 

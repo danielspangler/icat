@@ -397,10 +397,12 @@ public class WorkSpace extends JFrame {
     //-------Action listener for load button
     class LoadAction implements ActionListener {
         JFileChooser fc = new JFileChooser();
+        FileFilter filter = new FileNameExtensionFilter("ICAT Files", "icat");
 
         public void actionPerformed(ActionEvent e)
         {
             //JOptionPane.showMessageDialog(WorkSpace.this, "No Files Found.");
+            fc.setFileFilter(filter);
             if (fc.showOpenDialog(WorkSpace.this) == JFileChooser.APPROVE_OPTION)
             {
                 File openFils = fc.getSelectedFile();

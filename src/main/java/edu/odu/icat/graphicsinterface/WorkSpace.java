@@ -448,6 +448,7 @@ public class WorkSpace extends JFrame {
                 File saveFiles = fc.getSelectedFile();
                 //check for the icat extension
                 if (!saveFiles.getPath().toLowerCase().endsWith(".icat")){
+                    //If not add .icat to the project name
                     saveFiles = new File(saveFiles.getPath() + ".icat");
                 }
                 Control.getInstance().saveCurrentAs(saveFiles.getAbsolutePath());

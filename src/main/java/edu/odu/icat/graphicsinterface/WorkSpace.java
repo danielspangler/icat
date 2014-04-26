@@ -427,22 +427,18 @@ public class WorkSpace extends JFrame {
                 int key = e.getKeyCode();
                 if(e.getSource()==titlePane)
                 {
-                    if(key==KeyEvent.VK_ENTER)
-                    {
-                        String entityName = titlePane.getText();
-                        entity.setName(entityName);
-                        cell.setId(entityName);
-                        editor.getGraphComponent().refresh();
 
-                    }
+                    String entityName = titlePane.getText();
+                    entity.setName(entityName);
+                    cell.setId(entityName);
+                    editor.getGraphComponent().refresh();
+
+
                 }
                 if(e.getSource()==metaDataTextArea)
                 {
-                    if(key==KeyEvent.VK_ENTER)
-                    {
-                        String metaDataText = metaDataTextArea.getText();
-                        entity.setNotes(metaDataText);
-                    }
+                    String metaDataText = metaDataTextArea.getText();
+                    entity.setNotes(metaDataText);
                 }
             }
         };

@@ -88,7 +88,7 @@ public class WorkSpace extends JFrame {
                         updateAttributePane(entityAttributes(graphComponent, (mxCell)cell));
                     else if(obj instanceof edu.odu.icat.model.Force)
                     {
-                        updateAttributePane(new JLabel("You have selected a Force"));
+                        updateAttributePane(forceAttributes((mxCell)cell));
                     }
                 }
                 else 
@@ -183,9 +183,40 @@ public class WorkSpace extends JFrame {
         split.setLeftComponent(newComponent);
     }
 
-    public JPanel forceAttributes(final Force force)
+    public JPanel forceAttributes(final mxCell cell)
     {
-        return new JPanel();
+        final JPanel newPanel = new JPanel();
+        final Force force = (Force)(cell.getValue());
+
+        newPanel.setMinimumSize(new Dimension(WorkSpace.MINIMUM_PANEL_SIZE,500));
+
+        //Sets the Panel layout to a SpringLayout
+        final SpringLayout layout = new SpringLayout();
+        newPanel.setLayout(layout);
+
+        //JMenu forcesMenu = new JMenu("Forces");
+        //List<Force> forceList = edu.odu.icat.controller.Control.getInstance().getForces();
+
+        final JLabel Notes = new JLabel("Notes:");
+        final JTextField notesField = new JTextField("",20);
+        notesField.setText(force.getNotes());
+        final JMenuBar bar = new JMenuBar();
+
+        //This constraint places the name 5 over from the top left corner of the Panel
+        layout.putConstraint(SpringLayout.WEST,Notes,5,SpringLayout.WEST, newPanel);
+        layout.putConstraint(SpringLayout.NORTH,Notes,5,SpringLayout.NORTH, newPanel);
+
+        //This Constraint puts the titlePane 5 over from the Name Label and 5 under the Panel top y value
+        layout.putConstraint(SpringLayout.WEST,notesField,5,SpringLayout.EAST, Notes);
+        layout.putConstraint(SpringLayout.NORTH,notesField,5,SpringLayout.NORTH, newPanel);
+
+        //This constraint puts the menubar 5 over from the titlePane and 5 under the panels top y value
+        layout.putConstraint(SpringLayout.WEST,bar,5,SpringLayout.EAST,notesField);
+        layout.putConstraint(SpringLayout.NORTH,bar,5,SpringLayout.NORTH,newPanel);
+
+        
+
+        return newPanel;
     }
 
     public JPanel entityAttributes(final GraphEditor editor, final mxCell cell)

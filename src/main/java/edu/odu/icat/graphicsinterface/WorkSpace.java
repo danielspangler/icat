@@ -202,7 +202,7 @@ public class WorkSpace extends JFrame {
 
         final JTextField titlePane = new JTextField("",10); //Creates a textfield to enter a title
         titlePane.setText(entity.getName());
-        final JTextField metaDataTextArea = new JTextField("",25); //Creates a textfield to enter Metadata
+        final JTextArea metaDataTextArea = new JTextArea(4,25); //Creates a textfield to enter Metadata
         metaDataTextArea.setText(entity.getNotes());
         final JLabel Name = new JLabel("Title:"); //Creates a label called Title:
         final JLabel Notes = new JLabel("Notes:"); //Creates a label called Notes:
@@ -214,6 +214,7 @@ public class WorkSpace extends JFrame {
         }
         else
             noncontrolCheckBox.setSelected(true);
+
         final JCheckBox nonvisibleCheckBox = new JCheckBox("Non-Visible"); //Creates a checkbox for visible entities.
         if(entity.isVisible())
         {
@@ -221,7 +222,8 @@ public class WorkSpace extends JFrame {
         }
         else
             nonvisibleCheckBox.setSelected(true);
-        final JButton deleteButton = new JButton("Delete"); //Creates a button in order to delete entity data.
+
+        final JButton clearButton = new JButton("Clear"); //Creates a button in order to clear entity data.
 
         //This constraint places the name 5 over from the top left corner of the Panel
         layout.putConstraint(SpringLayout.WEST,Name,5,SpringLayout.WEST, newPanel);
@@ -241,19 +243,19 @@ public class WorkSpace extends JFrame {
 
         //This constraint puts the MedadataTextArea 5 from the west portion of the Panel and 50 units under the titlePane.
         layout.putConstraint(SpringLayout.WEST,metaDataTextArea,5,SpringLayout.WEST,newPanel);
-        layout.putConstraint(SpringLayout.SOUTH,metaDataTextArea,50,SpringLayout.SOUTH,titlePane);
+        layout.putConstraint(SpringLayout.SOUTH,metaDataTextArea,100,SpringLayout.SOUTH,titlePane);
 
         //This constraint puts the control box 25 units from the west portion of the Panel and 75 units under the titlePane
         layout.putConstraint(SpringLayout.WEST,noncontrolCheckBox,25,SpringLayout.WEST,newPanel);
-        layout.putConstraint(SpringLayout.SOUTH,noncontrolCheckBox,75,SpringLayout.SOUTH,titlePane);
+        layout.putConstraint(SpringLayout.SOUTH,noncontrolCheckBox,125,SpringLayout.SOUTH,titlePane);
 
         //This constraint puts the visible box 25 units from the west portion of the Panel and 100 units under the titlePane
         layout.putConstraint(SpringLayout.WEST,nonvisibleCheckBox,25,SpringLayout.WEST,newPanel);
-        layout.putConstraint(SpringLayout.SOUTH,nonvisibleCheckBox,100,SpringLayout.SOUTH,titlePane);
+        layout.putConstraint(SpringLayout.SOUTH,nonvisibleCheckBox,150,SpringLayout.SOUTH,titlePane);
 
         //This constraint puts the delete button 25 units from the west portion of the Panel and 150 units under the titlePane
-        layout.putConstraint(SpringLayout.WEST,deleteButton,25,SpringLayout.WEST,newPanel);
-        layout.putConstraint(SpringLayout.SOUTH,deleteButton,150,SpringLayout.SOUTH,titlePane);
+        layout.putConstraint(SpringLayout.WEST,clearButton,25,SpringLayout.WEST,newPanel);
+        layout.putConstraint(SpringLayout.SOUTH,clearButton,200,SpringLayout.SOUTH,titlePane);
 
         String[] entityTypes = Control.getInstance().getEntityClassifications().toArray(new String[Control.getInstance().getEntityClassifications().size()]);
         final JComboBox entityTypeMenu = new JComboBox(entityTypes);
@@ -287,8 +289,16 @@ public class WorkSpace extends JFrame {
             }
         });
 
-        //-------Action listener for Delete Button
-        //shit
+        //-------Action listener for Clear Button
+        clearButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                titlePane.setText("");
+                metaDataTextArea.setText("");
+                noncontrolCheckBox.setSelected(false);
+                nonvisibleCheckBox.setSelected(false);
+                //need to change text in the model for title pane and metadata
+            }
+        });
 
 
         newPanel.add(Name);
@@ -298,7 +308,7 @@ public class WorkSpace extends JFrame {
         newPanel.add(metaDataTextArea);
         newPanel.add(nonvisibleCheckBox);
         newPanel.add(noncontrolCheckBox);
-        newPanel.add(deleteButton);
+        newPanel.add(clearButton);
 
         newPanel.setVisible(true);
 

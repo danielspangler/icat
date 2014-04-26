@@ -22,15 +22,17 @@ public class EditorPopupMenu extends JPopupMenu
 		boolean selected = !editor.getGraphComponent().getGraph()
 				.isSelectionEmpty();
 
-        add(editor.bind("Test", new EditorActions.TestAction()));
+        //add(editor.bind("Test", new EditorActions.TestAction()));
         add(editor.bind(mxResources.get("newVertex"), new NewVertexAction()));
+
+        addSeparator();
 
         add(editor.bind(mxResources.get("zoomIn"), mxGraphActions.getZoomInAction()));
         add(editor.bind(mxResources.get("zoomOut"), mxGraphActions.getZoomOutAction()));
         add(editor.bind(mxResources.get("actualSize"),mxGraphActions.getZoomActualAction()));
 
-		add(editor.bind(mxResources.get("undo"), new HistoryAction(true),
-				"/com/mxgraph/examples/swing/images/undo.gif"));
+		//add(editor.bind(mxResources.get("undo"), new HistoryAction(true),
+		//		"/com/mxgraph/examples/swing/images/undo.gif"));
 
 		addSeparator();
 
@@ -55,35 +57,35 @@ public class EditorPopupMenu extends JPopupMenu
 						"/com/mxgraph/examples/swing/images/delete.gif"))
 				.setEnabled(selected);
 
-		addSeparator();
+		//addSeparator();
 
 		// Creates the format menu
-		JMenu menu = (JMenu) add(new JMenu(mxResources.get("format")));
+		//JMenu menu = (JMenu) add(new JMenu(mxResources.get("format")));
 
-		EditorMenuBar.populateFormatMenu(menu, editor);
+		//EditorMenuBar.populateFormatMenu(menu, editor);
 
 		// Creates the shape menu
-		menu = (JMenu) add(new JMenu(mxResources.get("shape")));
+		//menu = (JMenu) add(new JMenu(mxResources.get("shape")));
 
-		EditorMenuBar.populateShapeMenu(menu, editor);
+		//EditorMenuBar.populateShapeMenu(menu, editor);
 
-		addSeparator();
+		//addSeparator();
 
-		add(
-				editor.bind(mxResources.get("edit"), mxGraphActions
-						.getEditAction())).setEnabled(selected);
+		//add(
+		//		editor.bind(mxResources.get("edit"), mxGraphActions
+		//				.getEditAction())).setEnabled(selected);
 
-		addSeparator();
+		//addSeparator();
 
-		add(editor.bind(mxResources.get("selectVertices"), mxGraphActions
-				.getSelectVerticesAction()));
-		add(editor.bind(mxResources.get("selectEdges"), mxGraphActions
-				.getSelectEdgesAction()));
+		//add(editor.bind(mxResources.get("selectVertices"), mxGraphActions
+		//		.getSelectVerticesAction()));
+		//add(editor.bind(mxResources.get("selectEdges"), mxGraphActions
+		//		.getSelectEdgesAction()));
 
-		addSeparator();
+		//addSeparator();
 
-		add(editor.bind(mxResources.get("selectAll"), mxGraphActions
-				.getSelectAllAction()));
+		//add(editor.bind(mxResources.get("selectAll"), mxGraphActions
+		//		.getSelectAllAction()));
 	}
 
 }

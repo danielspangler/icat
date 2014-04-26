@@ -394,11 +394,17 @@ public class WorkSpace extends JFrame {
         //-------Action listener for Clear Button
         clearButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                titlePane.setText("");
+                String classification = Control.getInstance().getDefaultEntityClassification();
+                String newName = classification + "1";
+                titlePane.setText(newName);
                 metaDataTextArea.setText("");
                 noncontrolCheckBox.setSelected(false);
                 nonvisibleCheckBox.setSelected(false);
-                //need to change text in the model for title pane and metadata
+                entityTypeMenu.setSelectedItem(classification);
+                entity.setNotes("");
+                entity.setName(newName);
+                entity.setClassification(classification);
+                graph.refresh();
             }
         });
 

@@ -1,6 +1,7 @@
 package edu.odu.icat.controller;
 
 import com.google.common.base.Strings;
+import edu.odu.icat.service.ConfigurationDAO;
 import edu.odu.icat.testingdashboard.ModelView;
 
 import com.mxgraph.model.mxCell;
@@ -26,6 +27,8 @@ public class Control {
     private Project currentProject;
     private String currentProjectPath;
     private ProjectDAO projectDAO = new ProjectDAO();
+    private ConfigurationDAO configDAO = new ConfigurationDAO();
+    private Configuration config = null;
     private List<String> entityClassifications = Arrays.asList("Problem", "Stakeholder", "Objective", "Attribute", "Resource");
     private int defaultForceWeight = 1;
     private int defaultEntityClassificationIndex = 1;
@@ -40,6 +43,12 @@ public class Control {
         new ModelView();
     }
 
+    private Configuration getConfig() {
+        if (config==null) {
+            config = configDAO.getConfiguration();
+        }
+        return config;
+    }
 
     public Project getCurrentProject() {
         if (currentProject == null) {
@@ -83,6 +92,7 @@ public class Control {
         checkArgument(!Strings.isNullOrEmpty(projectPath), "The project path must be provided");
         currentProject = projectDAO.getProject(projectPath);
         currentProjectPath = projectPath;
+
         return currentProject;
     }
 

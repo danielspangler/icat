@@ -118,14 +118,27 @@ public class Control {
 
     private class GraphEventListener implements mxEventSource.mxIEventListener {
 
+        private void handleGeometryChange(mxGraphModel.mxGeometryChange change) {
+            Object valueAsObject = ((com.mxgraph.model.mxCell)change.getCell()).getValue();
+            if (valueAsObject instanceof Entity) {
+                Entity entity = (Entity)valueAsObject;
+                entity.getLocation().setX(change.getGeometry().getX());
+                entity.getLocation().setY(change.getGeometry().getY());
+            }
+        }
+
         public void invoke(Object sender, mxEventObject evt) {
             List changes = (List)evt.getProperties().get("changes");
             // we have changes, now let's figure out what changed
             if (changes!=null) {
                 List<mxGraphModel.mxTerminalChange> terminalChanges = new ArrayList<mxGraphModel.mxTerminalChange>();
+
                 for (Object change : changes) {
                     if (change instanceof mxGraphModel.mxTerminalChange) {
                         terminalChanges.add((mxGraphModel.mxTerminalChange) change);
+                    }
+                    if (change instanceof mxGraphModel.mxGeometryChange) {
+                        handleGeometryChange((mxGraphModel.mxGeometryChange) change);
                     }
                 }
                 if (terminalChanges.size()==2) {

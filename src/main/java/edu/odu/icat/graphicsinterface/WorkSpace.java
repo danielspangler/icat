@@ -5,12 +5,18 @@
 package edu.odu.icat.graphicsinterface;
 
 import com.mxgraph.model.mxCell;
+import com.mxgraph.swing.mxGraphComponent;
+import com.mxgraph.util.mxConstants;
+import com.mxgraph.view.mxGraph;
 import edu.odu.icat.analytics.AnalyticsEngine;
 import edu.odu.icat.controller.Control;
+//import edu.odu.icat.controller.Utils;
 import edu.odu.icat.graphicsinterface.editor.EditorActions;
 import edu.odu.icat.model.Entity;
 import edu.odu.icat.model.Force;
 import edu.odu.icat.model.Project;
+import javafx.scene.control.Cell;
+
 
 import javax.swing.*;
 import javax.swing.filechooser.FileFilter;
@@ -191,6 +197,7 @@ public class WorkSpace extends JFrame {
     public JPanel entityAttributes(final GraphEditor editor, final mxCell cell)
     {
         final Entity entity = (Entity)(cell.getValue());
+        final mxGraph graph = editor.getGraphComponent().getGraph();
         final JPanel newPanel = new JPanel();
 
         //Sets the Minimum Size of the Panel to 300 wide by 500 high
@@ -257,14 +264,26 @@ public class WorkSpace extends JFrame {
         layout.putConstraint(SpringLayout.WEST,clearButton,25,SpringLayout.WEST,newPanel);
         layout.putConstraint(SpringLayout.SOUTH,clearButton,200,SpringLayout.SOUTH,titlePane);
 
-        String[] entityTypes = Control.getInstance().getEntityClassifications().toArray(new String[Control.getInstance().getEntityClassifications().size()]);
+        final String[] entityTypes = Control.getInstance().getEntityClassifications().toArray(new String[Control.getInstance().getEntityClassifications().size()]);
         final JComboBox entityTypeMenu = new JComboBox(entityTypes);
         entityTypeMenu.setSelectedItem(entity.getClassification());
         entityTypeMenu.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent actionEvent) {
-                JComboBox cb = (JComboBox) actionEvent.getSource();
-                entity.setClassification((String) cb.getSelectedItem());
+                JComboBox cb = (JComboBox)actionEvent.getSource();
+                entity.setClassification((String)cb.getSelectedItem());
                 //Change the color of the drawable entity
+                if(entity.getClassification() == "Problem")
+                    graph.setCellStyles(mxConstants.STYLE_FILLCOLOR, "black", new Object[]{cell}); //changes the color to red
+                if(entity.getClassification() == "StakeHolder")
+                    graph.setCellStyles(mxConstants.STYLE_FILLCOLOR, "blue", new Object[]{cell}); //changes the color to red
+                if(entity.getClassification() == "Objective")
+                    graph.setCellStyles(mxConstants.STYLE_FILLCOLOR, "orange", new Object[]{cell}); //changes the color to red
+                if(entity.getClassification() == "Attribute")
+                    graph.setCellStyles(mxConstants.STYLE_FILLCOLOR, "green", new Object[]{cell}); //changes the color to red
+                if(entity.getClassification() == "Resource")
+                    graph.setCellStyles(mxConstants.STYLE_FILLCOLOR, "yellow", new Object[]{cell}); //changes the color to red
+                editor.getGraphComponent().refresh();
+
             }
         });
         bar.add(entityTypeMenu);
@@ -357,16 +376,15 @@ public class WorkSpace extends JFrame {
     //-------Action listener for load button
     class LoadAction implements ActionListener {
         JFileChooser fc = new JFileChooser();
-        FileFilter filter = new FileNameExtensionFilter("ICAT Files", "icat");
+
         public void actionPerformed(ActionEvent e)
         {
-            fc.setFileFilter(filter); //icat extensions
             //JOptionPane.showMessageDialog(WorkSpace.this, "No Files Found.");
             if (fc.showOpenDialog(WorkSpace.this) == JFileChooser.APPROVE_OPTION)
             {
-                File openFiles = fc.getSelectedFile();
+                File openFils = fc.getSelectedFile();
                 // load the file here
-                Control.getInstance().loadProject(openFiles.getAbsolutePath());
+                Control.getInstance().loadProject(openFils.getAbsolutePath());
 
                 com.mxgraph.view.mxGraph graph = WorkSpace.this.graphComponent.getGraphComponent().getGraph();
                 com.mxgraph.model.mxGraphModel graphModel = (com.mxgraph.model.mxGraphModel)graph.getModel();
@@ -430,11 +448,7 @@ public class WorkSpace extends JFrame {
     class SaveAction implements ActionListener {
         public void actionPerformed(ActionEvent e)
         {
-            try {
                 Control.getInstance().saveCurrent();
-            } catch (IllegalStateException e1){
-                new SaveAsAction().actionPerformed((e));
-            }
         }
     }
 
@@ -442,20 +456,16 @@ public class WorkSpace extends JFrame {
     class SaveAsAction implements ActionListener {
         JFileChooser fc = new JFileChooser();
         FileFilter filter = new FileNameExtensionFilter("ICAT Files", "icat");
-
+        //Utils utils = new Utils();
+        
         public void actionPerformed(ActionEvent e)
         {
             // JOptionPane.showMessageDialog(WorkSpace.this, "No Files Found.");
             fc.setFileFilter(filter);
-            fc.setAcceptAllFileFilterUsed(false);
+            //fc.getSelectedFile();
             if (fc.showSaveDialog(WorkSpace.this) == JFileChooser.APPROVE_OPTION)
             {
                 File saveFiles = fc.getSelectedFile();
-                //check for the icat extension
-                if (!saveFiles.getPath().toLowerCase().endsWith(".icat")){
-                    //If not add .icat to the project name
-                    saveFiles = new File(saveFiles.getPath() + ".icat");
-                }
                 Control.getInstance().saveCurrentAs(saveFiles.getAbsolutePath());
             }
         }

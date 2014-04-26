@@ -4,6 +4,7 @@ import com.mxgraph.layout.hierarchical.mxHierarchicalLayout;
 import com.mxgraph.layout.*;
 import com.mxgraph.model.mxCell;
 import com.mxgraph.model.mxGraphModel;
+import com.mxgraph.swing.handler.mxGraphHandler;
 import com.mxgraph.swing.handler.mxKeyboardHandler;
 import com.mxgraph.swing.handler.mxRubberband;
 import com.mxgraph.swing.mxGraphComponent;
@@ -137,6 +138,9 @@ public class BasicGraphEditor extends JPanel
 
         // Do not change the scale and translation after files have been loaded
         graph.setResetViewOnRootChange(false);
+
+        final mxGraphHandler graphHandler = graphComponent.getGraphHandler();
+        graphHandler.setCloneEnabled(false);
 
         // Updates the modified flag if the graph model changes
         graph.getModel().addListener(mxEvent.CHANGE, changeTracker);

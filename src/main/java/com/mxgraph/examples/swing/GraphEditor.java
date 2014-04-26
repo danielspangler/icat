@@ -12,10 +12,12 @@ import java.util.List;
 import javax.swing.ImageIcon;
 import javax.swing.UIManager;
 
+import com.mxgraph.swing.handler.mxGraphHandler;
 import org.w3c.dom.Document;
 
 import com.mxgraph.examples.swing.editor.BasicGraphEditor;
 import com.mxgraph.examples.swing.editor.EditorMenuBar;
+import com.mxgraph.*;
 import com.mxgraph.examples.swing.editor.EditorPalette;
 import com.mxgraph.io.mxCodec;
 import com.mxgraph.model.mxCell;
@@ -72,11 +74,14 @@ public class GraphEditor extends BasicGraphEditor
 	public GraphEditor(String appTitle, mxGraphComponent component)
 	{
 		super(appTitle, component);
-        Rect.setRect(0,0,2500,2500);
+        Rect.setRect(0, 0, 2500, 2500);
+        final mxGraphHandler graphHandler = graphComponent.getGraphHandler();
 		final mxGraph graph = graphComponent.getGraph();
         graphOutline.setVisible(false);
-        graph.setAllowDanglingEdges(false);
-        graph.setMinimumGraphSize(Rect);
+        //graph.setAllowDanglingEdges(false);
+        graph.setCellsCloneable(false);
+        //graphHandler.setCloneEnabled(false);
+        //graph.setMinimumGraphSize(Rect);
         //graphComponent.setPageVisible(true);
 	}
 

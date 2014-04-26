@@ -33,6 +33,8 @@ public class WorkSpace extends JFrame {
     private JPanel attributePane;
     private JSplitPane split;
 
+    public static int MINIMUM_PANEL_SIZE = 300;
+
 	/**
 	 * Launch the application.
 	 */
@@ -57,8 +59,6 @@ public class WorkSpace extends JFrame {
         this.setIconImage(Toolkit.getDefaultToolkit().getImage("src/main/resources/logo.png"));
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 850, 600);
-
-
 
         setLayout(new BorderLayout());
 
@@ -96,10 +96,9 @@ public class WorkSpace extends JFrame {
                 {
                     attributePane = new JPanel();
                     attributePane.add(new JLabel("Nothing Selected"));
-                    attributePane.setMinimumSize(new Dimension(300,500));
+                    attributePane.setMinimumSize(new Dimension(WorkSpace.MINIMUM_PANEL_SIZE,500));
                 	updateAttributePane(attributePane);
                 }
-
             }
         });
 
@@ -185,12 +184,17 @@ public class WorkSpace extends JFrame {
         split.setLeftComponent(newComponent);
     }
 
+    public JPanel forceAttributes(final Force force)
+    {
+        return new JPanel();
+    }
+
     public JPanel entityAttributes(final Entity entity)
     {
         final JPanel newPanel = new JPanel();
 
         //Sets the Minimum Size of the Panel to 300 wide by 500 high
-        newPanel.setMinimumSize(new Dimension(300,500));
+        newPanel.setMinimumSize(new Dimension(WorkSpace.MINIMUM_PANEL_SIZE,500));
 
         //Sets the Panel layout to a SpringLayout
         final SpringLayout layout = new SpringLayout();
@@ -251,56 +255,17 @@ public class WorkSpace extends JFrame {
         layout.putConstraint(SpringLayout.WEST,deleteButton,25,SpringLayout.WEST,newPanel);
         layout.putConstraint(SpringLayout.SOUTH,deleteButton,150,SpringLayout.SOUTH,titlePane);
 
-
-        final JMenu entityTypeMenu = new JMenu("Type");
+        String[] entityTypes = Control.getInstance().getEntityClassifications().toArray(new String[Control.getInstance().getEntityClassifications().size()]);
+        final JComboBox entityTypeMenu = new JComboBox(entityTypes);
+        entityTypeMenu.setSelectedItem(entity.getClassification());
+        entityTypeMenu.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent actionEvent) {
+                JComboBox cb = (JComboBox)actionEvent.getSource();
+                entity.setClassification((String)cb.getSelectedItem());
+                //Change the color of the drawable entity
+            }
+        });
         bar.add(entityTypeMenu);
-
-        JMenuItem Problem = new JMenuItem(edu.odu.icat.controller.Control.getInstance().getEnitySpecificClassification(0));
-        JMenuItem Stakeholder = new JMenuItem(edu.odu.icat.controller.Control.getInstance().getEnitySpecificClassification(1));
-        JMenuItem Objective = new JMenuItem(edu.odu.icat.controller.Control.getInstance().getEnitySpecificClassification(2));
-        JMenuItem Attribute = new JMenuItem(edu.odu.icat.controller.Control.getInstance().getEnitySpecificClassification(3));
-        JMenuItem Resource = new JMenuItem(edu.odu.icat.controller.Control.getInstance().getEnitySpecificClassification(4));
-
-        entityTypeMenu.add(Problem);
-        entityTypeMenu.add(Stakeholder);
-        entityTypeMenu.add(Objective);
-        entityTypeMenu.add(Attribute);
-        entityTypeMenu.add(Resource);
-
-        //-------Action listener for Problem classification
-        Problem.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                entity.setClassification("Problem");
-            }
-        });
-
-        //-------Action listener for Stakeholder classification
-        Stakeholder.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                entity.setClassification("Stakeholder");
-            }
-        });
-
-        //-------Action listener for Objective classification
-        Objective.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                entity.setClassification("Objective");
-            }
-        });
-
-        //-------Action listener for Attribute classification
-        Attribute.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                entity.setClassification("Attribute");
-            }
-        });
-
-        //-------Action listener for Resource classification
-        Resource.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                entity.setClassification("Resource");
-            }
-        });
 
         //-------Item listener for Non-Controllable CheckBox
         noncontrolCheckBox.addItemListener(new ItemListener() {

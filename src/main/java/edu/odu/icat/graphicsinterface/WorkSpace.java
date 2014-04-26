@@ -4,25 +4,20 @@
  */
 package edu.odu.icat.graphicsinterface;
 
-import com.sun.xml.internal.ws.addressing.ProblemAction;
+import com.mxgraph.model.mxCell;
 import edu.odu.icat.analytics.AnalyticsEngine;
 import edu.odu.icat.controller.Control;
 import edu.odu.icat.graphicsinterface.editor.EditorActions;
-import edu.odu.icat.service.*;
 import edu.odu.icat.model.Entity;
 import edu.odu.icat.model.Force;
 import edu.odu.icat.model.Project;
 import edu.odu.icat.service.ProjectDAO;
 
-import com.mxgraph.model.mxCell;
-
 import javax.swing.*;
+import javax.swing.filechooser.FileFilter;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import java.awt.*;
 import java.awt.event.*;
-import java.awt.print.PageFormat;
-import java.awt.print.Printable;
-import java.awt.print.PrinterException;
-import java.awt.print.PrinterJob;
 import java.io.File;
 import java.util.HashMap;
 import java.util.List;
@@ -458,11 +453,14 @@ public class WorkSpace extends JFrame {
     //-------Action listener for save as button
     class SaveAsAction implements ActionListener {
         JFileChooser fc = new JFileChooser();
+        FileFilter filter = new FileNameExtensionFilter("ICAT Files", "icat");
 
         public void actionPerformed(ActionEvent e)
         {
             ProjectDAO psaver = new ProjectDAO();
             // JOptionPane.showMessageDialog(WorkSpace.this, "No Files Found.");
+
+            fc.setFileFilter(filter);
             if (fc.showSaveDialog(WorkSpace.this) == JFileChooser.APPROVE_OPTION)
             {
                 File saveFiles = fc.getSelectedFile();

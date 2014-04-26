@@ -67,6 +67,7 @@ public class GraphEditor extends BasicGraphEditor
         graphOutline.setVisible(false);
         graph.setAllowDanglingEdges(false);
         graph.setMinimumGraphSize(Rect);
+        graph.setCellsEditable(false);
       //  graph.setMaximumGraphBounds(Rect);
 	}
 

@@ -262,8 +262,9 @@ public class WorkSpace extends JFrame {
         entityTypeMenu.setSelectedItem(entity.getClassification());
         entityTypeMenu.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent actionEvent) {
-                JComboBox cb = (JComboBox)actionEvent.getSource();
-                entity.setClassification((String)cb.getSelectedItem());
+                JComboBox cb = (JComboBox) actionEvent.getSource();
+                entity.setClassification((String) cb.getSelectedItem());
+                //Change the color of the drawable entity
             }
         });
         bar.add(entityTypeMenu);
@@ -291,18 +292,11 @@ public class WorkSpace extends JFrame {
         //-------Action listener for Clear Button
         clearButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                entity.setClassification(Control.getInstance().getDefaultEntityClassification());
-                String newName = Control.getInstance().getDefaultEntityClassification().toString() + "1";
-                entity.setName(newName);
-                cell.setId(newName);
-                editor.getGraphComponent().refresh();
-                entity.setNotes("");
-                entityTypeMenu.setSelectedItem(Control.getInstance().getDefaultEntityClassification());
-
-                titlePane.setText(newName);
+                titlePane.setText("");
                 metaDataTextArea.setText("");
                 noncontrolCheckBox.setSelected(false);
                 nonvisibleCheckBox.setSelected(false);
+                //need to change text in the model for title pane and metadata
             }
         });
 
@@ -332,7 +326,7 @@ public class WorkSpace extends JFrame {
                 int key = e.getKeyCode();
                 if(e.getSource()==titlePane)
                 {
-                    if(key==KeyEvent.VK_ENTER || key==KeyEvent.VK_TAB)
+                    if(key==KeyEvent.VK_ENTER)
                     {
                         String entityName = titlePane.getText();
                         entity.setName(entityName);
@@ -343,7 +337,7 @@ public class WorkSpace extends JFrame {
                 }
                 if(e.getSource()==metaDataTextArea)
                 {
-                    if(key==KeyEvent.VK_ENTER || key==KeyEvent.VK_TAB)
+                    if(key==KeyEvent.VK_ENTER)
                     {
                         String metaDataText = metaDataTextArea.getText();
                         entity.setNotes(metaDataText);
@@ -363,15 +357,16 @@ public class WorkSpace extends JFrame {
     //-------Action listener for load button
     class LoadAction implements ActionListener {
         JFileChooser fc = new JFileChooser();
-
+        FileFilter filter = new FileNameExtensionFilter("ICAT Files", "icat");
         public void actionPerformed(ActionEvent e)
         {
+            fc.setFileFilter(filter); //icat extensions
             //JOptionPane.showMessageDialog(WorkSpace.this, "No Files Found.");
             if (fc.showOpenDialog(WorkSpace.this) == JFileChooser.APPROVE_OPTION)
             {
-                File openFils = fc.getSelectedFile();
+                File openFiles = fc.getSelectedFile();
                 // load the file here
-                Control.getInstance().loadProject(openFils.getAbsolutePath());
+                Control.getInstance().loadProject(openFiles.getAbsolutePath());
 
                 com.mxgraph.view.mxGraph graph = WorkSpace.this.graphComponent.getGraphComponent().getGraph();
                 com.mxgraph.model.mxGraphModel graphModel = (com.mxgraph.model.mxGraphModel)graph.getModel();

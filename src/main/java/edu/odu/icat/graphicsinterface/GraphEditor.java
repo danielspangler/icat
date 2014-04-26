@@ -3,7 +3,6 @@
  * Copyright (c) 2006-2012, JGraph Ltd */
 package edu.odu.icat.graphicsinterface;
 
-import com.mxgraph.swing.handler.mxGraphHandler;
 import edu.odu.icat.graphicsinterface.editor.BasicGraphEditor;
 import edu.odu.icat.graphicsinterface.editor.EditorMenuBar;
 import com.mxgraph.io.mxCodec;
@@ -65,11 +64,11 @@ public class GraphEditor extends BasicGraphEditor
 	{
 		super(appTitle, component);
 		final mxGraph graph = graphComponent.getGraph();
-        final mxGraphHandler graphHandler = graphComponent.getGraphHandler();
         graphOutline.setVisible(false);
         graph.setAllowDanglingEdges(false);
         graph.setMinimumGraphSize(Rect);
-        graphHandler.setCloneEnabled(false);
+        graph.setCellsEditable(false);
+        graphComponent.getConnectionHandler().setCreateTarget(false);
       //  graph.setMaximumGraphBounds(Rect);
 	}
 

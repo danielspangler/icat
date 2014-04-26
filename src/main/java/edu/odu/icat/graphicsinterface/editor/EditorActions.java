@@ -26,6 +26,7 @@ import com.mxgraph.util.png.mxPngEncodeParam;
 import com.mxgraph.util.png.mxPngImageEncoder;
 import com.mxgraph.util.png.mxPngTextDecoder;
 import com.mxgraph.view.mxGraph;
+import com.mxgraph.view.mxStylesheet;
 import edu.odu.icat.controller.Control;
 import edu.odu.icat.model.Entity;
 import edu.odu.icat.model.Force;
@@ -52,6 +53,7 @@ import java.io.*;
 import java.lang.reflect.Method;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 
@@ -93,15 +95,20 @@ public class EditorActions
         {
             defaultIndex++;
             mxGraph graph = getEditor(e).getGraphComponent().getGraph();
+            Object vertex=null;
 
             if (graph != null)
             {
                 mxPoint pt = getEditor(e).mouseClickLoc;
                 Entity entity = new Entity("Name " + defaultIndex, Control.getInstance().getDefaultEntityClassification());
-                Control.getInstance().getCurrentProject().addEntity(entity);
+                Control.getInstance().getCurrentProject().addEntity(entity);;
+                // graphComponent.refresh();\
                 entity.setLocation(new Location(pt.getX(), pt.getY()));
-                graph.insertVertex(graph.getDefaultParent(), null,entity, pt.getX(), pt.getY(),100,100,"shape=ellipse");
-               // graph.insertVertex(graph.getDefaultParent(), null, entity, pt.getX(),pt.getY(), 80,
+                vertex=graph.insertVertex(graph.getDefaultParent(), null,entity, pt.getX(), pt.getY(),100,100,"shape=ellipse");
+                graph.setCellStyles(mxConstants.STYLE_GRADIENTCOLOR, "blue", new Object[]{vertex}); //changes the color to red
+                graph.setCellStyles(mxConstants.STYLE_FILLCOLOR, "blue", new Object[]{vertex}); //changes the color to red
+
+                // graph.insertVertex(graph.getDefaultParent(), null, entity, pt.getX(),pt.getY(), 80,
                         //30);
             }
         }

@@ -91,7 +91,7 @@ public class WorkSpace extends JFrame {
                 {
                     Object obj = ((mxCell)cell).getValue();
                     if(obj instanceof Entity)
-                        updateAttributePane(entityAttributes(graphComponent, (mxCell)cell));
+                        updateAttributePane(entityAttributes((mxCell)cell));
                     else if(obj instanceof edu.odu.icat.model.Force)
                     {
                         updateAttributePane(new JLabel("You have selected a Force"));
@@ -194,7 +194,7 @@ public class WorkSpace extends JFrame {
         return new JPanel();
     }
 
-    public JPanel entityAttributes(final GraphEditor editor, final mxCell cell)
+    public JPanel entityAttributes(final mxCell cell)
     {
         final mxGraph graph = graphComponent.getGraphComponent().getGraph();
 
@@ -304,7 +304,7 @@ public class WorkSpace extends JFrame {
                     graph.setCellStyles(mxConstants.STYLE_FONTCOLOR, "black", new Object[]{cell});
                 }
 
-                editor.getGraphComponent().refresh();
+                graphComponent.getGraphComponent().refresh();
 
             }
         });
@@ -383,7 +383,7 @@ public class WorkSpace extends JFrame {
                         String entityName = titlePane.getText();
                         entity.setName(entityName);
                         cell.setId(entityName);
-                        editor.getGraphComponent().refresh();
+                        graphComponent.getGraphComponent().refresh();
 
                     }
                 }

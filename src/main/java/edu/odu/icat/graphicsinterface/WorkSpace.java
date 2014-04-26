@@ -285,8 +285,28 @@ public class WorkSpace extends JFrame {
             }
         });
 
-        //-------Action listener for Non-Controllable CheckBox
-        
+        //-------Item listener for Non-Controllable CheckBox
+        noncontrolCheckBox.addItemListener(new ItemListener() {
+            public void itemStateChanged(ItemEvent e) {
+                if(e.getStateChange() == ItemEvent.SELECTED)
+                    entity.setControllable(false);
+                else if (e.getStateChange() == ItemEvent.DESELECTED)
+                    entity.setControllable(true);
+            }
+        });
+
+        //-------Item listener for Non-Visible CheckBox
+        nonvisibleCheckBox.addItemListener(new ItemListener() {
+            public void itemStateChanged(ItemEvent e) {
+                if(e.getStateChange() == ItemEvent.SELECTED)
+                    entity.setVisible(false);
+                else if (e.getStateChange() == ItemEvent.DESELECTED)
+                    entity.setVisible(true);
+            }
+        });
+
+        //-------Action listener for Delete Button
+
 
         newPanel.add(Name);
         newPanel.add(titlePane);

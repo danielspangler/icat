@@ -273,25 +273,35 @@ public class WorkSpace extends JFrame {
                 JComboBox cb = (JComboBox) actionEvent.getSource();
                 entity.setClassification((String) cb.getSelectedItem());
                 //Change the color of the drawable entity
-                if (entity.getClassification() == "Problem") {
+                if(entity.getClassification().equals("Problem")) {
+                    graph.setCellStyles(mxConstants.STYLE_STROKECOLOR, "black", new Object[]{cell});
                     graph.setCellStyles(mxConstants.STYLE_GRADIENTCOLOR, "black", new Object[]{cell}); //changes the color to red
                     graph.setCellStyles(mxConstants.STYLE_FILLCOLOR, "black", new Object[]{cell}); //changes the color to red
+                    graph.setCellStyles(mxConstants.STYLE_FONTCOLOR, "white", new Object[]{cell});
                 }
-                if (entity.getClassification() == "Stakeholder") {
+                if(entity.getClassification().equals("Stakeholder")) {
+                    graph.setCellStyles(mxConstants.STYLE_STROKECOLOR, "blue", new Object[]{cell});
                     graph.setCellStyles(mxConstants.STYLE_GRADIENTCOLOR, "blue", new Object[]{cell}); //changes the color to red
                     graph.setCellStyles(mxConstants.STYLE_FILLCOLOR, "blue", new Object[]{cell}); //changes the color to red
+                    graph.setCellStyles(mxConstants.STYLE_FONTCOLOR, "white", new Object[]{cell});
                 }
-                if (entity.getClassification() == "Objective") {
+                if(entity.getClassification().equals("Objective")) {
+                    graph.setCellStyles(mxConstants.STYLE_STROKECOLOR, "orange", new Object[]{cell});
                     graph.setCellStyles(mxConstants.STYLE_GRADIENTCOLOR, "orange", new Object[]{cell}); //changes the color to red
                     graph.setCellStyles(mxConstants.STYLE_FILLCOLOR, "orange", new Object[]{cell}); //changes the color to red
+                    graph.setCellStyles(mxConstants.STYLE_FONTCOLOR, "black", new Object[]{cell});
                 }
-                if (entity.getClassification() == "Attribute") {
+                if(entity.getClassification().equals("Attribute")) {
+                    graph.setCellStyles(mxConstants.STYLE_STROKECOLOR, "green", new Object[]{cell});
                     graph.setCellStyles(mxConstants.STYLE_GRADIENTCOLOR, "green", new Object[]{cell}); //changes the color to red
                     graph.setCellStyles(mxConstants.STYLE_FILLCOLOR, "green", new Object[]{cell}); //changes the color to red
+                    graph.setCellStyles(mxConstants.STYLE_FONTCOLOR, "white", new Object[]{cell});
                 }
-                if (entity.getClassification() == "Resource") {
+                if(entity.getClassification().equals("Resource")) {
+                    graph.setCellStyles(mxConstants.STYLE_STROKECOLOR, "yellow", new Object[]{cell});
                     graph.setCellStyles(mxConstants.STYLE_GRADIENTCOLOR, "yellow", new Object[]{cell}); //changes the color to red
                     graph.setCellStyles(mxConstants.STYLE_FILLCOLOR, "yellow", new Object[]{cell}); //changes the color to red
+                    graph.setCellStyles(mxConstants.STYLE_FONTCOLOR, "black", new Object[]{cell});
                 }
 
                 editor.getGraphComponent().refresh();
@@ -431,26 +441,31 @@ public class WorkSpace extends JFrame {
                                 graph.setCellStyles(mxConstants.STYLE_STROKECOLOR, "black", entities);
                                 graph.setCellStyles(mxConstants.STYLE_GRADIENTCOLOR, "black", entities); //changes the color to red
                                 graph.setCellStyles(mxConstants.STYLE_FILLCOLOR, "black", entities); //changes the color to red
+                                graph.setCellStyles(mxConstants.STYLE_FONTCOLOR, "white", entities);
                             }
                             if(entity.getClassification().equals("Stakeholder")) {
                                 graph.setCellStyles(mxConstants.STYLE_STROKECOLOR, "blue", entities);
                                 graph.setCellStyles(mxConstants.STYLE_GRADIENTCOLOR, "blue", entities); //changes the color to red
                                 graph.setCellStyles(mxConstants.STYLE_FILLCOLOR, "blue", entities); //changes the color to red
+                                graph.setCellStyles(mxConstants.STYLE_FONTCOLOR, "white", entities);
                             }
                             if(entity.getClassification().equals("Objective")) {
                                 graph.setCellStyles(mxConstants.STYLE_STROKECOLOR, "orange", entities);
                                 graph.setCellStyles(mxConstants.STYLE_GRADIENTCOLOR, "orange", entities); //changes the color to red
                                 graph.setCellStyles(mxConstants.STYLE_FILLCOLOR, "orange", entities); //changes the color to red
+                                graph.setCellStyles(mxConstants.STYLE_FONTCOLOR, "black", entities);
                             }
                             if(entity.getClassification().equals("Attribute")) {
                                 graph.setCellStyles(mxConstants.STYLE_STROKECOLOR, "green", entities);
                                 graph.setCellStyles(mxConstants.STYLE_GRADIENTCOLOR, "green", entities); //changes the color to red
                                 graph.setCellStyles(mxConstants.STYLE_FILLCOLOR, "green", entities); //changes the color to red
+                                graph.setCellStyles(mxConstants.STYLE_FONTCOLOR, "white", entities);
                             }
                             if(entity.getClassification().equals("Resource")) {
                                 graph.setCellStyles(mxConstants.STYLE_STROKECOLOR, "yellow", entities);
                                 graph.setCellStyles(mxConstants.STYLE_GRADIENTCOLOR, "yellow", entities); //changes the color to red
                                 graph.setCellStyles(mxConstants.STYLE_FILLCOLOR, "yellow", entities); //changes the color to red
+                                graph.setCellStyles(mxConstants.STYLE_FONTCOLOR, "black", entities);
                             }
 
                             //graph.setCellStyles(mxConstants.STYLE_FILLCOLOR, "yellow", entities);

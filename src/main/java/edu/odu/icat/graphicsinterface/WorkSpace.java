@@ -270,26 +270,26 @@ public class WorkSpace extends JFrame {
         entityTypeMenu.setSelectedItem(entity.getClassification());
         entityTypeMenu.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent actionEvent) {
-                JComboBox cb = (JComboBox)actionEvent.getSource();
-                entity.setClassification((String)cb.getSelectedItem());
+                JComboBox cb = (JComboBox) actionEvent.getSource();
+                entity.setClassification((String) cb.getSelectedItem());
                 //Change the color of the drawable entity
-                if(entity.getClassification() == "Problem") {
+                if (entity.getClassification() == "Problem") {
                     graph.setCellStyles(mxConstants.STYLE_GRADIENTCOLOR, "black", new Object[]{cell}); //changes the color to red
                     graph.setCellStyles(mxConstants.STYLE_FILLCOLOR, "black", new Object[]{cell}); //changes the color to red
                 }
-                if(entity.getClassification() == "Stakeholder") {
+                if (entity.getClassification() == "Stakeholder") {
                     graph.setCellStyles(mxConstants.STYLE_GRADIENTCOLOR, "blue", new Object[]{cell}); //changes the color to red
                     graph.setCellStyles(mxConstants.STYLE_FILLCOLOR, "blue", new Object[]{cell}); //changes the color to red
                 }
-                if(entity.getClassification() == "Objective") {
+                if (entity.getClassification() == "Objective") {
                     graph.setCellStyles(mxConstants.STYLE_GRADIENTCOLOR, "orange", new Object[]{cell}); //changes the color to red
                     graph.setCellStyles(mxConstants.STYLE_FILLCOLOR, "orange", new Object[]{cell}); //changes the color to red
                 }
-                if(entity.getClassification() == "Attribute") {
+                if (entity.getClassification() == "Attribute") {
                     graph.setCellStyles(mxConstants.STYLE_GRADIENTCOLOR, "green", new Object[]{cell}); //changes the color to red
                     graph.setCellStyles(mxConstants.STYLE_FILLCOLOR, "green", new Object[]{cell}); //changes the color to red
                 }
-                if(entity.getClassification() == "Resource") {
+                if (entity.getClassification() == "Resource") {
                     graph.setCellStyles(mxConstants.STYLE_GRADIENTCOLOR, "yellow", new Object[]{cell}); //changes the color to red
                     graph.setCellStyles(mxConstants.STYLE_FILLCOLOR, "yellow", new Object[]{cell}); //changes the color to red
                 }
@@ -479,7 +479,11 @@ public class WorkSpace extends JFrame {
     class SaveAction implements ActionListener {
         public void actionPerformed(ActionEvent e)
         {
+            try {
                 Control.getInstance().saveCurrent();
+            } catch (IllegalStateException e1){
+                new SaveAsAction().actionPerformed(e);
+            }
         }
     }
 

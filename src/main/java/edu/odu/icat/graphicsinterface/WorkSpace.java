@@ -4,18 +4,22 @@
  */
 package edu.odu.icat.graphicsinterface;
 
-import com.mxgraph.model.mxCell;
+import com.sun.xml.internal.ws.addressing.ProblemAction;
 import edu.odu.icat.analytics.AnalyticsEngine;
 import edu.odu.icat.controller.Control;
 import edu.odu.icat.graphicsinterface.editor.EditorActions;
+import edu.odu.icat.service.*;
 import edu.odu.icat.model.Entity;
-import edu.odu.icat.service.ProjectDAO;
+
+import com.mxgraph.model.mxCell;
 
 import javax.swing.*;
-import javax.swing.filechooser.FileFilter;
-import javax.swing.filechooser.FileNameExtensionFilter;
 import java.awt.*;
 import java.awt.event.*;
+import java.awt.print.PageFormat;
+import java.awt.print.Printable;
+import java.awt.print.PrinterException;
+import java.awt.print.PrinterJob;
 import java.io.File;
 import java.util.List;
 
@@ -178,13 +182,13 @@ public class WorkSpace extends JFrame {
 
     public JPanel entityAttributes(final Entity entity)
     {
-        JPanel newPanel = new JPanel();
+        final JPanel newPanel = new JPanel();
 
         //Sets the Minimum Size of the Panel to 300 wide by 500 high
         newPanel.setMinimumSize(new Dimension(300,500));
 
         //Sets the Panel layout to a SpringLayout
-        SpringLayout layout = new SpringLayout();
+        final SpringLayout layout = new SpringLayout();
         newPanel.setLayout(layout);
 
         final JTextField titlePane = new JTextField("",10); //Creates a textfield to enter a title
@@ -193,10 +197,10 @@ public class WorkSpace extends JFrame {
         metaDataTextArea.setText(entity.getNotes());
         final JLabel Name = new JLabel("Title:"); //Creates a label called Title:
         final JLabel Notes = new JLabel("Notes:"); //Creates a label called Notes:
-        JMenuBar bar = new JMenuBar(); //Creates a menu bar called bar
-        JCheckBox noncontrolCheckBox = new JCheckBox("Non-Controllable"); //Creates a checkbox for controlable entities.
-        JCheckBox nonvisibleCheckBox = new JCheckBox("Non-Visible"); //Creates a checkbox for visible entities.
-        JButton deleteButton = new JButton("Delete"); //Creates a button in order to delete entity data.
+        final JMenuBar bar = new JMenuBar(); //Creates a menu bar called bar
+        final JCheckBox noncontrolCheckBox = new JCheckBox("Non-Controllable"); //Creates a checkbox for controlable entities.
+        final JCheckBox nonvisibleCheckBox = new JCheckBox("Non-Visible"); //Creates a checkbox for visible entities.
+        final JButton deleteButton = new JButton("Delete"); //Creates a button in order to delete entity data.
 
         //This constraint places the name 5 over from the top left corner of the Panel
         layout.putConstraint(SpringLayout.WEST,Name,5,SpringLayout.WEST, newPanel);
@@ -236,18 +240,53 @@ public class WorkSpace extends JFrame {
 
         JMenuItem Problem = new JMenuItem(edu.odu.icat.controller.Control.getInstance().getEnitySpecificClassification(0));
         JMenuItem Stakeholder = new JMenuItem(edu.odu.icat.controller.Control.getInstance().getEnitySpecificClassification(1));
+        JMenuItem Objective = new JMenuItem(edu.odu.icat.controller.Control.getInstance().getEnitySpecificClassification(2));
+        JMenuItem Attribute = new JMenuItem(edu.odu.icat.controller.Control.getInstance().getEnitySpecificClassification(3));
+        JMenuItem Resource = new JMenuItem(edu.odu.icat.controller.Control.getInstance().getEnitySpecificClassification(4));
 
-        JMenuItem Objectives = new JMenuItem(edu.odu.icat.controller.Control.getInstance().getEnitySpecificClassification(2));
-        JMenuItem Resources = new JMenuItem(edu.odu.icat.controller.Control.getInstance().getEnitySpecificClassification(3));
-        JMenuItem IDK = new JMenuItem(edu.odu.icat.controller.Control.getInstance().getEnitySpecificClassification(4));
+        entityTypeMenu.add(Problem);
+        entityTypeMenu.add(Stakeholder);
+        entityTypeMenu.add(Objective);
+        entityTypeMenu.add(Attribute);
+        entityTypeMenu.add(Resource);
 
-
-
-        entityTypeMenu.addActionListener(new ActionListener() {
+        //-------Action listener for Problem classification
+        Problem.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                //if()
+                entity.setClassification("Problem");
             }
         });
+
+        //-------Action listener for Stakeholder classification
+        Stakeholder.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                entity.setClassification("Stakeholder");
+            }
+        });
+
+        //-------Action listener for Objective classification
+        Objective.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                entity.setClassification("Objective");
+            }
+        });
+
+        //-------Action listener for Attribute classification
+        Attribute.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                entity.setClassification("Attribute");
+            }
+        });
+
+        //-------Action listener for Resource classification
+        Resource.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                entity.setClassification("Resource");
+            }
+        });
+
+        //-------Action listener for Non-Controllable CheckBox
+        
 
         newPanel.add(Name);
         newPanel.add(titlePane);
@@ -260,6 +299,7 @@ public class WorkSpace extends JFrame {
 
         newPanel.setVisible(true);
 
+        //-------Key listeners for name and metadata
         KeyListener keyListener = new KeyListener() {
             public void keyTyped(KeyEvent e) {
 
@@ -297,19 +337,19 @@ public class WorkSpace extends JFrame {
     }
 
 
+
     //-------Action listener for load button
     class LoadAction implements ActionListener {
         JFileChooser fc = new JFileChooser();
-
 
         public void actionPerformed(ActionEvent e)
         {
             //JOptionPane.showMessageDialog(WorkSpace.this, "No Files Found.");
             if (fc.showOpenDialog(WorkSpace.this) == JFileChooser.APPROVE_OPTION)
             {
-                File openFiles = fc.getSelectedFile();
+                File openFils = fc.getSelectedFile();
                 // load the file here
-                Control.getInstance().loadProject(openFiles.getAbsolutePath());
+                Control.getInstance().loadProject(openFils.getAbsolutePath());
 
             }
         }
@@ -345,8 +385,7 @@ public class WorkSpace extends JFrame {
     {
         public void actionPerformed(ActionEvent e)
         {
-            //ExportPDF exportPDF = new ExportPDF();
-            //exportPDF.JpanelPDF();
+
         }
 
     }
@@ -361,8 +400,8 @@ public class WorkSpace extends JFrame {
            // JOptionPane.showMessageDialog(WorkSpace.this, "No Files Found.");
             if (fc.showSaveDialog(WorkSpace.this) == JFileChooser.APPROVE_OPTION)
             {
-                File saveFiles = fc.getSelectedFile();
-                psaver.saveProject(saveFiles.getAbsolutePath(), edu.odu.icat.controller.Control.getInstance().getCurrentProject());
+                File saveFils = fc.getSelectedFile();
+                psaver.saveProject(saveFils.getAbsolutePath(), edu.odu.icat.controller.Control.getInstance().getCurrentProject());
             }
         }
     }
@@ -371,23 +410,14 @@ public class WorkSpace extends JFrame {
     class SaveAsAction implements ActionListener {
         JFileChooser fc = new JFileChooser();
 
-
         public void actionPerformed(ActionEvent e)
         {
-            FileFilter filter = new FileNameExtensionFilter("ICAT File type ", "icat", "ICAT");
-            fc.addChoosableFileFilter(filter);
             ProjectDAO psaver = new ProjectDAO();
             // JOptionPane.showMessageDialog(WorkSpace.this, "No Files Found.");
             if (fc.showSaveDialog(WorkSpace.this) == JFileChooser.APPROVE_OPTION)
             {
-                File saveFiles = fc.getSelectedFile();
-                //check that fileName has the .icat extension
-                if (!saveFiles.getPath().toLowerCase().endsWith(".icat"));
-                {
-                    //if not then add .icat to the fileName
-                    saveFiles = new File(saveFiles.getPath() + ".icat");
-                }
-                psaver.saveProject(saveFiles.getAbsolutePath(), edu.odu.icat.controller.Control.getInstance().getCurrentProject());
+                File saveFils = fc.getSelectedFile();
+                psaver.saveProject(saveFils.getAbsolutePath(), edu.odu.icat.controller.Control.getInstance().getCurrentProject());
             }
         }
     }

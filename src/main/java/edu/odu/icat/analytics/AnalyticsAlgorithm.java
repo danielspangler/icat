@@ -1,12 +1,15 @@
 package edu.odu.icat.analytics;
 
+import edu.odu.icat.graphicsinterface.WorkSpace;
 import edu.odu.icat.model.Entity;
 
 import javax.swing.*;
+import javax.swing.event.ListSelectionEvent;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.print.PrinterException;
+import java.sql.SQLSyntaxErrorException;
 
 public abstract class AnalyticsAlgorithm implements  Runnable
 {
@@ -68,11 +71,18 @@ public abstract class AnalyticsAlgorithm implements  Runnable
             ReportData = (ReportTableModel) ReportTable.getModel();
             ReportData.setReportDataHeader(AnalyticsAlgorithm.this.getReportOutputHeader());
 
-            ReportTable.setPreferredScrollableViewportSize(new Dimension(500, 70));
+            ReportTable.setPreferredScrollableViewportSize(new Dimension(WorkSpace.MINIMUM_PANEL_SIZE, 70));
             ReportTable.setFillsViewportHeight(true);
             ReportTable.getTableHeader().setReorderingAllowed(false);
 
             ReportTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+            ReportTable.getSelectionModel().addListSelectionListener(new javax.swing.event.ListSelectionListener(){
+                public void valueChanged(ListSelectionEvent listSelectionEvent) {
+                    if(listSelectionEvent.getValueIsAdjusting()){
+                        System.out.println(ReportData.getValueAt(ReportTable.getSelectedRow(), 0));
+                    }
+                }
+            });
 
             JScrollPane AlgorithmOutputArea = new JScrollPane(ReportTable);
 
@@ -112,7 +122,7 @@ public abstract class AnalyticsAlgorithm implements  Runnable
             add(AlgorithmArea, BorderLayout.CENTER);
             add(ButtonsArea, BorderLayout.SOUTH);
 
-            setPreferredSize(new Dimension(400, 300));
+            setPreferredSize(new Dimension(WorkSpace.MINIMUM_PANEL_SIZE, 300));
             setVisible(true);
         }
 

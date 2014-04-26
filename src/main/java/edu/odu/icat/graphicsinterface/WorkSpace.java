@@ -315,13 +315,13 @@ public class WorkSpace extends JFrame {
             public void itemStateChanged(ItemEvent e) {
                 if(e.getStateChange() == ItemEvent.SELECTED)
                 {
-                    graph.setCellStyles(mxConstants.STYLE_STROKEWIDTH, "5");
+                    graph.setCellStyles(mxConstants.STYLE_STROKEWIDTH, "5", new Object[]{cell});
                     entity.setControllable(false);
                 }
                 else if (e.getStateChange() == ItemEvent.DESELECTED)
                 {
                     entity.setControllable(true);
-                    graph.setCellStyles(mxConstants.STYLE_STROKEWIDTH, "1");
+                    graph.setCellStyles(mxConstants.STYLE_STROKEWIDTH, "1", new Object[]{cell});
                 }
             }
         });
@@ -331,12 +331,12 @@ public class WorkSpace extends JFrame {
             public void itemStateChanged(ItemEvent e) {
                 if(e.getStateChange() == ItemEvent.SELECTED)
                 {
-                    graph.setCellStyles(mxConstants.STYLE_OPACITY, "50");
+                    graph.setCellStyles(mxConstants.STYLE_OPACITY, "50", new Object[]{cell});
                     entity.setVisible(false);
                 }
                 else if (e.getStateChange() == ItemEvent.DESELECTED)
                 {
-                    graph.setCellStyles(mxConstants.STYLE_OPACITY, "100");
+                    graph.setCellStyles(mxConstants.STYLE_OPACITY, "100", new Object[]{cell});
                     entity.setVisible(true);
                 }
             }

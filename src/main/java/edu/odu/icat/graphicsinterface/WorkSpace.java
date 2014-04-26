@@ -7,7 +7,6 @@ package edu.odu.icat.graphicsinterface;
 import com.mxgraph.model.mxCell;
 import edu.odu.icat.analytics.AnalyticsEngine;
 import edu.odu.icat.controller.Control;
-import edu.odu.icat.controller.Utils;
 import edu.odu.icat.graphicsinterface.editor.EditorActions;
 import edu.odu.icat.model.Entity;
 import edu.odu.icat.model.Force;
@@ -424,16 +423,19 @@ public class WorkSpace extends JFrame {
     class SaveAsAction implements ActionListener {
         JFileChooser fc = new JFileChooser();
         FileFilter filter = new FileNameExtensionFilter("ICAT Files", "icat");
-        Utils utils = new Utils();
-        
+
         public void actionPerformed(ActionEvent e)
         {
             // JOptionPane.showMessageDialog(WorkSpace.this, "No Files Found.");
             fc.setFileFilter(filter);
-            //fc.getSelectedFile();
+            fc.setAcceptAllFileFilterUsed(false);
             if (fc.showSaveDialog(WorkSpace.this) == JFileChooser.APPROVE_OPTION)
             {
                 File saveFiles = fc.getSelectedFile();
+                //check for the icat extension
+                if (!saveFiles.getPath().toLowerCase().endsWith(".icat")){
+                    saveFiles = new File(saveFiles.getPath() + ".icat");
+                }
                 Control.getInstance().saveCurrentAs(saveFiles.getAbsolutePath());
             }
         }

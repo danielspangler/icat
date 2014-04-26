@@ -205,7 +205,7 @@ public class WorkSpace extends JFrame {
         newPanel.setLayout(layout);
 
         final JLabel Notes = new JLabel("Notes:");
-        final JTextField notesField = new JTextField("",20);
+        final JTextArea notesField = new JTextArea(4,20);
         final JLabel Weight = new JLabel("Weight:");
         final String[] ForceWeights = {"1","2","3","4","5"};
         final JComboBox ForceBox = new JComboBox(ForceWeights);
@@ -228,12 +228,12 @@ public class WorkSpace extends JFrame {
             layout.putConstraint(SpringLayout.NORTH,notesField,5,SpringLayout.NORTH,newPanel);
 
             //This constraint puts the menubar 5 over from the titlePane and 5 under the panels top y value
-            layout.putConstraint(SpringLayout.WEST,ForceBox,5,SpringLayout.EAST,notesField);
-            layout.putConstraint(SpringLayout.NORTH,ForceBox,5,SpringLayout.NORTH,newPanel);
+            layout.putConstraint(SpringLayout.WEST,Weight,5,SpringLayout.WEST,newPanel);
+            layout.putConstraint(SpringLayout.SOUTH,Weight,75,SpringLayout.SOUTH,Notes);
 
         //This constraint puts Notes label 5 from the west portion of the Panel but 30 units under the Name Label
-        layout.putConstraint(SpringLayout.WEST,Weight,5,SpringLayout.WEST,newPanel);
-        layout.putConstraint(SpringLayout.SOUTH,Weight,30,SpringLayout.SOUTH,newPanel);
+            layout.putConstraint(SpringLayout.WEST,ForceBox,45,SpringLayout.WEST,Weight);
+            layout.putConstraint(SpringLayout.SOUTH,ForceBox,75,SpringLayout.SOUTH,Notes);
 
             newPanel.add(Notes);
             newPanel.add(notesField);
@@ -322,31 +322,31 @@ public class WorkSpace extends JFrame {
                 JComboBox cb = (JComboBox) actionEvent.getSource();
                 entity.setClassification((String) cb.getSelectedItem());
                 //Change the color of the drawable entity
-                if(entity.getClassification().equals("Problem")) {
+                if (entity.getClassification().equals("Problem")) {
                     graph.setCellStyles(mxConstants.STYLE_STROKECOLOR, "black", new Object[]{cell});
                     graph.setCellStyles(mxConstants.STYLE_GRADIENTCOLOR, "black", new Object[]{cell}); //changes the color to red
                     graph.setCellStyles(mxConstants.STYLE_FILLCOLOR, "black", new Object[]{cell}); //changes the color to red
                     graph.setCellStyles(mxConstants.STYLE_FONTCOLOR, "white", new Object[]{cell});
                 }
-                if(entity.getClassification().equals("Stakeholder")) {
+                if (entity.getClassification().equals("Stakeholder")) {
                     graph.setCellStyles(mxConstants.STYLE_STROKECOLOR, "blue", new Object[]{cell});
                     graph.setCellStyles(mxConstants.STYLE_GRADIENTCOLOR, "blue", new Object[]{cell}); //changes the color to red
                     graph.setCellStyles(mxConstants.STYLE_FILLCOLOR, "blue", new Object[]{cell}); //changes the color to red
                     graph.setCellStyles(mxConstants.STYLE_FONTCOLOR, "white", new Object[]{cell});
                 }
-                if(entity.getClassification().equals("Objective")) {
+                if (entity.getClassification().equals("Objective")) {
                     graph.setCellStyles(mxConstants.STYLE_STROKECOLOR, "orange", new Object[]{cell});
                     graph.setCellStyles(mxConstants.STYLE_GRADIENTCOLOR, "orange", new Object[]{cell}); //changes the color to red
                     graph.setCellStyles(mxConstants.STYLE_FILLCOLOR, "orange", new Object[]{cell}); //changes the color to red
                     graph.setCellStyles(mxConstants.STYLE_FONTCOLOR, "black", new Object[]{cell});
                 }
-                if(entity.getClassification().equals("Attribute")) {
+                if (entity.getClassification().equals("Attribute")) {
                     graph.setCellStyles(mxConstants.STYLE_STROKECOLOR, "green", new Object[]{cell});
                     graph.setCellStyles(mxConstants.STYLE_GRADIENTCOLOR, "green", new Object[]{cell}); //changes the color to red
                     graph.setCellStyles(mxConstants.STYLE_FILLCOLOR, "green", new Object[]{cell}); //changes the color to red
                     graph.setCellStyles(mxConstants.STYLE_FONTCOLOR, "white", new Object[]{cell});
                 }
-                if(entity.getClassification().equals("Resource")) {
+                if (entity.getClassification().equals("Resource")) {
                     graph.setCellStyles(mxConstants.STYLE_STROKECOLOR, "yellow", new Object[]{cell});
                     graph.setCellStyles(mxConstants.STYLE_GRADIENTCOLOR, "yellow", new Object[]{cell}); //changes the color to red
                     graph.setCellStyles(mxConstants.STYLE_FILLCOLOR, "yellow", new Object[]{cell}); //changes the color to red

@@ -5,6 +5,8 @@
 package edu.odu.icat.graphicsinterface;
 
 import com.mxgraph.model.mxCell;
+import com.mxgraph.util.mxConstants;
+import com.mxgraph.view.mxGraph;
 import edu.odu.icat.analytics.AnalyticsEngine;
 import edu.odu.icat.controller.Control;
 import edu.odu.icat.graphicsinterface.editor.EditorActions;
@@ -19,8 +21,12 @@ import java.awt.*;
 import java.awt.event.*;
 import java.io.File;
 import java.util.HashMap;
+import java.util.Hashtable;
 import java.util.List;
 import java.util.Map;
+
+//import edu.odu.icat.controller.Utils;
+//import javafx.scene.control.Cell;
 
 
 public class WorkSpace extends JFrame {
@@ -68,7 +74,7 @@ public class WorkSpace extends JFrame {
         split = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, attributePane,
                 graphComponent);
         split.setOneTouchExpandable(false);
-        split.setDividerLocation(300);
+        split.setDividerLocation(WorkSpace.MINIMUM_PANEL_SIZE);
         split.setDividerSize(6);
         split.setBorder(null);
 
@@ -88,7 +94,7 @@ public class WorkSpace extends JFrame {
                         updateAttributePane(entityAttributes(graphComponent, (mxCell)cell));
                     else if(obj instanceof edu.odu.icat.model.Force)
                     {
-                        updateAttributePane(forceAttributes((mxCell)cell));
+                        updateAttributePane(new JLabel("You have selected a Force"));
                     }
                 }
                 else 
@@ -183,47 +189,18 @@ public class WorkSpace extends JFrame {
         split.setLeftComponent(newComponent);
     }
 
-    public JPanel forceAttributes(final mxCell cell)
+    public JPanel forceAttributes(final Force force)
     {
-        final JPanel newPanel = new JPanel();
-        final Force force = (Force)(cell.getValue());
-
-        newPanel.setMinimumSize(new Dimension(WorkSpace.MINIMUM_PANEL_SIZE,500));
-
-        //Sets the Panel layout to a SpringLayout
-        final SpringLayout layout = new SpringLayout();
-        newPanel.setLayout(layout);
-
-        //JMenu forcesMenu = new JMenu("Forces");
-        //List<Force> forceList = edu.odu.icat.controller.Control.getInstance().getForces();
-
-        final JLabel Notes = new JLabel("Notes:");
-        final JTextField notesField = new JTextField("",20);
-        notesField.setText(force.getNotes());
-        final JMenuBar bar = new JMenuBar();
-
-        //This constraint places the name 5 over from the top left corner of the Panel
-        layout.putConstraint(SpringLayout.WEST,Notes,5,SpringLayout.WEST, newPanel);
-        layout.putConstraint(SpringLayout.NORTH,Notes,5,SpringLayout.NORTH, newPanel);
-
-        //This Constraint puts the titlePane 5 over from the Name Label and 5 under the Panel top y value
-        layout.putConstraint(SpringLayout.WEST,notesField,5,SpringLayout.EAST, Notes);
-        layout.putConstraint(SpringLayout.NORTH,notesField,5,SpringLayout.NORTH, newPanel);
-
-        //This constraint puts the menubar 5 over from the titlePane and 5 under the panels top y value
-        layout.putConstraint(SpringLayout.WEST,bar,5,SpringLayout.EAST,notesField);
-        layout.putConstraint(SpringLayout.NORTH,bar,5,SpringLayout.NORTH,newPanel);
-
-        
-
-        return newPanel;
+        return new JPanel();
     }
 
     public JPanel entityAttributes(final GraphEditor editor, final mxCell cell)
     {
-        final Entity entity = (Entity)(cell.getValue());
-        final JPanel newPanel = new JPanel();
+        final mxGraph graph = graphComponent.getGraphComponent().getGraph();
 
+        final Entity entity = (Entity)(cell.getValue());
+        //final mxGraph graph = editor.getGraphComponent().getGraph();
+        final JPanel newPanel = new JPanel();
         //Sets the Minimum Size of the Panel to 300 wide by 500 high
         newPanel.setMinimumSize(new Dimension(WorkSpace.MINIMUM_PANEL_SIZE,500));
 
@@ -288,7 +265,7 @@ public class WorkSpace extends JFrame {
         layout.putConstraint(SpringLayout.WEST,clearButton,25,SpringLayout.WEST,newPanel);
         layout.putConstraint(SpringLayout.SOUTH,clearButton,200,SpringLayout.SOUTH,titlePane);
 
-        String[] entityTypes = Control.getInstance().getEntityClassifications().toArray(new String[Control.getInstance().getEntityClassifications().size()]);
+        final String[] entityTypes = Control.getInstance().getEntityClassifications().toArray(new String[Control.getInstance().getEntityClassifications().size()]);
         final JComboBox entityTypeMenu = new JComboBox(entityTypes);
         entityTypeMenu.setSelectedItem(entity.getClassification());
         entityTypeMenu.addActionListener(new ActionListener() {
@@ -296,6 +273,39 @@ public class WorkSpace extends JFrame {
                 JComboBox cb = (JComboBox) actionEvent.getSource();
                 entity.setClassification((String) cb.getSelectedItem());
                 //Change the color of the drawable entity
+                if(entity.getClassification().equals("Problem")) {
+                    graph.setCellStyles(mxConstants.STYLE_STROKECOLOR, "black", new Object[]{cell});
+                    graph.setCellStyles(mxConstants.STYLE_GRADIENTCOLOR, "black", new Object[]{cell}); //changes the color to red
+                    graph.setCellStyles(mxConstants.STYLE_FILLCOLOR, "black", new Object[]{cell}); //changes the color to red
+                    graph.setCellStyles(mxConstants.STYLE_FONTCOLOR, "white", new Object[]{cell});
+                }
+                if(entity.getClassification().equals("Stakeholder")) {
+                    graph.setCellStyles(mxConstants.STYLE_STROKECOLOR, "blue", new Object[]{cell});
+                    graph.setCellStyles(mxConstants.STYLE_GRADIENTCOLOR, "blue", new Object[]{cell}); //changes the color to red
+                    graph.setCellStyles(mxConstants.STYLE_FILLCOLOR, "blue", new Object[]{cell}); //changes the color to red
+                    graph.setCellStyles(mxConstants.STYLE_FONTCOLOR, "white", new Object[]{cell});
+                }
+                if(entity.getClassification().equals("Objective")) {
+                    graph.setCellStyles(mxConstants.STYLE_STROKECOLOR, "orange", new Object[]{cell});
+                    graph.setCellStyles(mxConstants.STYLE_GRADIENTCOLOR, "orange", new Object[]{cell}); //changes the color to red
+                    graph.setCellStyles(mxConstants.STYLE_FILLCOLOR, "orange", new Object[]{cell}); //changes the color to red
+                    graph.setCellStyles(mxConstants.STYLE_FONTCOLOR, "black", new Object[]{cell});
+                }
+                if(entity.getClassification().equals("Attribute")) {
+                    graph.setCellStyles(mxConstants.STYLE_STROKECOLOR, "green", new Object[]{cell});
+                    graph.setCellStyles(mxConstants.STYLE_GRADIENTCOLOR, "green", new Object[]{cell}); //changes the color to red
+                    graph.setCellStyles(mxConstants.STYLE_FILLCOLOR, "green", new Object[]{cell}); //changes the color to red
+                    graph.setCellStyles(mxConstants.STYLE_FONTCOLOR, "white", new Object[]{cell});
+                }
+                if(entity.getClassification().equals("Resource")) {
+                    graph.setCellStyles(mxConstants.STYLE_STROKECOLOR, "yellow", new Object[]{cell});
+                    graph.setCellStyles(mxConstants.STYLE_GRADIENTCOLOR, "yellow", new Object[]{cell}); //changes the color to red
+                    graph.setCellStyles(mxConstants.STYLE_FILLCOLOR, "yellow", new Object[]{cell}); //changes the color to red
+                    graph.setCellStyles(mxConstants.STYLE_FONTCOLOR, "black", new Object[]{cell});
+                }
+
+                editor.getGraphComponent().refresh();
+
             }
         });
         bar.add(entityTypeMenu);
@@ -304,9 +314,15 @@ public class WorkSpace extends JFrame {
         noncontrolCheckBox.addItemListener(new ItemListener() {
             public void itemStateChanged(ItemEvent e) {
                 if(e.getStateChange() == ItemEvent.SELECTED)
+                {
+                    graph.setCellStyles(mxConstants.STYLE_STROKEWIDTH, "5", new Object[]{cell});
                     entity.setControllable(false);
+                }
                 else if (e.getStateChange() == ItemEvent.DESELECTED)
+                {
                     entity.setControllable(true);
+                    graph.setCellStyles(mxConstants.STYLE_STROKEWIDTH, "1", new Object[]{cell});
+                }
             }
         });
 
@@ -314,9 +330,15 @@ public class WorkSpace extends JFrame {
         nonvisibleCheckBox.addItemListener(new ItemListener() {
             public void itemStateChanged(ItemEvent e) {
                 if(e.getStateChange() == ItemEvent.SELECTED)
+                {
+                    graph.setCellStyles(mxConstants.STYLE_OPACITY, "50", new Object[]{cell});
                     entity.setVisible(false);
+                }
                 else if (e.getStateChange() == ItemEvent.DESELECTED)
+                {
+                    graph.setCellStyles(mxConstants.STYLE_OPACITY, "100", new Object[]{cell});
                     entity.setVisible(true);
+                }
             }
         });
 
@@ -330,7 +352,6 @@ public class WorkSpace extends JFrame {
                 //need to change text in the model for title pane and metadata
             }
         });
-
 
         newPanel.add(Name);
         newPanel.add(titlePane);
@@ -383,16 +404,15 @@ public class WorkSpace extends JFrame {
         return newPanel;
     }
 
-
-
     //-------Action listener for load button
     class LoadAction implements ActionListener {
         JFileChooser fc = new JFileChooser();
         FileFilter filter = new FileNameExtensionFilter("ICAT Files", "icat");
+
         public void actionPerformed(ActionEvent e)
         {
-            fc.setFileFilter(filter); //icat extensions
             //JOptionPane.showMessageDialog(WorkSpace.this, "No Files Found.");
+            fc.setFileFilter(filter);
             if (fc.showOpenDialog(WorkSpace.this) == JFileChooser.APPROVE_OPTION)
             {
                 File openFiles = fc.getSelectedFile();
@@ -407,8 +427,53 @@ public class WorkSpace extends JFrame {
                     Project project = Control.getInstance().getCurrentProject();
                     if (project!=null) {
                         Map<Entity, Object> internalCells = new HashMap<Entity, Object>();
+                        Hashtable<String, String> problemStyle = new Hashtable<String, String>();
+                        problemStyle.put(mxConstants.STYLE_FILLCOLOR,"black");
+                        problemStyle.put(mxConstants.STYLE_GRADIENTCOLOR,"black");
                         for (Entity entity : project.getEntities()) {
-                            internalCells.put(entity, graph.insertVertex(graph.getDefaultParent(), null, entity, entity.getLocation().getX(), entity.getLocation().getY(), 80, 30));
+                           //else
+                            Object graphEntity = graph.insertVertex(graph.getDefaultParent(), null, entity, entity.getLocation().getX(), entity.getLocation().getY(), 100, 100,"shape=ellipse");
+                            Object[] entities = {graphEntity};
+
+                            System.out.println(entity.getClassification());
+
+                            if(entity.getClassification().equals("Problem")) {
+                                graph.setCellStyles(mxConstants.STYLE_STROKECOLOR, "black", entities);
+                                graph.setCellStyles(mxConstants.STYLE_GRADIENTCOLOR, "black", entities); //changes the color to red
+                                graph.setCellStyles(mxConstants.STYLE_FILLCOLOR, "black", entities); //changes the color to red
+                                graph.setCellStyles(mxConstants.STYLE_FONTCOLOR, "white", entities);
+                            }
+                            if(entity.getClassification().equals("Stakeholder")) {
+                                graph.setCellStyles(mxConstants.STYLE_STROKECOLOR, "blue", entities);
+                                graph.setCellStyles(mxConstants.STYLE_GRADIENTCOLOR, "blue", entities); //changes the color to red
+                                graph.setCellStyles(mxConstants.STYLE_FILLCOLOR, "blue", entities); //changes the color to red
+                                graph.setCellStyles(mxConstants.STYLE_FONTCOLOR, "white", entities);
+                            }
+                            if(entity.getClassification().equals("Objective")) {
+                                graph.setCellStyles(mxConstants.STYLE_STROKECOLOR, "orange", entities);
+                                graph.setCellStyles(mxConstants.STYLE_GRADIENTCOLOR, "orange", entities); //changes the color to red
+                                graph.setCellStyles(mxConstants.STYLE_FILLCOLOR, "orange", entities); //changes the color to red
+                                graph.setCellStyles(mxConstants.STYLE_FONTCOLOR, "black", entities);
+                            }
+                            if(entity.getClassification().equals("Attribute")) {
+                                graph.setCellStyles(mxConstants.STYLE_STROKECOLOR, "green", entities);
+                                graph.setCellStyles(mxConstants.STYLE_GRADIENTCOLOR, "green", entities); //changes the color to red
+                                graph.setCellStyles(mxConstants.STYLE_FILLCOLOR, "green", entities); //changes the color to red
+                                graph.setCellStyles(mxConstants.STYLE_FONTCOLOR, "white", entities);
+                            }
+                            if(entity.getClassification().equals("Resource")) {
+                                graph.setCellStyles(mxConstants.STYLE_STROKECOLOR, "yellow", entities);
+                                graph.setCellStyles(mxConstants.STYLE_GRADIENTCOLOR, "yellow", entities); //changes the color to red
+                                graph.setCellStyles(mxConstants.STYLE_FILLCOLOR, "yellow", entities); //changes the color to red
+                                graph.setCellStyles(mxConstants.STYLE_FONTCOLOR, "black", entities);
+                            }
+
+                            //graph.setCellStyles(mxConstants.STYLE_FILLCOLOR, "yellow", entities);
+                            internalCells.put(entity, graphEntity);
+
+                            //graph.setCellStyles(mxConstants.STYLE_FILLCOLOR, "blue", new Object[]{cell});
+                            //editor.getGraphComponent().refresh();
+
                         }
                         for (Force force : project.getForces()) {
                             graph.insertEdge(graph.getDefaultParent(), null, force, internalCells.get(force.getOrigin()), internalCells.get(force.getDestination()));
@@ -461,7 +526,11 @@ public class WorkSpace extends JFrame {
     class SaveAction implements ActionListener {
         public void actionPerformed(ActionEvent e)
         {
+            try {
                 Control.getInstance().saveCurrent();
+            } catch (IllegalStateException e1){
+                new SaveAsAction().actionPerformed(e);
+            }
         }
     }
 
@@ -469,19 +538,20 @@ public class WorkSpace extends JFrame {
     class SaveAsAction implements ActionListener {
         JFileChooser fc = new JFileChooser();
         FileFilter filter = new FileNameExtensionFilter("ICAT Files", "icat");
-
+        //Utils utils = new Utils();
+        
         public void actionPerformed(ActionEvent e)
         {
             // JOptionPane.showMessageDialog(WorkSpace.this, "No Files Found.");
             fc.setFileFilter(filter);
-            fc.setAcceptAllFileFilterUsed(false);
+            //fc.getSelectedFile();
             if (fc.showSaveDialog(WorkSpace.this) == JFileChooser.APPROVE_OPTION)
             {
                 File saveFiles = fc.getSelectedFile();
-                //check for the icat extension
-                if (!saveFiles.getPath().toLowerCase().endsWith(".icat")){
-                    //If not add .icat to the project name
-                    saveFiles = new File(saveFiles.getPath() + ".icat");
+                /**Check for the icat extension*/
+                if (!saveFiles.getPath().toLowerCase().endsWith(".icat"))
+                {
+                    saveFiles = new File (saveFiles.getPath()+ ".icat");
                 }
                 Control.getInstance().saveCurrentAs(saveFiles.getAbsolutePath());
             }

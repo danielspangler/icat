@@ -435,8 +435,6 @@ public class WorkSpace extends JFrame {
                             Object graphEntity = graph.insertVertex(graph.getDefaultParent(), null, entity, entity.getLocation().getX(), entity.getLocation().getY(), 100, 100,"shape=ellipse");
                             Object[] entities = {graphEntity};
 
-                            System.out.println(entity.getClassification());
-
                             if(entity.getClassification().equals("Problem")) {
                                 graph.setCellStyles(mxConstants.STYLE_STROKECOLOR, "black", entities);
                                 graph.setCellStyles(mxConstants.STYLE_GRADIENTCOLOR, "black", entities); //changes the color to red

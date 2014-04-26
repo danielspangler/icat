@@ -86,7 +86,7 @@ public class WorkSpace extends JFrame {
                 {
                     Object obj = ((mxCell)cell).getValue();
                     if(obj instanceof Entity)
-                        updateAttributePane(entityAttributes((Entity)obj));
+                        updateAttributePane(entityAttributes(graphComponent, (mxCell)cell));
                     else if(obj instanceof edu.odu.icat.model.Force)
                     {
                         updateAttributePane(new JLabel("You have selected a Force"));
@@ -189,8 +189,9 @@ public class WorkSpace extends JFrame {
         return new JPanel();
     }
 
-    public JPanel entityAttributes(final Entity entity)
+    public JPanel entityAttributes(final GraphEditor editor, final mxCell cell)
     {
+        final Entity entity = (Entity)(cell.getValue());
         final JPanel newPanel = new JPanel();
 
         //Sets the Minimum Size of the Panel to 300 wide by 500 high
@@ -330,6 +331,9 @@ public class WorkSpace extends JFrame {
                     {
                         String entityName = titlePane.getText();
                         entity.setName(entityName);
+                        cell.setId(entityName);
+                        editor.getGraphComponent().refresh();
+
                     }
                 }
                 if(e.getSource()==metaDataTextArea)

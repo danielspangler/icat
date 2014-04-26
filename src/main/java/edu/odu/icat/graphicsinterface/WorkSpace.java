@@ -262,8 +262,8 @@ public class WorkSpace extends JFrame {
         entityTypeMenu.setSelectedItem(entity.getClassification());
         entityTypeMenu.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent actionEvent) {
-                JComboBox cb = (JComboBox)actionEvent.getSource();
-                entity.setClassification((String)cb.getSelectedItem());
+                JComboBox cb = (JComboBox) actionEvent.getSource();
+                entity.setClassification((String) cb.getSelectedItem());
                 //Change the color of the drawable entity
             }
         });
@@ -357,15 +357,16 @@ public class WorkSpace extends JFrame {
     //-------Action listener for load button
     class LoadAction implements ActionListener {
         JFileChooser fc = new JFileChooser();
-
+        FileFilter filter = new FileNameExtensionFilter("ICAT Files", "icat");
         public void actionPerformed(ActionEvent e)
         {
+            fc.setFileFilter(filter); //icat extensions
             //JOptionPane.showMessageDialog(WorkSpace.this, "No Files Found.");
             if (fc.showOpenDialog(WorkSpace.this) == JFileChooser.APPROVE_OPTION)
             {
-                File openFils = fc.getSelectedFile();
+                File openFiles = fc.getSelectedFile();
                 // load the file here
-                Control.getInstance().loadProject(openFils.getAbsolutePath());
+                Control.getInstance().loadProject(openFiles.getAbsolutePath());
 
                 com.mxgraph.view.mxGraph graph = WorkSpace.this.graphComponent.getGraphComponent().getGraph();
                 com.mxgraph.model.mxGraphModel graphModel = (com.mxgraph.model.mxGraphModel)graph.getModel();

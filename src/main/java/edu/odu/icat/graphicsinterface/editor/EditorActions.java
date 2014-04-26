@@ -102,7 +102,6 @@ public class EditorActions
                 mxPoint pt = getEditor(e).mouseClickLoc;
                 Entity entity = new Entity("Name " + defaultIndex, Control.getInstance().getDefaultEntityClassification());
                 Control.getInstance().getCurrentProject().addEntity(entity);;
-                //graph.setCellStyle("fillColor=green");
                 // graphComponent.refresh();\
                 entity.setLocation(new Location(pt.getX(), pt.getY()));
                 vertex=graph.insertVertex(graph.getDefaultParent(), null,entity, pt.getX(), pt.getY(),100,100,"shape=ellipse");

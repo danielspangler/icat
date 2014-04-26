@@ -395,7 +395,8 @@ public class WorkSpace extends JFrame {
                     if (project!=null) {
                         Map<Entity, Object> internalCells = new HashMap<Entity, Object>();
                         for (Entity entity : project.getEntities()) {
-                            internalCells.put(entity, graph.insertVertex(graph.getDefaultParent(), null, entity, entity.getLocation().getX(), entity.getLocation().getY(), 80, 30));
+                            internalCells.put(entity, graph.insertVertex(graph.getDefaultParent(), null, entity, entity.getLocation().getX(), entity.getLocation().getY(), 100, 100,"shape=ellipse"));
+                            //graph.setCellStyles(mxConstants.STYLE_FILLCOLOR, "blue", new Object[]{cell});
                         }
                         for (Force force : project.getForces()) {
                             graph.insertEdge(graph.getDefaultParent(), null, force, internalCells.get(force.getOrigin()), internalCells.get(force.getDestination()));

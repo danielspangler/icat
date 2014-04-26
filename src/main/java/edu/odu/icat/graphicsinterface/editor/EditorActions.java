@@ -105,6 +105,7 @@ public class EditorActions
                 // graphComponent.refresh();\
                 entity.setLocation(new Location(pt.getX(), pt.getY()));
                 vertex=graph.insertVertex(graph.getDefaultParent(), null,entity, pt.getX(), pt.getY(),100,100,"shape=ellipse");
+                graph.setCellStyles(mxConstants.STYLE_GRADIENTCOLOR, "blue", new Object[]{vertex}); //changes the color to red
                 graph.setCellStyles(mxConstants.STYLE_FILLCOLOR, "blue", new Object[]{vertex}); //changes the color to red
 
                 // graph.insertVertex(graph.getDefaultParent(), null, entity, pt.getX(),pt.getY(), 80,

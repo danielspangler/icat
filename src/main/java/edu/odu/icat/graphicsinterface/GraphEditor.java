@@ -68,6 +68,7 @@ public class GraphEditor extends BasicGraphEditor
         graph.setAllowDanglingEdges(false);
         graph.setMinimumGraphSize(Rect);
         graph.setCellsEditable(false);
+        graphComponent.getConnectionHandler().setCreateTarget(false);
       //  graph.setMaximumGraphBounds(Rect);
 	}
 

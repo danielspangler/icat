@@ -21,6 +21,7 @@ import java.awt.*;
 import java.awt.event.*;
 import java.io.File;
 import java.util.HashMap;
+import java.util.Hashtable;
 import java.util.List;
 import java.util.Map;
 
@@ -200,7 +201,6 @@ public class WorkSpace extends JFrame {
         final Entity entity = (Entity)(cell.getValue());
         //final mxGraph graph = editor.getGraphComponent().getGraph();
         final JPanel newPanel = new JPanel();
-
         //Sets the Minimum Size of the Panel to 300 wide by 500 high
         newPanel.setMinimumSize(new Dimension(WorkSpace.MINIMUM_PANEL_SIZE,500));
 
@@ -273,16 +273,27 @@ public class WorkSpace extends JFrame {
                 JComboBox cb = (JComboBox)actionEvent.getSource();
                 entity.setClassification((String)cb.getSelectedItem());
                 //Change the color of the drawable entity
-                if(entity.getClassification() == "Problem")
+                if(entity.getClassification() == "Problem") {
+                    graph.setCellStyles(mxConstants.STYLE_GRADIENTCOLOR, "black", new Object[]{cell}); //changes the color to red
                     graph.setCellStyles(mxConstants.STYLE_FILLCOLOR, "black", new Object[]{cell}); //changes the color to red
-                if(entity.getClassification() == "StakeHolder")
+                }
+                if(entity.getClassification() == "Stakeholder") {
+                    graph.setCellStyles(mxConstants.STYLE_GRADIENTCOLOR, "blue", new Object[]{cell}); //changes the color to red
                     graph.setCellStyles(mxConstants.STYLE_FILLCOLOR, "blue", new Object[]{cell}); //changes the color to red
-                if(entity.getClassification() == "Objective")
+                }
+                if(entity.getClassification() == "Objective") {
+                    graph.setCellStyles(mxConstants.STYLE_GRADIENTCOLOR, "orange", new Object[]{cell}); //changes the color to red
                     graph.setCellStyles(mxConstants.STYLE_FILLCOLOR, "orange", new Object[]{cell}); //changes the color to red
-                if(entity.getClassification() == "Attribute")
+                }
+                if(entity.getClassification() == "Attribute") {
+                    graph.setCellStyles(mxConstants.STYLE_GRADIENTCOLOR, "green", new Object[]{cell}); //changes the color to red
                     graph.setCellStyles(mxConstants.STYLE_FILLCOLOR, "green", new Object[]{cell}); //changes the color to red
-                if(entity.getClassification() == "Resource")
+                }
+                if(entity.getClassification() == "Resource") {
+                    graph.setCellStyles(mxConstants.STYLE_GRADIENTCOLOR, "yellow", new Object[]{cell}); //changes the color to red
                     graph.setCellStyles(mxConstants.STYLE_FILLCOLOR, "yellow", new Object[]{cell}); //changes the color to red
+                }
+
                 editor.getGraphComponent().refresh();
 
             }
@@ -404,9 +415,18 @@ public class WorkSpace extends JFrame {
                     Project project = Control.getInstance().getCurrentProject();
                     if (project!=null) {
                         Map<Entity, Object> internalCells = new HashMap<Entity, Object>();
+                        Hashtable<String, String> problemStyle = new Hashtable<String, String>();
+                        problemStyle.put(mxConstants.STYLE_FILLCOLOR,"black");
+                        problemStyle.put(mxConstants.STYLE_GRADIENTCOLOR,"black");
                         for (Entity entity : project.getEntities()) {
-                            internalCells.put(entity, graph.insertVertex(graph.getDefaultParent(), null, entity, entity.getLocation().getX(), entity.getLocation().getY(), 100, 100,"shape=ellipse"));
+                            if(entity.getClassification() == "Problem")
+                            internalCells.put(entity, graph.insertVertex(graph.getDefaultParent(), null, entity, entity.getLocation().getX(), entity.getLocation().getY(), 100, 100,"shape=ellipse;fillcolor=black"));
+                            //else
+                            //internalCells.put(entity, graph.insertVertex(graph.getDefaultParent(), null, entity, entity.getLocation().getX(), entity.getLocation().getY(), 100, 100,"shape=ellipse"));
+
                             //graph.setCellStyles(mxConstants.STYLE_FILLCOLOR, "blue", new Object[]{cell});
+                            //editor.getGraphComponent().refresh();
+
                         }
                         for (Force force : project.getForces()) {
                             graph.insertEdge(graph.getDefaultParent(), null, force, internalCells.get(force.getOrigin()), internalCells.get(force.getDestination()));

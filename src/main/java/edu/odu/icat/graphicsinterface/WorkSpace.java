@@ -209,7 +209,7 @@ public class WorkSpace extends JFrame {
         final JLabel Weight = new JLabel("Weight:");
         final String[] ForceWeights = {"1","2","3","4","5"};
         final JComboBox ForceBox = new JComboBox(ForceWeights);
-        ForceBox.setSelectedItem(force.getWeight());
+        ForceBox.setSelectedItem(Integer.toString(force.getWeight()));
         ForceBox.addActionListener(new ActionListener() {
                                        public void actionPerformed(ActionEvent actionEvent) {
                                            JComboBox cb = (JComboBox) actionEvent.getSource();
@@ -514,16 +514,13 @@ public class WorkSpace extends JFrame {
                                 graph.setCellStyles(mxConstants.STYLE_FILLCOLOR, "yellow", entities); //changes the color to red
                                 graph.setCellStyles(mxConstants.STYLE_FONTCOLOR, "black", entities);
                             }
-
-                            //graph.setCellStyles(mxConstants.STYLE_FILLCOLOR, "yellow", entities);
                             internalCells.put(entity, graphEntity);
-
-                            //graph.setCellStyles(mxConstants.STYLE_FILLCOLOR, "blue", new Object[]{cell});
-                            //editor.getGraphComponent().refresh();
+                            graphComponent.getGraphComponent().refresh();
 
                         }
                         for (Force force : project.getForces()) {
-                            graph.insertEdge(graph.getDefaultParent(), null, force, internalCells.get(force.getOrigin()), internalCells.get(force.getDestination()));
+                            Object insertedEdge = graph.insertEdge(graph.getDefaultParent(), null, force, internalCells.get(force.getOrigin()), internalCells.get(force.getDestination()));
+                            graph.setCellStyles(mxConstants.STYLE_STROKEWIDTH, Integer.toString(force.getWeight()), new Object[]{insertedEdge});
                         }
                     }
 

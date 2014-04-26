@@ -579,13 +579,12 @@ public class WorkSpace extends JFrame {
             gc.doLayout();
 
             BufferedImage bi = new BufferedImage(gc.getSize().width, gc.getSize().height, BufferedImage.TYPE_INT_ARGB);
-            
-
-            //BufferedImage crop = bi.getSubimage(rect.x, rect.y, rect.width, rect.height);
+             //BufferedImage crop = bi.getSubimage(rect.x, rect.y, rect.width, rect.height);
 
             Graphics g = bi.createGraphics();
 
             gc.paintAll(g);
+
             g.dispose();
 
             ei.setFileFilter(filter);

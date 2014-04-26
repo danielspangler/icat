@@ -74,7 +74,7 @@ public class WorkSpace extends JFrame {
         split = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, attributePane,
                 graphComponent);
         split.setOneTouchExpandable(false);
-        split.setDividerLocation(300);
+        split.setDividerLocation(WorkSpace.MINIMUM_PANEL_SIZE);
         split.setDividerSize(6);
         split.setBorder(null);
 
@@ -421,10 +421,40 @@ public class WorkSpace extends JFrame {
                         problemStyle.put(mxConstants.STYLE_FILLCOLOR,"black");
                         problemStyle.put(mxConstants.STYLE_GRADIENTCOLOR,"black");
                         for (Entity entity : project.getEntities()) {
-                            if(entity.getClassification() == "Problem")
-                            internalCells.put(entity, graph.insertVertex(graph.getDefaultParent(), null, entity, entity.getLocation().getX(), entity.getLocation().getY(), 100, 100,"shape=ellipse;fillcolor=black"));
-                            //else
-                            //internalCells.put(entity, graph.insertVertex(graph.getDefaultParent(), null, entity, entity.getLocation().getX(), entity.getLocation().getY(), 100, 100,"shape=ellipse"));
+                           //else
+                            Object graphEntity = graph.insertVertex(graph.getDefaultParent(), null, entity, entity.getLocation().getX(), entity.getLocation().getY(), 100, 100,"shape=ellipse");
+                            Object[] entities = {graphEntity};
+
+                            System.out.println(entity.getClassification());
+
+                            if(entity.getClassification().equals("Problem")) {
+                                graph.setCellStyles(mxConstants.STYLE_STROKECOLOR, "black", entities);
+                                graph.setCellStyles(mxConstants.STYLE_GRADIENTCOLOR, "black", entities); //changes the color to red
+                                graph.setCellStyles(mxConstants.STYLE_FILLCOLOR, "black", entities); //changes the color to red
+                            }
+                            if(entity.getClassification().equals("Stakeholder")) {
+                                graph.setCellStyles(mxConstants.STYLE_STROKECOLOR, "blue", entities);
+                                graph.setCellStyles(mxConstants.STYLE_GRADIENTCOLOR, "blue", entities); //changes the color to red
+                                graph.setCellStyles(mxConstants.STYLE_FILLCOLOR, "blue", entities); //changes the color to red
+                            }
+                            if(entity.getClassification().equals("Objective")) {
+                                graph.setCellStyles(mxConstants.STYLE_STROKECOLOR, "orange", entities);
+                                graph.setCellStyles(mxConstants.STYLE_GRADIENTCOLOR, "orange", entities); //changes the color to red
+                                graph.setCellStyles(mxConstants.STYLE_FILLCOLOR, "orange", entities); //changes the color to red
+                            }
+                            if(entity.getClassification().equals("Attribute")) {
+                                graph.setCellStyles(mxConstants.STYLE_STROKECOLOR, "green", entities);
+                                graph.setCellStyles(mxConstants.STYLE_GRADIENTCOLOR, "green", entities); //changes the color to red
+                                graph.setCellStyles(mxConstants.STYLE_FILLCOLOR, "green", entities); //changes the color to red
+                            }
+                            if(entity.getClassification().equals("Resource")) {
+                                graph.setCellStyles(mxConstants.STYLE_STROKECOLOR, "yellow", entities);
+                                graph.setCellStyles(mxConstants.STYLE_GRADIENTCOLOR, "yellow", entities); //changes the color to red
+                                graph.setCellStyles(mxConstants.STYLE_FILLCOLOR, "yellow", entities); //changes the color to red
+                            }
+
+                            //graph.setCellStyles(mxConstants.STYLE_FILLCOLOR, "yellow", entities);
+                            internalCells.put(entity, graphEntity);
 
                             //graph.setCellStyles(mxConstants.STYLE_FILLCOLOR, "blue", new Object[]{cell});
                             //editor.getGraphComponent().refresh();

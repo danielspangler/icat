@@ -44,11 +44,15 @@ public class Control {
         new ModelView();
     }
 
-    private Configuration getConfig() {
+    public Configuration getConfig() {
         if (config==null) {
             config = configDAO.getConfiguration();
         }
         return config;
+    }
+
+    public void saveConfig() {
+        configDAO.saveConfiguration(getConfig());
     }
 
     public Project getCurrentProject() {
@@ -56,18 +60,6 @@ public class Control {
             currentProject = new Project("Name", "Description", "Author");
         }
         return currentProject;
-    }
-
-    //return the list of Entities
-    public List<Entity> getEntities(){
-
-        return new ArrayList<Entity>(currentProject.getEntities());
-    }
-
-    //return the list of Forces
-    public List<Force> getForces(){
-
-        return new ArrayList<Force>(currentProject.getForces());
     }
 
     public void saveCurrent() {
@@ -83,6 +75,8 @@ public class Control {
         if (currentProject!=null) {
             currentProjectPath = newPath;
             projectDAO.saveProject(newPath, currentProject);
+            getConfig().addRecentProject(new Configuration.ProjectInfo(currentProject.getName(), currentProjectPath));
+            saveConfig();
         } else {
             throw new IllegalStateException("Could not find the currentProject");
         }
@@ -93,7 +87,8 @@ public class Control {
         checkArgument(!Strings.isNullOrEmpty(projectPath), "The project path must be provided");
         currentProject = projectDAO.getProject(projectPath);
         currentProjectPath = projectPath;
-
+        getConfig().addRecentProject(new Configuration.ProjectInfo(currentProject.getName(), currentProjectPath));
+        saveConfig();
         return currentProject;
     }
 

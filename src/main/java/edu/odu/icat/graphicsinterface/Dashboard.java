@@ -5,10 +5,12 @@
 package edu.odu.icat.graphicsinterface;
 
 import edu.odu.icat.controller.Control;
+import edu.odu.icat.model.Configuration;
 
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
+import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -51,7 +53,24 @@ public class Dashboard extends JFrame {
         }
         catch(IOException e){System.out.println("File not found: logo.png");}
 
-		JButton btnNewButton = new JButton("New Project");
+
+//        JTable table = new JTable();
+//        java.util.List<Configuration.ProjectInfo> recentProjects = Control.getInstance().getConfig().getRecentProjects();
+//        if (!recentProjects.isEmpty()) {
+//            DefaultTableModel model = new DefaultTableModel();
+//            table.setModel(model);
+//            model.addColumn("Name");
+//            model.addColumn("Path");
+//            for (Configuration.ProjectInfo recentProject : recentProjects) {
+//                model.addRow(new Object[] {recentProject.getName(), recentProject.getPath()});
+//            }
+//            sl_contentPane.putConstraint(SpringLayout.NORTH, table, -99, SpringLayout.SOUTH, contentPane);
+//            sl_contentPane.putConstraint(SpringLayout.SOUTH, table, -40, SpringLayout.SOUTH, contentPane);
+//            sl_contentPane.putConstraint(SpringLayout.EAST, table, 170, SpringLayout.WEST, contentPane);
+//            contentPane.add(table);
+//        }
+
+        JButton btnNewButton = new JButton("New Project");
 		sl_contentPane.putConstraint(SpringLayout.NORTH, btnNewButton, -99, SpringLayout.SOUTH, contentPane);
 		sl_contentPane.putConstraint(SpringLayout.SOUTH, btnNewButton, -40, SpringLayout.SOUTH, contentPane);
 		sl_contentPane.putConstraint(SpringLayout.EAST, btnNewButton, 170, SpringLayout.WEST, contentPane);
@@ -64,7 +83,11 @@ public class Dashboard extends JFrame {
         }
 		});
 		sl_contentPane.putConstraint(SpringLayout.WEST, btnNewButton, 10, SpringLayout.WEST, contentPane);
-		contentPane.add(btnNewButton);
+        contentPane.add(btnNewButton);
+
+
+
+
 		
 		final JTextPane txtpnSearch = new JTextPane();
 		sl_contentPane.putConstraint(SpringLayout.NORTH, txtpnSearch, 10, SpringLayout.NORTH, contentPane);

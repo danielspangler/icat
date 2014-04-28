@@ -34,6 +34,7 @@ import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 
 import edu.odu.icat.testingdashboard.*;
+import edu.odu.icat.graphicsinterface.ProjectPropertiesPanel;
 
 //import edu.odu.icat.controller.Utils;
 //import javafx.scene.control.Cell;
@@ -172,6 +173,14 @@ public class WorkSpace extends JFrame {
         });
         viewMenu.add(testItem);
 
+        JMenuItem properties = new JMenuItem("Project Settings");
+        properties.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent actionEvent) {
+                updateAttributePane(new ProjectPropertiesPanel());
+            }
+        });
+
+        viewMenu.add(properties);
 
         //Build  menubar, menus, and add menuitems.
         JMenuBar menubar = new JMenuBar();  // Create new menu bar

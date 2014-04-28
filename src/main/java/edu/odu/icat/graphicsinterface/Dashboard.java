@@ -79,7 +79,7 @@ public class Dashboard extends JFrame {
         JButton loadButton = new JButton("Load Project");
         loadButton.setAlignmentX(Component.LEFT_ALIGNMENT);
         loadButton.addActionListener(new ActionListener() {
-            @Override
+
             public void actionPerformed(ActionEvent actionEvent) {
                 if (currentWorkspace==null || !currentWorkspace.isVisible()) {
                     currentWorkspace = new WorkSpace();
@@ -105,7 +105,6 @@ public class Dashboard extends JFrame {
                 /**
                  * @inherited <p>
                  */
-                @Override
                 public Dimension getMaximumSize() {
                     Dimension max = super.getMaximumSize();
                     max.height = getPreferredSize().height;
@@ -131,12 +130,6 @@ public class Dashboard extends JFrame {
             contentPane.add(Box.createRigidArea(new Dimension(0,5)));
             contentPane.add(recentProjectComboBox);
         }
-        
-
-
-
-		
-
 	}
 }
     

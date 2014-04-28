@@ -34,21 +34,21 @@ public class EditorPopupMenu extends JPopupMenu
 		//add(editor.bind(mxResources.get("undo"), new HistoryAction(true),
 		//		"/com/mxgraph/examples/swing/images/undo.gif"));
 
-		addSeparator();
+		//addSeparator();
 
-		add(
-				editor.bind(mxResources.get("cut"), TransferHandler
-						.getCutAction(),
-						"/com/mxgraph/examples/swing/images/cut.gif"))
-				.setEnabled(selected);
-		add(
-				editor.bind(mxResources.get("copy"), TransferHandler
-						.getCopyAction(),
-						"/com/mxgraph/examples/swing/images/copy.gif"))
-				.setEnabled(selected);
-		add(editor.bind(mxResources.get("paste"), TransferHandler
-				.getPasteAction(),
-				"/com/mxgraph/examples/swing/images/paste.gif"));
+		//add(
+		//		editor.bind(mxResources.get("cut"), TransferHandler
+		//				.getCutAction(),
+		//				"/com/mxgraph/examples/swing/images/cut.gif"))
+		//		.setEnabled(selected);
+		//add(
+		//		editor.bind(mxResources.get("copy"), TransferHandler
+		//				.getCopyAction(),
+		//				"/com/mxgraph/examples/swing/images/copy.gif"))
+		//		.setEnabled(selected);
+		//add(editor.bind(mxResources.get("paste"), TransferHandler
+		//		.getPasteAction(),
+		//		"/com/mxgraph/examples/swing/images/paste.gif"));
 
 		addSeparator();
 

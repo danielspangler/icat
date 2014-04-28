@@ -24,6 +24,7 @@ import java.util.Vector;
 public class Dashboard extends JFrame {
 
 	private JPanel contentPane;
+    private WorkSpace currentWorkspace;
 
 	/**
 	 * Create the frame.
@@ -62,10 +63,14 @@ public class Dashboard extends JFrame {
         btnNewButton.setAlignmentX(Component.LEFT_ALIGNMENT);
 		btnNewButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                WorkSpace Ws = new WorkSpace();
-                Ws.setVisible(true);
-                Control controller = Control.getInstance();
-                controller.createProject();
+                if (currentWorkspace==null || !currentWorkspace.isVisible()) {
+                    currentWorkspace = new WorkSpace();
+                    currentWorkspace.setVisible(true);
+                    Control controller = Control.getInstance();
+                    controller.createProject();
+
+                }
+
             }
         });
         contentPane.add(Box.createRigidArea(new Dimension(0,5)));
@@ -76,9 +81,11 @@ public class Dashboard extends JFrame {
         loadButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
-                WorkSpace Ws = new WorkSpace();
-                Ws.load();
-                Ws.setVisible(true);
+                if (currentWorkspace==null || !currentWorkspace.isVisible()) {
+                    currentWorkspace = new WorkSpace();
+                    currentWorkspace.load();
+                    currentWorkspace.setVisible(true);
+                }
             }
         });
         contentPane.add(Box.createRigidArea(new Dimension(0,5)));
@@ -110,9 +117,12 @@ public class Dashboard extends JFrame {
                 public void itemStateChanged(ItemEvent itemEvent) {
                     String selected = (String)recentProjectComboBox.getSelectedItem();
                     if (selected != options.firstElement()) {
-                        WorkSpace Ws = new WorkSpace();
-                        Ws.load(selected);
-                        Ws.setVisible(true);
+                        if (currentWorkspace==null || !currentWorkspace.isVisible()) {
+                            currentWorkspace = new WorkSpace();
+                            currentWorkspace.load(selected);
+                            currentWorkspace.setVisible(true);
+
+                        }
                     }
                 }
             });

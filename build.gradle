@@ -9,6 +9,7 @@ jar {
     manifest {
         attributes 'Implementation-Title': 'ICAT', 'Implementation-Version': version
     }
+    from sourceSets.main.allSource
 }
 
 

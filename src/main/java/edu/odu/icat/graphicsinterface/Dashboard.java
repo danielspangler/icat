@@ -49,7 +49,7 @@ public class Dashboard extends JFrame {
 
 
         try{
-            BufferedImage myPicture = ImageIO.read(new File("src/main/resources/logo.png"));
+            BufferedImage myPicture = ImageIO.read(Dashboard.class.getResource("/logo.png"));
             JLabel logo = new JLabel(new ImageIcon(myPicture.getScaledInstance(150,75,Image.SCALE_SMOOTH)));
             logo.setAlignmentX(Component.LEFT_ALIGNMENT);
             contentPane.add(logo);

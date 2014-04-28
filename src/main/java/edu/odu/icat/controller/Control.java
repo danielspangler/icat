@@ -41,7 +41,7 @@ public class Control {
 
     private Control() {
         createProject();
-        new ModelView();
+//        new ModelView();
     }
 
     public Configuration getConfig() {

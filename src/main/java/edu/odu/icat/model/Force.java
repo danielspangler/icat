@@ -1,8 +1,6 @@
 package edu.odu.icat.model;
 
-import java.util.List;
 import static com.google.common.base.Preconditions.*;
-import static com.google.common.base.Strings.*;
 
 /**
  * Represents a Force in a problem domain.

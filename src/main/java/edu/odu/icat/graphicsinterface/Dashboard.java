@@ -68,6 +68,7 @@ public class Dashboard extends JFrame {
                 controller.createProject();
             }
         });
+        contentPane.add(Box.createRigidArea(new Dimension(0,5)));
         contentPane.add(btnNewButton);
 
         JButton loadButton = new JButton("Load Project");
@@ -80,6 +81,7 @@ public class Dashboard extends JFrame {
                 Ws.setVisible(true);
             }
         });
+        contentPane.add(Box.createRigidArea(new Dimension(0,5)));
         contentPane.add(loadButton);
 
 
@@ -116,6 +118,7 @@ public class Dashboard extends JFrame {
             });
             recentProjectComboBox.setAlignmentX(Component.LEFT_ALIGNMENT);
             recentProjectComboBox.setAlignmentX(Component.TOP_ALIGNMENT);
+            contentPane.add(Box.createRigidArea(new Dimension(0,5)));
             contentPane.add(recentProjectComboBox);
         }
         

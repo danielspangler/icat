@@ -17,6 +17,7 @@ import com.mxgraph.util.mxPoint;
 import com.mxgraph.util.mxUtils;
 import com.mxgraph.view.mxCellState;
 import com.mxgraph.view.mxGraph;
+import edu.odu.icat.model.Entity;
 import org.w3c.dom.Document;
 import edu.odu.icat.model.Force;
 import com.mxgraph.util.*;
@@ -177,87 +178,97 @@ public class GraphEditor extends BasicGraphEditor
 		public String getToolTipForCell(Object cell)
 		{
 			String tip = "<html>";
-			mxGeometry geo = getModel().getGeometry(cell);
-			mxCellState state = getView().getState(cell);
 
-			if (getModel().isEdge(cell))
-			{
-				tip += "points={";
+            if (cell instanceof mxCell) {
+                Object value = ((mxCell)cell).getValue();
+                if (value instanceof Entity) {
+                    tip += ((Entity)value).getName();
+                }
+            }
+            tip += "</html>";
+            return tip;
 
-				if (geo != null)
-				{
-					List<mxPoint> points = geo.getPoints();
-
-					if (points != null)
-					{
-						Iterator<mxPoint> it = points.iterator();
-
-						while (it.hasNext())
-						{
-							mxPoint point = it.next();
-							tip += "[x=" + numberFormat.format(point.getX())
-									+ ",y=" + numberFormat.format(point.getY())
-									+ "],";
-						}
-
-						tip = tip.substring(0, tip.length() - 1);
-					}
-				}
-
-				tip += "}<br>";
-				tip += "absPoints={";
-
-				if (state != null)
-				{
-
-					for (int i = 0; i < state.getAbsolutePointCount(); i++)
-					{
-						mxPoint point = state.getAbsolutePoint(i);
-						tip += "[x=" + numberFormat.format(point.getX())
-								+ ",y=" + numberFormat.format(point.getY())
-								+ "],";
-					}
-
-					tip = tip.substring(0, tip.length() - 1);
-				}
-
-				tip += "}";
-			}
-			else
-			{
-				tip += "geo=[";
-
-				if (geo != null)
-				{
-					tip += "x=" + numberFormat.format(geo.getX()) + ",y="
-							+ numberFormat.format(geo.getY()) + ",width="
-							+ numberFormat.format(geo.getWidth()) + ",height="
-							+ numberFormat.format(geo.getHeight());
-				}
-
-				tip += "]<br>";
-				tip += "state=[";
-
-				if (state != null)
-				{
-					tip += "x=" + numberFormat.format(state.getX()) + ",y="
-							+ numberFormat.format(state.getY()) + ",width="
-							+ numberFormat.format(state.getWidth())
-							+ ",height="
-							+ numberFormat.format(state.getHeight());
-				}
-
-				tip += "]";
-			}
-
-			mxPoint trans = getView().getTranslate();
-
-			tip += "<br>scale=" + numberFormat.format(getView().getScale())
-					+ ", translate=[x=" + numberFormat.format(trans.getX())
-					+ ",y=" + numberFormat.format(trans.getY()) + "]";
-			tip += "</html>";
-
-			return tip;
+//			mxGeometry geo = getModel().getGeometry(cell);
+//			mxCellState state = getView().getState(cell);
+//
+//			if (getModel().isEdge(cell))
+//			{
+//				tip += "points={";
+//
+//				if (geo != null)
+//				{
+//					List<mxPoint> points = geo.getPoints();
+//
+//					if (points != null)
+//					{
+//						Iterator<mxPoint> it = points.iterator();
+//
+//						while (it.hasNext())
+//						{
+//							mxPoint point = it.next();
+//							tip += "[x=" + numberFormat.format(point.getX())
+//									+ ",y=" + numberFormat.format(point.getY())
+//									+ "],";
+//						}
+//
+//						tip = tip.substring(0, tip.length() - 1);
+//					}
+//				}
+//
+//				tip += "}<br>";
+//				tip += "absPoints={";
+//
+//				if (state != null)
+//				{
+//
+//					for (int i = 0; i < state.getAbsolutePointCount(); i++)
+//					{
+//						mxPoint point = state.getAbsolutePoint(i);
+//						tip += "[x=" + numberFormat.format(point.getX())
+//								+ ",y=" + numberFormat.format(point.getY())
+//								+ "],";
+//					}
+//
+//					tip = tip.substring(0, tip.length() - 1);
+//				}
+//
+//				tip += "}";
+//			}
+//			else
+//			{
+//				tip += "geo=[";
+//
+//				if (geo != null)
+//				{
+//					tip += "x=" + numberFormat.format(geo.getX()) + ",y="
+//							+ numberFormat.format(geo.getY()) + ",width="
+//							+ numberFormat.format(geo.getWidth()) + ",height="
+//							+ numberFormat.format(geo.getHeight());
+//				}
+//
+//				tip += "]<br>";
+//				tip += "state=[";
+//
+//				if (state != null)
+//				{
+//					tip += "x=" + numberFormat.format(state.getX()) + ",y="
+//							+ numberFormat.format(state.getY()) + ",width="
+//							+ numberFormat.format(state.getWidth())
+//							+ ",height="
+//							+ numberFormat.format(state.getHeight());
+//				}
+//
+//				tip += "]";
+//			}
+//
+//			mxPoint trans = getView().getTranslate();
+//
+//			tip += "<br>scale=" + numberFormat.format(getView().getScale())
+//					+ ", translate=[x=" + numberFormat.format(trans.getX())
+//					+ ",y=" + numberFormat.format(trans.getY()) + "]";
+//			tip += "</html>";
+//
+//			return tip;
 		}
 
 		/**

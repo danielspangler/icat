@@ -79,6 +79,11 @@ public class Entity extends Base {
 
     @Override
     public String toString() {
-        return getName();
+//        return getName();
+        if (getName().length()>11) {
+            return getName().substring(0,10) + "...";
+        } else {
+            return getName();
+        }
     }
 }

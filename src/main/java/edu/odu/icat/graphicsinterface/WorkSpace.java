@@ -33,6 +33,8 @@ import java.util.Map;
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 
+import edu.odu.icat.testingdashboard.*;
+
 //import edu.odu.icat.controller.Utils;
 //import javafx.scene.control.Cell;
 
@@ -45,6 +47,8 @@ public class WorkSpace extends JFrame {
     private JPanel contentPane;
     private JPanel attributePane;
     private JSplitPane split;
+
+    private ModelView TestingDashboard;
 
     public static int MINIMUM_PANEL_SIZE = 300;
 
@@ -68,6 +72,8 @@ public class WorkSpace extends JFrame {
 	 * Create the frame.
 	 */
 	public WorkSpace() {
+        TestingDashboard = new ModelView();
+
 		setTitle("Workspace");
         this.setIconImage(Toolkit.getDefaultToolkit().getImage("src/main/resources/logo.png"));
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -159,8 +165,20 @@ public class WorkSpace extends JFrame {
             quitItem.setMnemonic('X');
             quitItem.setAccelerator(KeyStroke.getKeyStroke("control X"));
 
+
+        JMenu viewMenu = new JMenu("View");
+        JMenuItem testItem = new JMenuItem("Testing Dashboard");
+        testItem.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent actionEvent) {
+                TestingDashboard.setVisible(true);
+            }
+        });
+        viewMenu.add(testItem);
+
+
         //Build  menubar, menus, and add menuitems.
         JMenuBar menubar = new JMenuBar();  // Create new menu bar
+
             JMenu fileMenu = new JMenu("File"); // Create new menu
                 fileMenu.setMnemonic('F');
                 menubar.add(fileMenu);      // Add menu to the menubar
@@ -173,8 +191,12 @@ public class WorkSpace extends JFrame {
                 fileMenu.addSeparator();    // Add separator line to menu
                 fileMenu.add(quitItem);
 
+                menubar.add(viewMenu);
+
                 fileMenu.setMnemonic('R');
                 menubar.add(reportsMenu);
+
+
 
         //Add listeners to menu items
         loadItem.addActionListener(new LoadAction());

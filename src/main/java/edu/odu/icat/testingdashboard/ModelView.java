@@ -88,6 +88,6 @@ public class ModelView extends JFrame{
 
         pack();
         setTitle("ICAT Data Model View");
-        setVisible(true);
+        setVisible(false);
     }
 }

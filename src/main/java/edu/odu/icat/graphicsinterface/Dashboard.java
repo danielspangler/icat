@@ -8,25 +8,22 @@ import edu.odu.icat.controller.Control;
 import edu.odu.icat.model.Configuration;
 
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
-import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
+import java.awt.image.BufferedImage;
+import java.io.File;
 import java.io.IOException;
-
-//import com.jgoodies.forms.layout.FormLayout;
-//import com.jgoodies.forms.layout.ColumnSpec;
-//import com.jgoodies.forms.layout.RowSpec;
+import java.util.Vector;
 
 public class Dashboard extends JFrame {
 
 	private JPanel contentPane;
-	private JPanel Workspace;
-    private ImagePanel logo;
 
 	/**
 	 * Create the frame.
@@ -34,78 +31,99 @@ public class Dashboard extends JFrame {
 	public Dashboard() {
 		setTitle("Dashboard");
         this.setIconImage(Toolkit.getDefaultToolkit().getImage("src/main/resources/logo.png"));
-
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+
 		setBounds(100, 100, 507, 415);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
-		SpringLayout sl_contentPane = new SpringLayout();
-		contentPane.setLayout(sl_contentPane);
+        BoxLayout layout = new BoxLayout(contentPane, BoxLayout.PAGE_AXIS);
+        contentPane.setLayout(layout);
+
+        JLabel lblIcatdashboard = new JLabel("ICAT - Dashboard");
+        lblIcatdashboard.setAlignmentX(Component.LEFT_ALIGNMENT);
+        contentPane.add(lblIcatdashboard);
+        contentPane.add(Box.createRigidArea(new Dimension(0,5)));
+
 
         try{
-        logo = new ImagePanel("logo.png", 150, 75);
-        sl_contentPane.putConstraint(SpringLayout.NORTH, logo, 40, SpringLayout.NORTH, contentPane);
-        //sl_contentPane.putConstraint(SpringLayout.SOUTH, logo, 40, SpringLayout.NORTH, contentPane);
-        sl_contentPane.putConstraint(SpringLayout.WEST, logo, 10, SpringLayout.WEST, contentPane);
-        //sl_contentPane.putConstraint(SpringLayout.EAST, logo, 10, SpringLayout.EAST, contentPane);
-        contentPane.add(logo);
+            BufferedImage myPicture = ImageIO.read(new File("src/main/resources/logo.png"));
+            JLabel logo = new JLabel(new ImageIcon(myPicture.getScaledInstance(150,75,Image.SCALE_SMOOTH)));
+            logo.setAlignmentX(Component.LEFT_ALIGNMENT);
+            contentPane.add(logo);
         }
         catch(IOException e){System.out.println("File not found: logo.png");}
 
 
-//        JTable table = new JTable();
-//        java.util.List<Configuration.ProjectInfo> recentProjects = Control.getInstance().getConfig().getRecentProjects();
-//        if (!recentProjects.isEmpty()) {
-//            DefaultTableModel model = new DefaultTableModel();
-//            table.setModel(model);
-//            model.addColumn("Name");
-//            model.addColumn("Path");
-//            for (Configuration.ProjectInfo recentProject : recentProjects) {
-//                model.addRow(new Object[] {recentProject.getName(), recentProject.getPath()});
-//            }
-//            sl_contentPane.putConstraint(SpringLayout.NORTH, table, -99, SpringLayout.SOUTH, contentPane);
-//            sl_contentPane.putConstraint(SpringLayout.SOUTH, table, -40, SpringLayout.SOUTH, contentPane);
-//            sl_contentPane.putConstraint(SpringLayout.EAST, table, 170, SpringLayout.WEST, contentPane);
-//            contentPane.add(table);
-//        }
+        contentPane.add(Box.createRigidArea(new Dimension(0,40)));
 
         JButton btnNewButton = new JButton("New Project");
-		sl_contentPane.putConstraint(SpringLayout.NORTH, btnNewButton, -99, SpringLayout.SOUTH, contentPane);
-		sl_contentPane.putConstraint(SpringLayout.SOUTH, btnNewButton, -40, SpringLayout.SOUTH, contentPane);
-		sl_contentPane.putConstraint(SpringLayout.EAST, btnNewButton, 170, SpringLayout.WEST, contentPane);
+        btnNewButton.setAlignmentX(Component.LEFT_ALIGNMENT);
 		btnNewButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-			WorkSpace Ws = new WorkSpace();
-			Ws.setVisible(true);
+            public void actionPerformed(ActionEvent e) {
+                WorkSpace Ws = new WorkSpace();
+                Ws.setVisible(true);
                 Control controller = Control.getInstance();
                 controller.createProject();
-        }
-		});
-		sl_contentPane.putConstraint(SpringLayout.WEST, btnNewButton, 10, SpringLayout.WEST, contentPane);
-        contentPane.add(btnNewButton);
-
-
-
-
-		
-		final JTextPane txtpnSearch = new JTextPane();
-		sl_contentPane.putConstraint(SpringLayout.NORTH, txtpnSearch, 10, SpringLayout.NORTH, contentPane);
-		sl_contentPane.putConstraint(SpringLayout.WEST, txtpnSearch, -165, SpringLayout.EAST, contentPane);
-		sl_contentPane.putConstraint(SpringLayout.EAST, txtpnSearch, -44, SpringLayout.EAST, contentPane);
-		txtpnSearch.setText("Search");
-        txtpnSearch.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                txtpnSearch.setText("");
             }
         });
-		contentPane.add(txtpnSearch);
+        contentPane.add(btnNewButton);
+
+        JButton loadButton = new JButton("Load Project");
+        loadButton.setAlignmentX(Component.LEFT_ALIGNMENT);
+        loadButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+                WorkSpace Ws = new WorkSpace();
+                Ws.load();
+                Ws.setVisible(true);
+            }
+        });
+        contentPane.add(loadButton);
+
+
+        java.util.List<Configuration.ProjectInfo> recentProjects = Control.getInstance().getConfig().getRecentProjects();
+        if (!recentProjects.isEmpty()) {
+
+            final Vector<String> options = new Vector<String>();
+            options.add("<Open Recent Project>");
+            for (Configuration.ProjectInfo info : recentProjects) {
+                options.add(info.getPath());
+
+            }
+            final JComboBox recentProjectComboBox = new JComboBox(options) {
+                /**
+                 * @inherited <p>
+                 */
+                @Override
+                public Dimension getMaximumSize() {
+                    Dimension max = super.getMaximumSize();
+                    max.height = getPreferredSize().height;
+                    return max;
+                }
+            };
+            recentProjectComboBox.addItemListener(new ItemListener() {
+                @Override
+                public void itemStateChanged(ItemEvent itemEvent) {
+                    String selected = (String)recentProjectComboBox.getSelectedItem();
+                    if (selected != options.firstElement()) {
+                        WorkSpace Ws = new WorkSpace();
+                        Ws.load(selected);
+                        Ws.setVisible(true);
+                    }
+                }
+            });
+            recentProjectComboBox.setAlignmentX(Component.LEFT_ALIGNMENT);
+            recentProjectComboBox.setAlignmentX(Component.TOP_ALIGNMENT);
+            contentPane.add(recentProjectComboBox);
+        }
+        
+
+
+
 		
-		JLabel lblIcatdashboard = new JLabel("ICAT - Dashboard");
-		sl_contentPane.putConstraint(SpringLayout.NORTH, lblIcatdashboard, 0, SpringLayout.NORTH, txtpnSearch);
-		sl_contentPane.putConstraint(SpringLayout.WEST, lblIcatdashboard, 10, SpringLayout.WEST, contentPane);
-		contentPane.add(lblIcatdashboard);
+
 	}
 }
     

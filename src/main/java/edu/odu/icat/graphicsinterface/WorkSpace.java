@@ -485,81 +485,93 @@ public class WorkSpace extends JFrame {
         return newPanel;
     }
 
+    public void load() {
+        load(null);
+    }
+
+    public void load(String path) {
+        if (path==null) {
+            JFileChooser fc = new JFileChooser();
+            FileFilter filter = new FileNameExtensionFilter("ICAT Files", "icat");
+            fc.setFileFilter(filter);
+            if (fc.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
+                File openFiles = fc.getSelectedFile();
+                path = openFiles.getAbsolutePath();
+            } else {
+                return;
+            }
+        }
+        // load the file here
+        Control.getInstance().loadProject(path);
+
+        com.mxgraph.view.mxGraph graph = graphComponent.getGraphComponent().getGraph();
+        com.mxgraph.model.mxGraphModel graphModel = (com.mxgraph.model.mxGraphModel)graph.getModel();
+        graphModel.beginUpdate();
+        try {
+            graphModel.clear();
+            Project project = Control.getInstance().getCurrentProject();
+            if (project!=null) {
+                Map<Entity, Object> internalCells = new HashMap<Entity, Object>();
+                Hashtable<String, String> problemStyle = new Hashtable<String, String>();
+                problemStyle.put(mxConstants.STYLE_FILLCOLOR,"black");
+                problemStyle.put(mxConstants.STYLE_GRADIENTCOLOR,"black");
+                for (Entity entity : project.getEntities()) {
+                    //else
+                    Object graphEntity = graph.insertVertex(graph.getDefaultParent(), null, entity, entity.getLocation().getX(), entity.getLocation().getY(), 100, 100,"shape=ellipse");
+                    Object[] entities = {graphEntity};
+
+                    if(entity.getClassification().equals("Problem")) {
+                        graph.setCellStyles(mxConstants.STYLE_STROKECOLOR, "black", entities);
+                        graph.setCellStyles(mxConstants.STYLE_GRADIENTCOLOR, "black", entities); //changes the color to red
+                        graph.setCellStyles(mxConstants.STYLE_FILLCOLOR, "black", entities); //changes the color to red
+                        graph.setCellStyles(mxConstants.STYLE_FONTCOLOR, "white", entities);
+                    }
+                    if(entity.getClassification().equals("Stakeholder")) {
+                        graph.setCellStyles(mxConstants.STYLE_STROKECOLOR, "blue", entities);
+                        graph.setCellStyles(mxConstants.STYLE_GRADIENTCOLOR, "blue", entities); //changes the color to red
+                        graph.setCellStyles(mxConstants.STYLE_FILLCOLOR, "blue", entities); //changes the color to red
+                        graph.setCellStyles(mxConstants.STYLE_FONTCOLOR, "white", entities);
+                    }
+                    if(entity.getClassification().equals("Objective")) {
+                        graph.setCellStyles(mxConstants.STYLE_STROKECOLOR, "orange", entities);
+                        graph.setCellStyles(mxConstants.STYLE_GRADIENTCOLOR, "orange", entities); //changes the color to red
+                        graph.setCellStyles(mxConstants.STYLE_FILLCOLOR, "orange", entities); //changes the color to red
+                        graph.setCellStyles(mxConstants.STYLE_FONTCOLOR, "black", entities);
+                    }
+                    if(entity.getClassification().equals("Attribute")) {
+                        graph.setCellStyles(mxConstants.STYLE_STROKECOLOR, "green", entities);
+                        graph.setCellStyles(mxConstants.STYLE_GRADIENTCOLOR, "green", entities); //changes the color to red
+                        graph.setCellStyles(mxConstants.STYLE_FILLCOLOR, "green", entities); //changes the color to red
+                        graph.setCellStyles(mxConstants.STYLE_FONTCOLOR, "white", entities);
+                    }
+                    if(entity.getClassification().equals("Resource")) {
+                        graph.setCellStyles(mxConstants.STYLE_STROKECOLOR, "yellow", entities);
+                        graph.setCellStyles(mxConstants.STYLE_GRADIENTCOLOR, "yellow", entities); //changes the color to red
+                        graph.setCellStyles(mxConstants.STYLE_FILLCOLOR, "yellow", entities); //changes the color to red
+                        graph.setCellStyles(mxConstants.STYLE_FONTCOLOR, "black", entities);
+                    }
+                    internalCells.put(entity, graphEntity);
+                    graphComponent.getGraphComponent().refresh();
+
+                }
+                for (Force force : project.getForces()) {
+                    Object insertedEdge = graph.insertEdge(graph.getDefaultParent(), null, force, internalCells.get(force.getOrigin()), internalCells.get(force.getDestination()));
+                    graph.setCellStyles(mxConstants.STYLE_STROKEWIDTH, Integer.toString(force.getWeight()), new Object[]{insertedEdge});
+                }
+            }
+
+        } finally {
+            graphModel.endUpdate();
+        }
+
+    }
+
     //-------Action listener for load button
     class LoadAction implements ActionListener {
-        JFileChooser fc = new JFileChooser();
-        FileFilter filter = new FileNameExtensionFilter("ICAT Files", "icat");
 
         public void actionPerformed(ActionEvent e)
         {
-            //JOptionPane.showMessageDialog(WorkSpace.this, "No Files Found.");
-            fc.setFileFilter(filter);
-            if (fc.showOpenDialog(WorkSpace.this) == JFileChooser.APPROVE_OPTION)
-            {
-                File openFiles = fc.getSelectedFile();
-                // load the file here
-                Control.getInstance().loadProject(openFiles.getAbsolutePath());
-
-                com.mxgraph.view.mxGraph graph = WorkSpace.this.graphComponent.getGraphComponent().getGraph();
-                com.mxgraph.model.mxGraphModel graphModel = (com.mxgraph.model.mxGraphModel)graph.getModel();
-                graphModel.beginUpdate();
-                try {
-                    graphModel.clear();
-                    Project project = Control.getInstance().getCurrentProject();
-                    if (project!=null) {
-                        Map<Entity, Object> internalCells = new HashMap<Entity, Object>();
-                        Hashtable<String, String> problemStyle = new Hashtable<String, String>();
-                        problemStyle.put(mxConstants.STYLE_FILLCOLOR,"black");
-                        problemStyle.put(mxConstants.STYLE_GRADIENTCOLOR,"black");
-                        for (Entity entity : project.getEntities()) {
-                           //else
-                            Object graphEntity = graph.insertVertex(graph.getDefaultParent(), null, entity, entity.getLocation().getX(), entity.getLocation().getY(), 100, 100,"shape=ellipse");
-                            Object[] entities = {graphEntity};
-
-                            if(entity.getClassification().equals("Problem")) {
-                                graph.setCellStyles(mxConstants.STYLE_STROKECOLOR, "black", entities);
-                                graph.setCellStyles(mxConstants.STYLE_GRADIENTCOLOR, "black", entities); //changes the color to red
-                                graph.setCellStyles(mxConstants.STYLE_FILLCOLOR, "black", entities); //changes the color to red
-                                graph.setCellStyles(mxConstants.STYLE_FONTCOLOR, "white", entities);
-                            }
-                            if(entity.getClassification().equals("Stakeholder")) {
-                                graph.setCellStyles(mxConstants.STYLE_STROKECOLOR, "blue", entities);
-                                graph.setCellStyles(mxConstants.STYLE_GRADIENTCOLOR, "blue", entities); //changes the color to red
-                                graph.setCellStyles(mxConstants.STYLE_FILLCOLOR, "blue", entities); //changes the color to red
-                                graph.setCellStyles(mxConstants.STYLE_FONTCOLOR, "white", entities);
-                            }
-                            if(entity.getClassification().equals("Objective")) {
-                                graph.setCellStyles(mxConstants.STYLE_STROKECOLOR, "orange", entities);
-                                graph.setCellStyles(mxConstants.STYLE_GRADIENTCOLOR, "orange", entities); //changes the color to red
-                                graph.setCellStyles(mxConstants.STYLE_FILLCOLOR, "orange", entities); //changes the color to red
-                                graph.setCellStyles(mxConstants.STYLE_FONTCOLOR, "black", entities);
-                            }
-                            if(entity.getClassification().equals("Attribute")) {
-                                graph.setCellStyles(mxConstants.STYLE_STROKECOLOR, "green", entities);
-                                graph.setCellStyles(mxConstants.STYLE_GRADIENTCOLOR, "green", entities); //changes the color to red
-                                graph.setCellStyles(mxConstants.STYLE_FILLCOLOR, "green", entities); //changes the color to red
-                                graph.setCellStyles(mxConstants.STYLE_FONTCOLOR, "white", entities);
-                            }
-                            if(entity.getClassification().equals("Resource")) {
-                                graph.setCellStyles(mxConstants.STYLE_STROKECOLOR, "yellow", entities);
-                                graph.setCellStyles(mxConstants.STYLE_GRADIENTCOLOR, "yellow", entities); //changes the color to red
-                                graph.setCellStyles(mxConstants.STYLE_FILLCOLOR, "yellow", entities); //changes the color to red
-                                graph.setCellStyles(mxConstants.STYLE_FONTCOLOR, "black", entities);
-                            }
-                            internalCells.put(entity, graphEntity);
-                            graphComponent.getGraphComponent().refresh();
-
-                        }
-                        for (Force force : project.getForces()) {
-                            Object insertedEdge = graph.insertEdge(graph.getDefaultParent(), null, force, internalCells.get(force.getOrigin()), internalCells.get(force.getDestination()));
-                            graph.setCellStyles(mxConstants.STYLE_STROKEWIDTH, Integer.toString(force.getWeight()), new Object[]{insertedEdge});
-                        }
-                    }
-
-                } finally {
-                    graphModel.endUpdate();
-                }
-            }
+            load();
         }
     }
 

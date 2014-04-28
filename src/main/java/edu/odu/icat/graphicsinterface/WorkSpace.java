@@ -149,9 +149,6 @@ public class WorkSpace extends JFrame {
         JMenuItem saveAsItem = new JMenuItem("Save As");
             saveAsItem.setMnemonic('A');
             saveAsItem.setAccelerator(KeyStroke.getKeyStroke("control A"));
-        JMenuItem loadItem = new JMenuItem("Load");
-            loadItem.setMnemonic('L');
-            loadItem.setAccelerator(KeyStroke.getKeyStroke("control L"));
         JMenuItem exportItem = new JMenuItem("Export As Image");
             exportItem.setMnemonic('E');
             exportItem.setAccelerator(KeyStroke.getKeyStroke("control E"));
@@ -184,7 +181,6 @@ public class WorkSpace extends JFrame {
                 menubar.add(fileMenu);      // Add menu to the menubar
                 fileMenu.add(saveItem);     // Add menu item to the menu
                 fileMenu.add(saveAsItem);
-                fileMenu.add(loadItem);
                 fileMenu.add(exportItem);
                 fileMenu.add(pageItem);
                 fileMenu.add(printItem);
@@ -199,7 +195,6 @@ public class WorkSpace extends JFrame {
 
 
         //Add listeners to menu items
-        loadItem.addActionListener(new LoadAction());
         quitItem.addActionListener(new QuitAction());
         printItem.addActionListener(new PrintAction());
         pageItem.addActionListener(new PageSetupAction());

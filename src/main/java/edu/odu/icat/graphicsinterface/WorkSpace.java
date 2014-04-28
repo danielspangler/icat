@@ -520,6 +520,7 @@ public class WorkSpace extends JFrame {
                     Object graphEntity = graph.insertVertex(graph.getDefaultParent(), null, entity, entity.getLocation().getX(), entity.getLocation().getY(), 100, 100,"shape=ellipse");
                     Object[] entities = {graphEntity};
 
+
                     if(entity.getClassification().equals("Problem")) {
                         graph.setCellStyles(mxConstants.STYLE_STROKECOLOR, "black", entities);
                         graph.setCellStyles(mxConstants.STYLE_GRADIENTCOLOR, "black", entities); //changes the color to red
@@ -549,6 +550,13 @@ public class WorkSpace extends JFrame {
                         graph.setCellStyles(mxConstants.STYLE_GRADIENTCOLOR, "yellow", entities); //changes the color to red
                         graph.setCellStyles(mxConstants.STYLE_FILLCOLOR, "yellow", entities); //changes the color to red
                         graph.setCellStyles(mxConstants.STYLE_FONTCOLOR, "black", entities);
+
+                    }
+                    if(!entity.isVisible()){
+                        graph.setCellStyles(mxConstants.STYLE_OPACITY, "50", entities);
+                    }
+                    if(!entity.isControllable()){
+                        graph.setCellStyles(mxConstants.STYLE_STROKEWIDTH, "5", entities);
                     }
                     internalCells.put(entity, graphEntity);
                     graphComponent.getGraphComponent().refresh();
@@ -609,6 +617,7 @@ public class WorkSpace extends JFrame {
         public void actionPerformed(ActionEvent e)
         {
             mxGraphComponent gc = graphComponent.getGraphComponent();
+
 
             gc.setSize(gc.getPreferredSize());
             gc.addNotify();

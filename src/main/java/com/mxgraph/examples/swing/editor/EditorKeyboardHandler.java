@@ -37,12 +37,12 @@ public class EditorKeyboardHandler extends mxKeyboardHandler
 		InputMap map = super.getInputMap(condition);
 
 		if (condition == JComponent.WHEN_FOCUSED && map != null)
-		{
+		{/*
 			map.put(KeyStroke.getKeyStroke("control S"), "save");
 			map.put(KeyStroke.getKeyStroke("control shift S"), "saveAs");
 			map.put(KeyStroke.getKeyStroke("control N"), "new");
 			map.put(KeyStroke.getKeyStroke("control O"), "open");
-
+        */
 			map.put(KeyStroke.getKeyStroke("control Z"), "undo");
 			map.put(KeyStroke.getKeyStroke("control Y"), "redo");
 			map

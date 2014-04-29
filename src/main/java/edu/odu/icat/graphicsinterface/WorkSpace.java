@@ -149,7 +149,7 @@ public class WorkSpace extends JFrame {
             saveItem.setAccelerator(KeyStroke.getKeyStroke("control S"));
         JMenuItem saveAsItem = new JMenuItem("Save As");
             saveAsItem.setMnemonic('A');
-            saveAsItem.setAccelerator(KeyStroke.getKeyStroke("control A"));
+            saveAsItem.setAccelerator(KeyStroke.getKeyStroke("control shift S"));
         JMenuItem exportItem = new JMenuItem("Export As Image");
             exportItem.setMnemonic('E');
             exportItem.setAccelerator(KeyStroke.getKeyStroke("control E"));

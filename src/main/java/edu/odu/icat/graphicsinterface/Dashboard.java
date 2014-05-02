@@ -68,7 +68,6 @@ public class Dashboard extends JFrame {
                     currentWorkspace.setVisible(true);
                     Control controller = Control.getInstance();
                     controller.createProject();
-
                 }
 
             }
@@ -120,7 +119,7 @@ public class Dashboard extends JFrame {
                             currentWorkspace = new WorkSpace();
                             currentWorkspace.load(selected);
                             currentWorkspace.setVisible(true);
-
+                            currentWorkspace.setTitle(selected + " - ICAT Editor");
                         }
                     }
                 }

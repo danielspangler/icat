@@ -529,6 +529,7 @@ public class WorkSpace extends JFrame {
         // load the file here
         Control.getInstance().loadProject(path);
 
+
         com.mxgraph.view.mxGraph graph = graphComponent.getGraphComponent().getGraph();
         com.mxgraph.model.mxGraphModel graphModel = (com.mxgraph.model.mxGraphModel)graph.getModel();
         graphModel.beginUpdate();
@@ -595,6 +596,7 @@ public class WorkSpace extends JFrame {
 
         } finally {
             graphModel.endUpdate();
+            setTitle(path + " - ICAT Editor");
         }
 
     }
@@ -707,6 +709,7 @@ public class WorkSpace extends JFrame {
                     saveFiles = new File (saveFiles.getPath()+ ".icat");
                 }
                 Control.getInstance().saveCurrentAs(saveFiles.getAbsolutePath());
+                setTitle(saveFiles.getPath() + " - ICAT Editor");
             }
         }
     }

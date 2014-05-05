@@ -44,6 +44,11 @@ public class Control {
         //new ModelView();
     }
 
+    public void reset() {
+        currentProjectPath = null;
+        currentProject = null;
+    }
+
     public Configuration getConfig() {
         if (config==null) {
             config = configDAO.getConfiguration();

@@ -24,6 +24,8 @@ import javax.swing.filechooser.FileFilter;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import java.awt.*;
 import java.awt.event.*;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.util.HashMap;
@@ -77,7 +79,13 @@ public class WorkSpace extends JFrame {
 
 		setTitle("Workspace");
         this.setIconImage(Toolkit.getDefaultToolkit().getImage("src/main/resources/logo.png"));
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        this.addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosed(WindowEvent windowEvent) {
+                super.windowClosed(windowEvent);
+                Control.getInstance().reset();
+            }
+        });
 		setBounds(100, 100, 850, 600);
 
         setLayout(new BorderLayout());

@@ -9,6 +9,7 @@ import com.mxgraph.analysis.mxGraphAnalysis;
 import com.mxgraph.canvas.mxGraphics2DCanvas;
 import com.mxgraph.canvas.mxICanvas;
 import com.mxgraph.canvas.mxSvgCanvas;
+import com.mxgraph.examples.swing.GraphEditor;
 import com.mxgraph.io.mxCodec;
 import com.mxgraph.io.mxGdCodec;
 import com.mxgraph.model.mxCell;
@@ -52,6 +53,7 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.io.*;
 import java.lang.reflect.Method;
+import java.net.URL;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
 import java.util.HashSet;
@@ -128,7 +130,8 @@ public class EditorActions
                 graph.getModel().beginUpdate();
                 try
                 {
-                    Object vertex = graph.insertVertex(graph.getDefaultParent(), null, "Legend", pt.getX(), pt.getY(), 145, 154, "shape=image;image=/src/main/resources/legend.png;verticalLabelPosition=bottom;verticalAlign=top;shape=image");
+                    //GraphEditor.class.getResource("/src/main/resources/legend.png");
+                    Object vertex = graph.insertVertex(graph.getDefaultParent(), null, "Legend", pt.getX(), pt.getY(), 145, 154, "shape=image;image=file:src/main/resources/legend.png;verticalLabelPosition=bottom;verticalAlign=top");
                 }
                 finally
                 {

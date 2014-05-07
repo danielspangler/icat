@@ -6,10 +6,11 @@ import edu.odu.icat.model.Entity;
 import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
 import java.awt.*;
+import java.awt.datatransfer.Clipboard;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.print.PrinterException;
-import java.sql.SQLSyntaxErrorException;
+import java.awt.datatransfer.StringSelection;
 
 public abstract class AnalyticsAlgorithm implements  Runnable
 {
@@ -75,7 +76,7 @@ public abstract class AnalyticsAlgorithm implements  Runnable
             ReportTable.setFillsViewportHeight(true);
             ReportTable.getTableHeader().setReorderingAllowed(false);
 
-            ReportTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+            ReportTable.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
             ReportTable.getSelectionModel().addListSelectionListener(new javax.swing.event.ListSelectionListener(){
                 public void valueChanged(ListSelectionEvent listSelectionEvent) {
                     if(listSelectionEvent.getValueIsAdjusting()){
@@ -156,10 +157,38 @@ public abstract class AnalyticsAlgorithm implements  Runnable
         //-------Export listener for load button
         class ExportAction implements ActionListener {
             public void actionPerformed(ActionEvent e) {
-                AlgorithmDialogBox.this.ReportData.removeAll();
-                PrintButton.setEnabled(true);
-                ExportButton.setEnabled(true);
-                AnalyticsAlgorithm.this.run();
+
+                StringBuilder contents=new StringBuilder();
+
+                //Copy table headers to clipboard
+                for(int i = 0; i < ReportTable.getColumnCount(); i++)
+                {
+                    contents.append(ReportData.getColumnName(i));
+                    //if not the last column, insert tab character
+                    if(i < ReportTable.getColumnCount() - 1)
+                        contents.append("\t");
+                }
+                contents.append(System.getProperty("line.separator"));
+                //copy entire contents to clipboard
+                for (int i = 0; i < ReportTable.getRowCount(); i++)
+                {
+                    for (int j = 0; j < ReportTable.getColumnCount(); j++)
+                    {
+                        contents.append(ReportTable.getValueAt(i, j));
+                        //if not the last column, insert tab character
+                        if (j < ReportTable.getColumnCount() - 1)
+                            contents.append("\t");
+                    }
+                    contents.append(System.getProperty("line.separator"));
+                }
+
+                //copy string to clipboard
+                StringSelection TableContents  = new StringSelection(contents.toString());
+                Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
+                clipboard.setContents(TableContents,TableContents);
+
+                //Show dialog box notifying user
+                JOptionPane.showMessageDialog(AlgorithmDialogBox.this, "Report output copied to clipboard");
             }
         }
 

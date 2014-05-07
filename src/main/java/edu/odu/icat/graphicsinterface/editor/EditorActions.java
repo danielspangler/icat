@@ -130,8 +130,7 @@ public class EditorActions
                 graph.getModel().beginUpdate();
                 try
                 {
-                    //GraphEditor.class.getResource("/src/main/resources/legend.png");
-                    Object vertex = graph.insertVertex(graph.getDefaultParent(), null, "Legend", pt.getX(), pt.getY(), 145, 154, "shape=image;image=file:src/main/resources/legend.png;verticalLabelPosition=bottom;verticalAlign=top");
+                    Object vertex = graph.insertVertex(graph.getDefaultParent(), null, "Legend", pt.getX(), pt.getY(), 145, 154, "shape=image;image=file:src/main/resources/legend.bmp;verticalLabelPosition=bottom;verticalAlign=top");
                 }
                 finally
                 {

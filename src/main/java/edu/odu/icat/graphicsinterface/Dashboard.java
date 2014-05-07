@@ -111,7 +111,6 @@ public class Dashboard extends JFrame {
                 }
             };
             recentProjectComboBox.addItemListener(new ItemListener() {
-                @Override
                 public void itemStateChanged(ItemEvent itemEvent) {
                     String selected = (String)recentProjectComboBox.getSelectedItem();
                     if (selected != options.firstElement()) {
@@ -119,7 +118,7 @@ public class Dashboard extends JFrame {
                             currentWorkspace = new WorkSpace();
                             currentWorkspace.load(selected);
                             currentWorkspace.setVisible(true);
-                            currentWorkspace.setTitle(selected + " - ICAT Editor");
+                            //currentWorkspace.setTitle(selected + " - ICAT Editor");
                         }
                     }
                 }

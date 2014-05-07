@@ -184,7 +184,7 @@ public class WorkSpace extends JFrame {
         JMenuItem properties = new JMenuItem("Project Settings");
         properties.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent actionEvent) {
-                updateAttributePane(new ProjectPropertiesPanel());
+                updateAttributePane(new ProjectPropertiesPanel(WorkSpace.this));
             }
         });
 
@@ -251,24 +251,24 @@ public class WorkSpace extends JFrame {
         final String[] ForceWeights = {"Low","Medium","High"};
         final JComboBox ForceBox = new JComboBox(ForceWeights);
 
-        ForceBox.setSelectedItem(Integer.toString(force.getWeight()));
+        ForceBox.setSelectedItem(Double.toString(force.getWeight()));
         ForceBox.addActionListener(new ActionListener() {
                                        public void actionPerformed(ActionEvent actionEvent) {
                                            JComboBox cb = (JComboBox) actionEvent.getSource();
                                            if(cb.getSelectedItem() == "High") {
-                                               force.setWeight(5);
+                                               force.setWeight(1.0);
                                                graph.setCellStyles(mxConstants.STYLE_STROKEWIDTH, "5", new Object[]{cell});
                                                graph.setCellStyles(mxConstants.STYLE_STROKECOLOR, "red", new Object[]{cell});
                                            }
                                            else if(cb.getSelectedItem() == "Medium")
                                            {
-                                               force.setWeight(3);
+                                               force.setWeight(0.5);
                                                graph.setCellStyles(mxConstants.STYLE_STROKEWIDTH, "3", new Object[]{cell});
                                                graph.setCellStyles(mxConstants.STYLE_STROKECOLOR, "purple", new Object[]{cell});
                                            }
                                            else if (cb.getSelectedItem() == "Low")
                                            {
-                                               force.setWeight(1);
+                                               force.setWeight(0.25);
                                                graph.setCellStyles(mxConstants.STYLE_STROKEWIDTH, "1", new Object[]{cell});
                                                graph.setCellStyles(mxConstants.STYLE_STROKECOLOR, "blue", new Object[]{cell});
                                            }
@@ -615,15 +615,15 @@ public class WorkSpace extends JFrame {
                 for (Force force : project.getForces()) {
                     Object insertedEdge = graph.insertEdge(graph.getDefaultParent(), null, force, internalCells.get(force.getOrigin()), internalCells.get(force.getDestination()));
                     if(force.getWeight() == 1) {
-                        graph.setCellStyles(mxConstants.STYLE_STROKEWIDTH, Integer.toString(force.getWeight()), new Object[]{insertedEdge});
+                        graph.setCellStyles(mxConstants.STYLE_STROKEWIDTH, Double.toString(force.getWeight()), new Object[]{insertedEdge});
                         graph.setCellStyles(mxConstants.STYLE_STROKECOLOR, "blue", new Object[]{insertedEdge});
                     }
                     if(force.getWeight() == 3) {
-                        graph.setCellStyles(mxConstants.STYLE_STROKEWIDTH, Integer.toString(force.getWeight()), new Object[]{insertedEdge});
+                        graph.setCellStyles(mxConstants.STYLE_STROKEWIDTH, Double.toString(force.getWeight()), new Object[]{insertedEdge});
                         graph.setCellStyles(mxConstants.STYLE_STROKECOLOR, "purple", new Object[]{insertedEdge});
                     }
                     if(force.getWeight() == 5) {
-                        graph.setCellStyles(mxConstants.STYLE_STROKEWIDTH, Integer.toString(force.getWeight()), new Object[]{insertedEdge});
+                        graph.setCellStyles(mxConstants.STYLE_STROKEWIDTH, Double.toString(force.getWeight()), new Object[]{insertedEdge});
                         graph.setCellStyles(mxConstants.STYLE_STROKECOLOR, "red", new Object[]{insertedEdge});
                     }
                 }
@@ -631,7 +631,7 @@ public class WorkSpace extends JFrame {
 
         } finally {
             graphModel.endUpdate();
-            setTitle(path + " - ICAT Editor");
+            setTitle(Control.getInstance().getCurrentProject().getName() + " - ICAT Editor");
         }
 
     }
@@ -744,10 +744,10 @@ public class WorkSpace extends JFrame {
                     saveFiles = new File (saveFiles.getPath()+ ".icat");
                 }
                 Control.getInstance().saveCurrentAs(saveFiles.getAbsolutePath());
-                setTitle(saveFiles.getPath() + " - ICAT Editor");
+                Control.getInstance().getCurrentProject().setName(saveFiles.getName());
+                setTitle(saveFiles.getName() + " - ICAT Editor");
+                //setTitle(saveFiles.getPath() + " - ICAT Editor");
             }
         }
     }
-
-
 }

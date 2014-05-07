@@ -137,7 +137,7 @@ public abstract class AnalyticsAlgorithm implements  Runnable
             return controllabilityCheck.isSelected();
         }
 
-        public void addEntityToReport(Entity entity, int Degree)
+        public void addEntityToReport(Entity entity, double Degree)
         {
             ReportData.add(entity, Degree);
         }

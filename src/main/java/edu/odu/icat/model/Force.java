@@ -9,7 +9,7 @@ public class Force extends Base {
 
     private Entity origin;
     private Entity destination;
-    private int weight;
+    private double weight;
     private String notes;
 
     /**
@@ -47,11 +47,11 @@ public class Force extends Base {
         this.destination = destination;
     }
 
-    public int getWeight() {
+    public double getWeight() {
         return weight;
     }
 
-    public void setWeight(int weight) {
+    public void setWeight(double weight) {
         this.weight = weight;
     }
 

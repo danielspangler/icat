@@ -24,8 +24,12 @@ public class ProjectPropertiesPanel extends JPanel {
     private JTextArea projectDescription;
     private JTextArea projectNotes;
 
-    public ProjectPropertiesPanel()
+    private WorkSpace workspace;
+
+    public ProjectPropertiesPanel(WorkSpace workSpace)
     {
+        this.workspace = workSpace;
+
         currentProject = Control.getInstance().getCurrentProject();
         projectName = new JTextField(currentProject.getName());
         projectAuthor = new JTextField(currentProject.getAuthor());
@@ -79,6 +83,7 @@ public class ProjectPropertiesPanel extends JPanel {
         public void actionPerformed(ActionEvent e)
         {
             currentProject.setName(projectName.getText());
+            workspace.setTitle(currentProject.getName() + " - ICAT Editor");
         }
     }
 

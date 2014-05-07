@@ -13,12 +13,12 @@ public class ReportTableModel extends AbstractTableModel {
     private String[] columnNames = {"Name", "Classification", "Degree"};
 
     private List<Entity> reportEntities;
-    private List<Integer> entityDegrees;
+    private List<Double> entityDegrees;
 
     public ReportTableModel()
     {
         reportEntities = new ArrayList<Entity>();
-        entityDegrees = new ArrayList<Integer>();
+        entityDegrees = new ArrayList<Double>();
     }
 
     public int getRowCount() {
@@ -35,7 +35,7 @@ public class ReportTableModel extends AbstractTableModel {
         return columnNames[index];
     }
 
-    public void add(Entity entity, int Degree) {
+    public void add(Entity entity, double Degree) {
         int size = reportEntities.size();
         reportEntities.add(entity);
         entityDegrees.add(Degree);

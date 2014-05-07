@@ -41,12 +41,12 @@ public class ProminenceAlgorithm extends AnalyticsAlgorithm
         java.util.List<Force> forces = Control.getInstance().getCurrentProject().getForces();
         java.util.List<Entity> entities = Control.getInstance().getCurrentProject().getEntities();
 
-        Map<Entity, Integer> EntityWeights = new HashMap<Entity, Integer>();
+        Map<Entity, Double> EntityWeights = new HashMap<Entity, Double>();
 
         for(Entity e: entities)
         {
 
-            EntityWeights.put(e, 0);
+            EntityWeights.put(e, 0.0);
         }
 
         for(Force f: forces)
@@ -54,17 +54,17 @@ public class ProminenceAlgorithm extends AnalyticsAlgorithm
             if(!dialog.getVisibility() || (f.getOrigin().isVisible() && f.getDestination().isVisible()))    //if filter off, both EntityWeights must be visible
                 if(!dialog.getControllability() || (f.getDestination().isControllable()))                       //if filter off, destination must be controllable
                 {
-                    Integer i = EntityWeights.get(f.getDestination());
+                    Double i = EntityWeights.get(f.getDestination());
                     i+= f.getWeight();
                     EntityWeights.put(f.getDestination(), i);
                 }
         }
 
         ValueComparator sort = new ValueComparator(EntityWeights);
-        Map<Entity, Integer> SortedEntites = new TreeMap<Entity, Integer>(sort);
+        Map<Entity, Double> SortedEntites = new TreeMap<Entity, Double>(sort);
         SortedEntites.putAll(EntityWeights);
 
-        for(java.util.Map.Entry<Entity, Integer> e : SortedEntites.entrySet())
+        for(java.util.Map.Entry<Entity, Double> e : SortedEntites.entrySet())
         {
             dialog.addEntityToReport(e.getKey(), e.getValue());
         }
@@ -73,8 +73,8 @@ public class ProminenceAlgorithm extends AnalyticsAlgorithm
 
     class ValueComparator implements Comparator<Entity> {
 
-        Map<Entity, Integer> base;
-        public ValueComparator(Map<Entity, Integer> base) {
+        Map<Entity, Double> base;
+        public ValueComparator(Map<Entity, Double> base) {
             this.base = base;
         }
 

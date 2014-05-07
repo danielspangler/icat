@@ -248,14 +248,30 @@ public class WorkSpace extends JFrame {
         final JTextArea notesField = new JTextArea(4,20);
         notesField.setText(force.getNotes());
         final JLabel Weight = new JLabel("Weight:");
-        final String[] ForceWeights = {"1","2","3","4","5"};
+        final String[] ForceWeights = {"Low","Medium","High"};
         final JComboBox ForceBox = new JComboBox(ForceWeights);
+
         ForceBox.setSelectedItem(Integer.toString(force.getWeight()));
         ForceBox.addActionListener(new ActionListener() {
                                        public void actionPerformed(ActionEvent actionEvent) {
                                            JComboBox cb = (JComboBox) actionEvent.getSource();
-                                           force.setWeight(Integer.parseInt((String) cb.getSelectedItem()));
-                                           graph.setCellStyles(mxConstants.STYLE_STROKEWIDTH, (String)cb.getSelectedItem(), new Object[]{cell});
+                                           if(cb.getSelectedItem() == "High") {
+                                               force.setWeight(5);
+                                               graph.setCellStyles(mxConstants.STYLE_STROKEWIDTH, "5", new Object[]{cell});
+                                               graph.setCellStyles(mxConstants.STYLE_STROKECOLOR, "red", new Object[]{cell});
+                                           }
+                                           else if(cb.getSelectedItem() == "Medium")
+                                           {
+                                               force.setWeight(3);
+                                               graph.setCellStyles(mxConstants.STYLE_STROKEWIDTH, "3", new Object[]{cell});
+                                               graph.setCellStyles(mxConstants.STYLE_STROKECOLOR, "purple", new Object[]{cell});
+                                           }
+                                           else if (cb.getSelectedItem() == "Low")
+                                           {
+                                               force.setWeight(1);
+                                               graph.setCellStyles(mxConstants.STYLE_STROKEWIDTH, "1", new Object[]{cell});
+                                               graph.setCellStyles(mxConstants.STYLE_STROKECOLOR, "blue", new Object[]{cell});
+                                           }
                                        }
                                    });
 
@@ -598,7 +614,18 @@ public class WorkSpace extends JFrame {
                 }
                 for (Force force : project.getForces()) {
                     Object insertedEdge = graph.insertEdge(graph.getDefaultParent(), null, force, internalCells.get(force.getOrigin()), internalCells.get(force.getDestination()));
-                    graph.setCellStyles(mxConstants.STYLE_STROKEWIDTH, Integer.toString(force.getWeight()), new Object[]{insertedEdge});
+                    if(force.getWeight() == 1) {
+                        graph.setCellStyles(mxConstants.STYLE_STROKEWIDTH, Integer.toString(force.getWeight()), new Object[]{insertedEdge});
+                        graph.setCellStyles(mxConstants.STYLE_STROKECOLOR, "blue", new Object[]{insertedEdge});
+                    }
+                    if(force.getWeight() == 3) {
+                        graph.setCellStyles(mxConstants.STYLE_STROKEWIDTH, Integer.toString(force.getWeight()), new Object[]{insertedEdge});
+                        graph.setCellStyles(mxConstants.STYLE_STROKECOLOR, "purple", new Object[]{insertedEdge});
+                    }
+                    if(force.getWeight() == 5) {
+                        graph.setCellStyles(mxConstants.STYLE_STROKEWIDTH, Integer.toString(force.getWeight()), new Object[]{insertedEdge});
+                        graph.setCellStyles(mxConstants.STYLE_STROKECOLOR, "red", new Object[]{insertedEdge});
+                    }
                 }
             }
 

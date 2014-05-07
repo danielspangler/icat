@@ -28,6 +28,7 @@ import com.mxgraph.util.png.mxPngTextDecoder;
 import com.mxgraph.view.mxGraph;
 import com.mxgraph.view.mxStylesheet;
 import edu.odu.icat.controller.Control;
+import edu.odu.icat.graphicsinterface.Dashboard;
 import edu.odu.icat.model.Entity;
 import edu.odu.icat.model.Force;
 import edu.odu.icat.model.Location;
@@ -53,12 +54,9 @@ import java.io.*;
 import java.lang.reflect.Method;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
-import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Hashtable;
 import java.util.Map;
-
-
-import com.mxgraph.util.png.mxPngImageEncoder;
 
 /**
  *
@@ -114,6 +112,28 @@ public class EditorActions
                 graph.setCellStyles(mxConstants.STYLE_STROKECOLOR, "black", new Object[]{vertex});
                 // graph.insertVertex(graph.getDefaultParent(), null, entity, pt.getX(),pt.getY(), 80,
                         //30);
+            }
+        }
+
+    }
+
+    public static class NewLegendAction extends AbstractAction
+    {
+        public void actionPerformed(ActionEvent e)
+        {
+            mxGraph graph = getEditor(e).getGraphComponent().getGraph();
+            if (graph != null)
+            {
+                mxPoint pt = getEditor(e).mouseClickLoc;
+                graph.getModel().beginUpdate();
+                try
+                {
+                    Object vertex = graph.insertVertex(graph.getDefaultParent(), null, "Legend", pt.getX(), pt.getY(), 145, 154, "shape=image;image=/src/main/resources/legend.png;verticalLabelPosition=bottom;verticalAlign=top;shape=image");
+                }
+                finally
+                {
+                    graph.getModel().endUpdate();
+                }
             }
         }
 

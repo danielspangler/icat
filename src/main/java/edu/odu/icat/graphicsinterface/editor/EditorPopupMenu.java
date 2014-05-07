@@ -31,6 +31,12 @@ public class EditorPopupMenu extends JPopupMenu
         add(editor.bind(mxResources.get("zoomOut"), mxGraphActions.getZoomOutAction()));
         add(editor.bind(mxResources.get("actualSize"),mxGraphActions.getZoomActualAction()));
 
+
+        addSeparator();
+        //add(editor.bind(mxResources.get("addLegend"), mxGraphActions.getHomeAction()));
+        add(editor.bind(mxResources.get("addLegend"), new EditorActions.NewLegendAction()));
+        //
+
 		//add(editor.bind(mxResources.get("undo"), new HistoryAction(true),
 		//		"/com/mxgraph/examples/swing/images/undo.gif"));
 

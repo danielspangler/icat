@@ -28,6 +28,7 @@ public class Project extends Base {
     private transient List<Force> forcesView = null;
     private String notes;
 
+
     /** DO NOT USE: This is only for serialization purposes **/
     Project() {}
 

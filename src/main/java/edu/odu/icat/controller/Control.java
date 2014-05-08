@@ -31,7 +31,7 @@ public class Control {
     private ConfigurationDAO configDAO = new ConfigurationDAO();
     private Configuration config = null;
     private List<String> entityClassifications = Arrays.asList("Problem", "Stakeholder", "Objective", "Attribute", "Resource");
-    private int defaultForceWeight = 1;
+    private double defaultForceWeight = 0.25;
     private int defaultEntityClassificationIndex = 1;
     private GraphEventListener graphEventListener = new GraphEventListener();
 
@@ -119,7 +119,7 @@ public class Control {
         return entityClassifications.get(i);
     }
 
-    public int getDefaultForceWeight() {
+    public double getDefaultForceWeight() {
         return defaultForceWeight;
     }
 

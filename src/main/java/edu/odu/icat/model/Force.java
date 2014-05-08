@@ -17,7 +17,7 @@ public class Force extends Base {
      */
     Force() {}
 
-    public Force(Entity origin, Entity destination, int weight) {
+    public Force(Entity origin, Entity destination, double weight) {
         setOrigin(origin);
         setDestination(destination);
         setWeight(weight);
